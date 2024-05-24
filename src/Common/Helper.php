@@ -3,7 +3,7 @@
 namespace Assignment\Php2News\Common;
 
 
-trait Helper
+class Helper
 {
     public function debug($data)
     {

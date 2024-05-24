@@ -1,1 +1,1 @@
-# PHP2_News
+# PHP2_Newszz

@@ -2,9 +2,8 @@
 
 namespace Assignment\Php2News\Common;
 
-class Model
+class Model extends Helper
 {
-    use Helper;
 
     protected \PDO|null $connect;
 
@@ -25,6 +24,7 @@ class Model
 
             // Setup mode trả về dữ liệu
             $this->connect->setAttribute(\PDO::ATTR_DEFAULT_FETCH_MODE, \PDO::FETCH_ASSOC);
+            
         } catch (\PDOException $e) {
             $this->debug($e);
         }
