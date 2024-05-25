@@ -1,6 +1,6 @@
 <?php
 
-namespace Assignment\Php2News\Common;
+namespace Assignment\Php2News\Commons;
 
 use eftec\bladeone\BladeOne;
 
