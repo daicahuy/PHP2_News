@@ -2,7 +2,7 @@
 
 namespace Assignment\Php2News\Controllers\Admin;
 
-use Assignment\Php2News\Common\Controller;
+use Assignment\Php2News\Commons\Controller;
 
 class UsersController extends Controller
 {
