@@ -2,12 +2,12 @@
 
 namespace Assignment\Php2News\Controllers\Client;
 
-use Assignment\Php2News\Common\Controller;
+use Assignment\Php2News\Commons\Controller;
 
 class HomeController extends Controller
 {
     public function index()
     {
-        $this->renderViewClient(__FUNCTION__);
+        $this->renderViewClient('home');
     }
 }
