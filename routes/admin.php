@@ -9,30 +9,31 @@ use Assignment\Php2News\Controllers\Admin\SettingsController;
 use Assignment\Php2News\Controllers\Admin\TagsController;
 use Assignment\Php2News\Controllers\Admin\UsersController;
 
+
 $router->mount('/admin', function () use ($router) {
 
     // DASHBOARD
-    $router->get('/', DashboardController::class . '@dashboard');
+    $router->get(  '/'          , DashboardController::class . '@dashboard');
 
     // SETTINGS
-    $router->mount('/settings', function () use ($router) {
+    $router->mount('/settings'  , function () use ($router) {
 
-        // Settings
-        $router->get(                   '/',                    SettingsController::class        .   '@index');
+        // Settings index
+        $router->get(                   '/'                 ,       SettingsController::class       .   '@index');
 
         // Settings Edit
-        $router->get(                   '/edit',                SettingsController::class        .   '@edit');
+        $router->get(                   '/edit'             ,       SettingsController::class       .   '@edit');
         
     });
 
     // PROFILE
-    $router->mount('/profile', function () use ($router) {
+    $router->mount('/profile'   , function () use ($router) {
 
-        // Profile
-        $router->get(                   '/',                    ProfileController::class        .   '@index');
+        // Profile index
+        $router->get(                   '/'                 ,       ProfileController::class        .   '@index');
 
-        // Profile
-        $router->get(                   '/edit',                ProfileController::class        .   '@edit');
+        // Profile Edit
+        $router->get(                   '/edit'             ,       ProfileController::class        .   '@edit');
         
     });
 
@@ -40,110 +41,114 @@ $router->mount('/admin', function () use ($router) {
     $router->mount('/categories', function () use ($router) {
 
         // Categories List
-        $router->match  ('GET|POST',    '/',                    CategoriesController::class     .   '@list');
+        $router->match  ('GET|POST',    '/'                 ,       CategoriesController::class     .   '@list');
 
         // Categories Edit
-        $router->match  ('GET|POST',    '/edit',                CategoriesController::class     .   '@edit');
+        $router->match  ('GET|POST',    '/edit'             ,       CategoriesController::class     .   '@edit');
 
         // Categories Hide
-        $router->get    (               '/hide',                CategoriesController::class     .   '@hide');
+        $router->get    (               '/hide'             ,       CategoriesController::class     .   '@hide');
 
         // Categories Show
-        $router->get    (               '/show',                CategoriesController::class     .   '@show');
+        $router->get    (               '/show'             ,       CategoriesController::class     .   '@show');
 
         // Categories Delete
-        $router->get    (               '/delete',              CategoriesController::class     .   '@delete');
+        $router->get    (               '/delete'           ,       CategoriesController::class     .   '@delete');
 
         // Categories List Hide
-        $router->get    (               '/list-hide',           CategoriesController::class     .   '@listHide');
+        $router->get    (               '/list-hide'        ,       CategoriesController::class     .   '@listHide');
 
     });
 
     // TAGS
-    $router->mount('/tags', function () use ($router) {
+    $router->mount('/tags'      , function () use ($router) {
+
         // Tags List
-        $router->match  ('GET|POST',    '/',                    TagsController::class           .   '@list');
+        $router->match  ('GET|POST',    '/'                 ,       TagsController::class           .   '@list');
 
         // Tags Edit
-        $router->match  ('GET|POST',    '/edit',                TagsController::class           .   '@edit');
+        $router->match  ('GET|POST',    '/edit'             ,       TagsController::class           .   '@edit');
 
         // Tags Hide
-        $router->get    (               '/hide',                TagsController::class           .   '@hide');
+        $router->get    (               '/hide'             ,       TagsController::class           .   '@hide');
 
         // Tags Show
-        $router->get    (               '/show',                TagsController::class           .   '@show');
+        $router->get    (               '/show'             ,       TagsController::class           .   '@show');
 
         // Tags Delete
-        $router->get    (               '/delete',              TagsController::class           .   '@delete');
+        $router->get    (               '/delete'           ,       TagsController::class           .   '@delete');
 
         // Tags List Hide
-        $router->get    (               '/list-hide',           TagsController::class           .   '@listHide');
+        $router->get    (               '/list-hide'        ,       TagsController::class           .   '@listHide');
    
     });
 
     // POSTS
-    $router->mount('/posts', function () use ($router) {
+    $router->mount('/posts'     , function () use ($router) {
+
         // Posts List
-        $router->match  ('GET|POST',    '/',                    PostsController::class          .   '@list');
+        $router->match  ('GET|POST',    '/'                 ,       PostsController::class          .   '@list');
 
         // Posts Add
-        $router->match  ('GET|POST',    '/add',                 PostsController::class          .   '@add');
+        $router->match  ('GET|POST',    '/add'              ,       PostsController::class          .   '@add');
         
         // Posts Detail
-        $router->match  ('GET|POST',    '/detail',              PostsController::class          .   '@detail');
+        $router->match  ('GET|POST',    '/detail'           ,       PostsController::class          .   '@detail');
 
         // Posts Edit
-        $router->match  ('GET|POST',    '/edit',                PostsController::class          .   '@edit');
+        $router->match  ('GET|POST',    '/edit'             ,       PostsController::class          .   '@edit');
 
         // Posts Hide
-        $router->get    (               '/hide',                PostsController::class          .   '@hide');
+        $router->get    (               '/hide'             ,       PostsController::class          .   '@hide');
 
         // Posts Show
-        $router->get    (               '/show',                PostsController::class          .   '@show');
+        $router->get    (               '/show'             ,       PostsController::class          .   '@show');
 
         // Posts Delete
-        $router->get    (               '/delete',              PostsController::class          .   '@delete');
+        $router->get    (               '/delete'           ,       PostsController::class          .   '@delete');
 
         // Posts List Hide
-        $router->get    (               '/list-hide',           PostsController::class          .   '@listHide');
+        $router->get    (               '/list-hide'        ,       PostsController::class          .   '@listHide');
    
     });
 
     // USERS
-    $router->mount('/users', function () use ($router) {
+    $router->mount('/users'     , function () use ($router) {
+
         // Users List
-        $router->match  ('GET|POST',    '/',                    UsersController::class          .   '@list');
+        $router->match  ('GET|POST',    '/'                 ,       UsersController::class          .   '@list');
 
         // Users Restore Password
-        $router->get    (               '/restore-password',    UsersController::class          .   '@restorePassword');
+        $router->get    (               '/restore-password' ,       UsersController::class          .   '@restorePassword');
 
         // Users Edit
-        $router->match  ('GET|POST',    '/edit',                UsersController::class          .   '@edit');
+        $router->match  ('GET|POST',    '/edit'             ,       UsersController::class          .   '@edit');
 
         // Users lock
-        $router->get    (               '/lock',                UsersController::class          .   '@lock');
+        $router->get    (               '/lock'             ,       UsersController::class          .   '@lock');
 
         // Users Unlock
-        $router->get    (               '/unlock',              UsersController::class          .   '@unlock');
+        $router->get    (               '/unlock'           ,       UsersController::class          .   '@unlock');
 
         // Users List lock
-        $router->get    (               '/list-lock',           UsersController::class          .   '@listLock');
+        $router->get    (               '/list-lock'        ,       UsersController::class          .   '@listLock');
    
     });
 
-    // Comments
-    $router->mount('/comments', function () use ($router) {
+    // COMMENTS
+    $router->mount('/comments'  , function () use ($router) {
+        
         // Comments List
-        $router->match  ('GET|POST',    '/',                    CommentsController::class       .   '@list');
+        $router->match  ('GET|POST',    '/'                 ,       CommentsController::class       .   '@list');
 
         // Comments Detail Comment
-        $router->get    (               '/detail-comment',      CommentsController::class       .   '@detailComment');
+        $router->get    (               '/detail-comment'   ,       CommentsController::class       .   '@detailComment');
 
         // Comments Delete Comment
-        $router->get    (               '/delete-comment',      CommentsController::class       .   '@deleteComment');
+        $router->get    (               '/delete-comment'   ,       CommentsController::class       .   '@deleteComment');
 
         // Comments Delete Reply
-        $router->get    (               '/delete-reply',        CommentsController::class       .   '@deleteReply');
+        $router->get    (               '/delete-reply'     ,       CommentsController::class       .   '@deleteReply');
    
     });
 

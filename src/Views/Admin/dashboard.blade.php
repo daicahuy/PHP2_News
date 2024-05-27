@@ -401,6 +401,10 @@
 @endsection
 
 @section('js')
+    <!-- skycons -->
+    <script src="/assets/admin/assets/plugins/skycons/skycons.min.js"></script>
+    <!-- skycons -->
+    <script src="/assets/admin/assets/plugins/peity/jquery.peity.min.js"></script>
     <!--Morris Chart-->
     <script src="/assets/admin/assets/plugins/morris/morris.min.js"></script>
     <script src="/assets/admin/assets/plugins/raphael/raphael-min.js"></script>

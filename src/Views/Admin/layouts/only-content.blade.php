@@ -25,32 +25,7 @@
         </div>
     </div>
     <!-- Begin page -->
-    <div id="wrapper">
-        <!-- ========== Left Sidebar Start ========== -->
-        @include('layouts.components.sidebar')
-        <!-- Left Sidebar End -->
-        <!-- Start right Content here -->
-        <div class="content-page">
-            <!-- Start content -->
-            <div class="content">
-                <!-- Top Bar Start -->
-                @include('layouts.components.header')
-                <!-- Top Bar End -->
-                
-                <!-- Page content Wrapper -->
-                <div class="page-content-wrapper">
-                    <!-- Content -->
-                    @yield('content')
-                    <!-- End content -->
-                </div>
-                <!-- Page content Wrapper -->
-            </div>
-            <!-- Footer -->
-            @include('layouts.components.footer')
-            <!-- End Footer -->
-        </div>
-        <!-- End Right content here -->
-    </div>
+    @yield('content')
     <!-- END wrapper --><!-- jQuery  -->
     <script src="/assets/admin/assets/js/jquery.min.js"></script>
     <script src="/assets/admin/assets/js/bootstrap.bundle.min.js"></script>
