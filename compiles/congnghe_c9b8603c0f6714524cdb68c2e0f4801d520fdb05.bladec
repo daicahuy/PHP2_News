@@ -4,7 +4,7 @@
 
 <?php $this->stopSection(); ?>
 <?php $this->startSection('page-title'); ?>
- Thể thao
+ Công nghệ
 <?php $this->stopSection(); ?>
 <?php $this->startSection('content'); ?>
  <!-- 1rd Block Wrapper Start -->
@@ -19,18 +19,15 @@
  <li><a href="#">Games</a></li>
  <li><a href="#">Lifestyle</a></li>
  </ul>
-
  <?php echo $this->runChild('components.static.post'); ?>
  <?php echo $this->runChild('components.static.post'); ?>
  <?php echo $this->runChild('components.static.post'); ?>
  <?php echo $this->runChild('components.static.post'); ?>
  <?php echo $this->runChild('components.static.post'); ?>
-
-
-
  </div>
-
+ <?php /* Phân trang  */ ?>
  <?php echo $this->runChild('components.table.pagination'); ?>
+
  </div>
 
  <div class="col-lg-4 col-md-12">
@@ -43,7 +40,6 @@
  <div class="utf_list_post_block">
  <ul class="utf_list_post">
  <?php /* Post-sidebar  */ ?>
-
  <?php echo $this->runChild('components.static.post-sidebar'); ?>
  <?php echo $this->runChild('components.static.post-sidebar'); ?>
  <?php echo $this->runChild('components.static.post-sidebar'); ?>
@@ -57,7 +53,8 @@
  <img class="banner img-fluid" src="/assets/client/assets/images/banner-ads/ad-sidebar.png"
  alt="" />
  </div>
- 
+
+
  </div>
  </div>
  </div>

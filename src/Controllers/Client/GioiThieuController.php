@@ -8,6 +8,7 @@ class GioiThieuController extends Controller
 {
     public function gioiThieu()
     {
-        $this->renderViewClient('gioithieu');
+        $data = ['title'=>'Giới thiệu'];
+        $this->renderViewClient('pages.gioithieu', $data);
     }
 }
