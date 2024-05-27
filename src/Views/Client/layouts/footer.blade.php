@@ -91,7 +91,7 @@
                                      <div class="utf_post_thumb">
                                          <a href="#">
                                              <img class="img-fluid"
-                                                 src="assets/client/assets/images/news/lifestyle/health2.jpg"
+                                                 src="/assets/client/assets/images/news/lifestyle/health2.jpg"
                                                  alt="" />
                                          </a>
                                      </div>
@@ -114,7 +114,7 @@
                                      <div class="utf_post_thumb">
                                          <a href="#">
                                              <img class="img-fluid"
-                                                 src="assets/client/assets/images/news/lifestyle/health3.jpg"
+                                                 src="/assets/client/assets/images/news/lifestyle/health3.jpg"
                                                  alt="" />
                                          </a>
                                      </div>
@@ -137,7 +137,7 @@
                                      <div class="utf_post_thumb">
                                          <a href="#">
                                              <img class="img-fluid"
-                                                 src="assets/client/assets/images/news/lifestyle/health4.jpg"
+                                                 src="/assets/client/assets/images/news/lifestyle/health4.jpg"
                                                  alt="" />
                                          </a>
                                      </div>

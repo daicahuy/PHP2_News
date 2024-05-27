@@ -1,6 +1,6 @@
 @extends('layouts.master')
 @section('title')
-    Đăng ký
+    {{ $title }}
 @endsection
 @section('page-title')
     Đăng ký
@@ -13,14 +13,14 @@
                 <div class="col-lg-12 col-md-12 ">
                     <div class="text-center">
                         <h3>Đăng ký</h3>
-                        
+
                     </div>
                     <div class="d-flex no-block justify-content-center align-items-center">
                         <form action="" method="POST" enctype="multipart/form-data">
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <input class="form-control" name="name" id="name" placeholder="Name*" 
+                                        <input class="form-control" name="name" id="name" placeholder="Name*"
                                             type="text" required>
                                     </div>
                                 </div>
@@ -34,10 +34,11 @@
                                         <input class="form-control" placeholder="Email*" type="email" required>
                                     </div>
                                 </div>
-                                
+
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <input class="form-control" placeholder="Nhập lại mật khẩu*" type="text" required>
+                                        <input class="form-control" placeholder="Nhập lại mật khẩu*" type="text"
+                                            required>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -47,9 +48,8 @@
                                 </div>
                             </div>
                             <div class="clearfix mt-2">
-                                <button class="btn btn-primary" type="submit">Đăng ký</button>
-                                <a href="dangnhap"><button class="btn btn-primary float-right" type="button">Đăng
-                                        nhập ?</button> </a>
+                                <button class="btn btn-info float-right" type="submit">Đăng ký</button>
+                                <a href="dangnhap"><button class="btn btn-warning" type="button">Quay lại</button> </a>
                             </div>
                         </form>
                     </div>
