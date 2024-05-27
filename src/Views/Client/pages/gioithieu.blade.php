@@ -1,9 +1,9 @@
 @extends('layouts.master')
 @section('title')
-    Giới thiệu
+    {{ $title }}
 @endsection
 @section('page-title')
-    Giới thiệu
+    {{ $title }}
 @endsection
 @section('content')
     <!-- 1rd Block Wrapper Start -->
@@ -21,7 +21,7 @@
                                     unchanged. It was popularised in the 1960s with the release of Letraset sheets
                                     containing Lorem Ipsum passages, and more recently with desktop publishing software like
                                     Aldus PageMaker including versions of Lorem Ipsum.</p>
-                                <p><img class="pull-left" src="assets/client/assets/images/news/news-details1.jpg"
+                                <p><img class="pull-left" src="/assets/client/assets/images/news/news-details1.jpg"
                                         alt=""></p>
                                 <p>Lorem Ipsum is simply dummy text of the printing and type setting industry. Lorem Ipsum
                                     has been the industry's standard dummy text ever since when an unknown printer took a
