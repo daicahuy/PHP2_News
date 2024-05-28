@@ -4,7 +4,7 @@ namespace Assignment\Php2News\Commons;
 
 use eftec\bladeone\BladeOne;
 
-class Controller extends Helper
+class Controller
 {
     public function renderViewAdmin($view, $data = [])
     {

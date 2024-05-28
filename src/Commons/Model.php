@@ -2,31 +2,34 @@
 
 namespace Assignment\Php2News\Commons;
 
-class Model extends Helper
+use Doctrine\DBAL\DriverManager;
+
+class Model
 {
 
-    protected \PDO|null $connect;
+    protected $connect;
+
+    protected $queryBuilder;
 
     public function __construct()
     {
         try {
-            $this->connect = new \PDO(
-                "mysql:host={$_ENV["DB_HOST"]};
-                port={$_ENV["DB_PORT"]};
-                dbname={$_ENV["DB_DATABASE"]};
-                charset={$_ENV["DB_CHARSET"]}",
-                $_ENV["DB_USERNAME"],
-                $_ENV["DB_PASSWORD"]
-            );
+            $connectionParams = [
+                'host'      =>  $_ENV['DB_HOST'],
+                'port'      =>  $_ENV['DB_PORT'],
+                'user'      =>  $_ENV['DB_USERNAME'],
+                'password'  =>  $_ENV['DB_PASSWORD'],
+                'dbname'    =>  $_ENV['DB_DATABASE'],
+                'charset'   =>  $_ENV['DB_CHARSET'],
+                'driver'    =>  'pdo_mysql'
+            ];
 
-            // Setup mode báo lỗi và xử lý ngoại lệ
-            $this->connect->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+            $this->connect = DriverManager::getConnection($connectionParams);
 
-            // Setup mode trả về dữ liệu
-            $this->connect->setAttribute(\PDO::ATTR_DEFAULT_FETCH_MODE, \PDO::FETCH_ASSOC);
+            $this->queryBuilder = $this->connect->createQueryBuilder();
             
         } catch (\PDOException $e) {
-            $this->debug($e);
+            Helper::debug($e);
         }
     }
 
