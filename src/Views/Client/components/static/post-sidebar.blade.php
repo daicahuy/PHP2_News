@@ -8,7 +8,7 @@
         </div>
         <div class="utf_post_content">
             <h2 class="utf_post_title title-small">
-                <a href="#">Zhang social media pop also known when smart
+                <a href="/detail-post">Zhang social media pop also known when smart
                     innocent...</a>
             </h2>
             <div class="utf_post_meta">

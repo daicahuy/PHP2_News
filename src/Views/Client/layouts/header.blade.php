@@ -44,7 +44,7 @@
              <div class="row">
                  <div class="col-md-8">
                      <ul class="unstyled top-nav">
-                         <li><a href="/login/dangnhap">Login & Signup</a></li>
+                         <li><a href="/auth">Login & Signup</a></li>
                      </ul>
                  </div>
                  <div class="col-md-4 top-social text-lg-right text-md-center">
@@ -107,13 +107,9 @@
                              <!-- menu -->
                              <ul class="nav navbar-nav">
                                  <li class="nav-item dropdown active">
-                                     <a href="/" class="nav-link" >Trang chủ</a>
+                                     <a href="/" class="nav-link" >Home</a>
                                  </li>
-                                 <li><a href="/pages/thoisu">Thời sự </a></li>
-                                 <li><a href="/pages/thethao">Thể thao</a></li>
-                                 <li><a href="/pages/congnghe">Công nghệ</a></li>
-                                 <li><a href="/gioithieu">Giớ thiệu</a></li>
-
+                                 <li><a href="/detail-category">Football</a></li>
                              </ul>
                          </div>
                      </div>
@@ -129,18 +125,3 @@
          </div>
      </div>
      <!-- menu end-->
-
-     <!-- Page Title Start -->
-     <div class="page-title">
-         <div class="container">
-             <div class="row">
-                 <div class="col-md-12">
-                     <ul class="breadcrumb">
-                         <li><a href="/">Home</a></li>
-                         <li> @yield('page-title')</li>
-                     </ul>
-                 </div>
-             </div>
-         </div>
-     </div>
-     <!-- Page title end -->

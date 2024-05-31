@@ -15,7 +15,7 @@
                                         </h1>
                                         <h3 class="">Sorry, page not found</h3>
                                         <br /><a class="btn btn-primary mb-5 waves-effect waves-light"
-                                            href="/admin">Back to Dashboard</a>
+                                            href="/">Back to Home</a>
                                     </div>
                                 </div>
                             </div>
