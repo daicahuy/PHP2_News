@@ -9,7 +9,6 @@ use Assignment\Php2News\Models\User;
 class UsersController extends Controller
 {
     private string $folder = 'pages.users.';
-
     private User $user;
 
     public function __construct()
@@ -17,42 +16,207 @@ class UsersController extends Controller
         $this->user = new User;
     }
 
-    // Users list
+
+    // USERS LIST
     public function list()
     {
+        
+        // Lấy danh sách users theo trạng thái
+        $users = $this->user->getByStatus(
+            [1, 2],
+            ['id', 'email', 'role', 'avatar', 'status']
+        );
 
-        Helper::debug($this->user->getAll());
+        return $this->renderViewAdmin (
 
-        return $this->renderViewAdmin($this->folder . __FUNCTION__);
+            $this->folder . __FUNCTION__,
+            [
+                'users' => $users
+            ]
+
+        );
+
     }
 
-    // Users Restore Password
-    public function restorePassword()
+
+    // USERS RESTORE PASSWORD
+    public function restorePassword($id)
     {
-        // CODE Restore Password....
+
+        // Lấy user theo id
+        $user = $this->user->getByID($id, ['id', 'email', 'name']);
+
+        // Tạo token
+        $token = Helper::createToken();
+
+        // Config email
+        $title = "Restore Password For PHP2 News";
+        $content = "
+                    Dear {$user['name']},
+                    <br> <br>
+                    Please click here to restore your password.
+                    <h4><a href='{$_ENV['BASE_URL']}auth/confirm-token?email={$user['email']}&token=$token'>Restore password</a></h4>
+        ";
+
+        // Nếu gửi mail thành công thì sẽ update token và tạo thông báo thành công
+        if(Helper::sendEmail( $user['email'], $title, $content)) {
+
+            // update token
+            $this->user->update($user['id'], [ "token" => $token ]);
+
+            // tạo thông báo thành công
+            $_SESSION['notify']['success'][] = "Password restore for {$user['email']} has been confirmed";
+        }
+
+        header("Location: /admin/users");
+        die;
+   
     }
 
-    // Users edit
-    public function edit()
+
+    // USERS EDIT
+    public function edit($id)
     {
-        return $this->renderViewAdmin($this->folder . __FUNCTION__);
+
+        // Kiểm tra nhấn nút update nếu có nhấn sẽ chạy vào đây
+        if(isset($_POST['btn-update'])) {
+
+            // Lấy user theo id
+            $user = $this->user->getByID($id, ['id', 'role']);
+
+            /**
+             * Có thay đổi thì chạy vào if
+             * Không có thay đổi gì thì chạy vào else
+             */
+            if($user['role'] !== (int)$_POST['role']) {
+
+                /**
+                 * Update thành công thì tạo thông báo success 
+                 * Còn không thì tạo thông báo error
+                 */
+                try {
+
+                    $this->user->update(
+                        $user['id'],
+                        [
+                            'role' => $_POST['role'],
+                            'updated_at' => date('Y-m-d H:i:s', time())
+                        ]
+                    );
+
+                    // tạo thông báo success
+                    $_SESSION['notify']['success'][] = "Updated !";
+
+                }
+                catch(\Throwable $e) {
+
+                    // tạo thông báo error
+                    $_SESSION['notify']['danger'][] = $e->getMessage(); 
+                }
+                
+            }
+            else {
+
+                // tạo cảnh cáo không có thay đổi
+                $_SESSION['notify']['warning'][] = "No changes";
+            }
+
+        }
+
+
+        $user = $this->user->getByID($id, ['id', 'email', 'name', 'avatar', 'role']);
+
+        return $this->renderViewAdmin(
+            $this->folder . __FUNCTION__,
+            [
+                'user' => $user
+            ]
+        );
+
     }
 
-    // Users lock
-    public function lock()
+
+    // USERS LOCK
+    public function lock($id)
     {
-        // CODE Lock....
+        // Lấy user theo id
+        $user = $this->user->getByID($id, ['id', 'email']);
+
+        try {
+
+            // Cập nhật trạng thái user
+            $this->user->update(
+                $user['id'],
+                [
+                    'status'      =>    0,
+                    'updated_at'  =>    date('Y-m-d H:i:s', time())
+                ]
+            );
+
+            // tạo thông báo thành công
+            $_SESSION['notify']['success'][] = "Locked {$user['email']} !";
+        }
+        catch(\Throwable $e) {
+
+            // tạo thông báo error
+            $_SESSION['notify']['danger'][] = $e->getMessage();
+        }
+
+        header('Location: /admin/users');
+        die;
+
     }
 
-    // Users unlock
-    public function unlock()
+
+    // USERS UNLOCK
+    public function unlock($id)
     {
-        // CODE Unlock...
+        // Lấy user theo id
+        $user = $this->user->getByID($id, ['id', 'email']);
+
+        try {
+
+            // Cập nhật trạng thái user
+            $this->user->update(
+                $user['id'],
+                [
+                    'status' => 2,
+                    'updated_at' => date('Y-m-d H:i:s', time())
+                ]
+            );
+
+            // tạo thông báo thành công
+            $_SESSION['notify']['success'][] = "Unlocked {$user['email']} !";
+
+        }
+        catch(\Throwable $e) {
+
+            // tạo thông báo error
+            $_SESSION['notify']['danger'][] = $e->getMessage();
+        }
+
+        header('Location: /admin/users/list-lock');
+        die;
     }
 
-    // Users listLock
+
+    // USERS LISTLOCK
     public function listLock()
     {
-        return $this->renderViewAdmin($this->folder . 'list-lock');
+
+        // Lấy users theo trạng thái
+        $usersLock = $this->user->getByStatus(
+            [0],
+            ['id', 'email', 'role', 'avatar', 'status'],
+            ['updated_at', 'DESC']
+        );
+
+        return $this->renderViewAdmin(
+            $this->folder . 'list-lock',
+            [
+                'usersLock' => $usersLock
+            ]
+        );
+
     }
 }

@@ -1,8 +1,18 @@
 @extends('layouts.master')
-@section('title')
-    {{ $title }}
-@endsection
 @section('content')
+    <!-- Page Title Start -->
+    <div class="page-title">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <ul class="breadcrumb">
+                        <li class="active">Home</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Page title end -->
     <!-- Feature start 1 -->
     <section class="utf_featured_post_area pt-4">
         <div class="container">
@@ -11,8 +21,8 @@
                     <div id="utf_featured_slider" class="owl-carousel owl-theme utf_featured_slider content-bottom">
                         <div class="item"
                             style="
-                background-image: url(/assets/client/assets/images/news/lifestyle/health5.jpg);
-              ">
+                                background-image: url(/assets/client/assets/images/news/lifestyle/health5.jpg);
+                            ">
                             <div class="utf_featured_post">
                                 <div class="utf_post_content">
                                     <a class="utf_post_cat" href="#">Sức khỏe</a>
