@@ -19,11 +19,7 @@
                         <h2 class="mb-4">
                             <span class="badge badge-default"> Users Lock </span>
                         </h2>
-                        <div class="alert alert-success mb-4" role="alert">
-                            <strong>Success:</strong>
-                            and try submitting
-                            again.
-                        </div>
+                        @include('components.alert')
                         <div class="d-flex justify-content-between mb-4" style="width: 100%">
                             <div class="d-flex">
                                 <div style="margin-right: 32px">
@@ -44,7 +40,6 @@
                                     <tr>
                                         <th>#</th>
                                         <th>Email</th>
-                                        <th>Password</th>
                                         <th>Avatar</th>
                                         <th>Role</th>
                                         <th>Status</th>
@@ -52,52 +47,62 @@
                                     </tr>
                                 </thead>
                                 <tbody class="table-group-divider">
-                                    <tr>
-                                        <th scope="row">1</th>
-                                        <td>Mark</td>
-                                        <td>Mark</td>
-                                        <td>
-                                            <img
-                                                src="/assets/uploads/gir2.jpg"
-                                                alt=""
-                                                width="80"
-                                                height="80"
-                                                style=" object-fit: cover;
-                                                        border-radius: 4px;
-                                                        box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.2);
-                                                        "
-                                            >
-                                        </td>
-                                        <td>
-                                            <span
-                                                class="badge badge-default"
-                                                style="font-size: 1rem; font-weight: 400"
-                                            >
-                                                User
-                                            </span>
-                                        </td>
-                                        <td>
-                                            <span
-                                                class="badge badge-danger"
-                                                style="font-size: 1rem;"
-                                            >
-                                                Lock
-                                            </span>
-                                        </td>
-                                        <td>
-                                            <a  href='/admin/users/unlock'
-                                                class='btn btn-success waves-effect waves-light'
-                                                data-toggle='tooltip'
-                                                data-placement='top'
-                                                title=''
-                                                data-original-title='Unlock'
-                                                onclick="return confirm('Unlock ??')"
-                                            >
-                                                <i class="mdi mdi-lock-open"></i>
-                                            </a>
-                                            
-                                        </td>
-                                    </tr>
+                                    @foreach ($usersLock as $index => $userLock)
+                                        <tr>
+                                            <th>{{ $index + 1 }}</th>
+                                            <td>{{ $userLock['email'] }}</td>
+                                            <td>
+                                                <img
+                                                    src="/assets/{{ $userLock['avatar'] }}"
+                                                    alt=""
+                                                    width="80"
+                                                    height="80"
+                                                    style=" object-fit: cover;
+                                                            border-radius: 4px;
+                                                            box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.2);
+                                                            "
+                                                >
+                                            </td>
+                                            <td>
+                                                <span
+                                                    class="badge badge-default"
+                                                    style=" font-size: 1rem;
+                                                            @if ($userLock['role'] == 0)
+                                                            font-weight: 400
+                                                            @endif
+                                                            "
+                                                >
+                                                    
+                                                    @if ($userLock['role'] == 0)
+                                                        User
+                                                    @else
+                                                        Admin
+                                                    @endif
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <span
+                                                    class="badge badge-danger"
+                                                    style="font-size: 1rem;"
+                                                >
+                                                    Lock
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <a  href='/admin/users/unlock/{{ $userLock['id'] }}'
+                                                    class='btn btn-success waves-effect waves-light'
+                                                    data-toggle='tooltip'
+                                                    data-placement='top'
+                                                    title=''
+                                                    data-original-title='Unlock'
+                                                    onclick="return confirm('Unlock: {{ $userLock['email'] }} ?')"
+                                                >
+                                                    <i class="mdi mdi-lock-open"></i>
+                                                </a>
+                                                
+                                            </td>
+                                        </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>

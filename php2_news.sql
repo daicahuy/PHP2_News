@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3307
--- Generation Time: May 24, 2024 at 01:32 PM
+-- Generation Time: May 31, 2024 at 10:46 AM
 -- Server version: 8.0.30
 -- PHP Version: 8.1.10
 
@@ -137,14 +137,26 @@ CREATE TABLE `type` (
 
 CREATE TABLE `users` (
   `id` int NOT NULL,
-  `passwords` int NOT NULL,
+  `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `email` varchar(255) NOT NULL,
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `role` int NOT NULL,
-  `avatar` varchar(255) NOT NULL DEFAULT '''upload/users/default.jpg''',
+  `avatar` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT 'uploads/users/default.png',
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `status` int NOT NULL,
   `token` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `password`, `email`, `name`, `role`, `avatar`, `created_at`, `updated_at`, `status`, `token`) VALUES
+(1, '123123123123123', 'huynhph46090@fpt.edu.vn', 'asdasdasd', 1, 'uploads/users/default.png', '2024-05-31 09:45:37', '2024-05-31 10:42:52', 2, '5d90ad909280130ee677de3a4f365ac5'),
+(2, '123456', 'leomecsi@gmail.com', '7sexy', 0, 'uploads/users/default.png', '2024-05-31 09:45:37', '2024-05-31 10:42:35', 1, '312qsdasdasd'),
+(3, '123456', 'hoang@gmail.com', 'hoangcuto', 2, 'uploads/users/default.png', '2024-05-31 09:45:37', '2024-05-31 10:31:44', 0, '5as4d65a4sd654'),
+(4, 'huy123', 'huy@gmail.com', '123', 0, 'uploads/users/default.png', '2024-05-31 09:45:37', '2024-05-31 10:42:45', 2, 'asdasd123123');
 
 --
 -- Indexes for dumped tables
@@ -253,7 +265,7 @@ ALTER TABLE `type`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Constraints for dumped tables

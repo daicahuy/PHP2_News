@@ -116,22 +116,23 @@ $router->mount('/admin', function () use ($router) {
     $router->mount('/users'     , function () use ($router) {
 
         // Users List
-        $router->match  ('GET|POST',    '/'                 ,       UsersController::class          .   '@list');
+
+        $router->match  ('GET|POST',    '/'                         ,       UsersController::class          .   '@list');
 
         // Users Restore Password
-        $router->get    (               '/restore-password' ,       UsersController::class          .   '@restorePassword');
+        $router->get    (               '/restore-password/{id}'    ,       UsersController::class          .   '@restorePassword');
 
         // Users Edit
-        $router->match  ('GET|POST',    '/edit'             ,       UsersController::class          .   '@edit');
+        $router->match  ('GET|POST',    '/edit/{id}'                ,       UsersController::class          .   '@edit');
 
         // Users lock
-        $router->get    (               '/lock'             ,       UsersController::class          .   '@lock');
+        $router->get    (               '/lock/{id}'                ,       UsersController::class          .   '@lock');
 
         // Users Unlock
-        $router->get    (               '/unlock'           ,       UsersController::class          .   '@unlock');
+        $router->get    (               '/unlock/{id}'              ,       UsersController::class          .   '@unlock');
 
         // Users List lock
-        $router->get    (               '/list-lock'        ,       UsersController::class          .   '@listLock');
+        $router->get    (               '/list-lock'                ,       UsersController::class          .   '@listLock');
    
     });
 

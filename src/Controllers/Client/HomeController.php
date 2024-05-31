@@ -8,8 +8,7 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $data = ['title'=>'Trang chủ'];
-        $this->renderViewClient('home',$data);
-        
+        return $this->renderViewClient('home');
     }
+
 }
