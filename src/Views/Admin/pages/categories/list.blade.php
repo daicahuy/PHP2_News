@@ -49,9 +49,9 @@
                                     <span class="badge badge-default"> Categories </span>
                                 </h2>
                                 <div class="alert alert-success mb-4" role="alert">
-                                    <strong>Success:</strong>
-                                    and try submitting
-                                    again.
+                                    @components
+                                    <strong></strong>
+                                    
                                 </div>
                                 <div class="d-flex justify-content-between mb-4" style="width: 100%">
                                     <div>
@@ -75,9 +75,10 @@
                                             </tr>
                                         </thead>
                                         <tbody class="table-group-divider">
+                                            @foreach($cate as $category)
                                             <tr>
-                                                <th scope="row">1</th>
-                                                <td>Mark</td>
+                                                <th scope="row">{{ $cate->Blade::include('includes.input', 'input') }}</th>
+                                                <td>{{ $category->name }}</td>
                                                 {{-- <td>
                                                     <img src="/assets/uploads/gir2.jpg" alt="" width="80"
                                                         height="80"
@@ -110,6 +111,7 @@
                                                     </a>
                                                 </td>
                                             </tr>
+                                            <?php endforeach;?>
                                         </tbody>
                                     </table>
                                 </div>
