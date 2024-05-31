@@ -11,7 +11,7 @@
     <meta name="keywords"
         content="Article, Blog, Business, Fashion, Magazine, Music, News, News Magazine, Newspaper, Politics, Travel" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title> @yield('title') </title>
+    <title> PHP2 News </title>
 
     <!--Favicon-->
     <link rel="icon" href="images/favicon.png" type="image/x-icon" />
@@ -31,6 +31,8 @@
         rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,500,600,700,800&amp;display=swap"
         rel="stylesheet" />
+    
+    @yield('css')
 </head>
 
 <body>
@@ -81,6 +83,7 @@
             }, 800);
         });
     </script>
+    @yield('js')
 </body>
 
 <!-- Mirrored from utouchdesign.com/themes/envato/altroznews/index-2.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 18 May 2024 08:53:20 GMT -->

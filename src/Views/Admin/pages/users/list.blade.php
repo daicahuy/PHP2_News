@@ -18,11 +18,7 @@
                         <h2 class="mb-4">
                             <span class="badge badge-default"> Users </span>
                         </h2>
-                        <div class="alert alert-success mb-4" role="alert">
-                            <strong>Success:</strong>
-                            and try submitting
-                            again.
-                        </div>
+                        @include('components.alert')
                         <div class="d-flex justify-content-between mb-4" style="width: 100%">
                             <div class="d-flex">
                                 <div style="margin-right: 32px">
@@ -43,7 +39,6 @@
                                     <tr>
                                         <th>#</th>
                                         <th>Email</th>
-                                        <th>Password</th>
                                         <th>Avatar</th>
                                         <th>Role</th>
                                         <th>Status</th>
@@ -51,120 +46,93 @@
                                     </tr>
                                 </thead>
                                 <tbody class="table-group-divider">
-                                    <tr>
-                                        <th scope="row">1</th>
-                                        <td>Mark</td>
-                                        <td>Mark</td>
-                                        <td>
-                                            <img
-                                                src="/assets/uploads/gir2.jpg"
-                                                alt=""
-                                                width="80"
-                                                height="80"
-                                                style=" object-fit: cover;
-                                                        border-radius: 4px;
-                                                        box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.2);
-                                                        "
-                                            >
-                                        </td>
-                                        <td>
-                                            <span
-                                                class="badge badge-default"
-                                                style="font-size: 1rem"
-                                            >
-                                                Admin
-                                            </span>
-                                        </td>
-                                        <td>
-                                            <span
-                                                class="badge badge-success"
-                                                style="font-size: 1rem;"
-                                            >
-                                                Active
-                                            </span>
-                                        </td>
-                                        <td>
-                                            <a  href='/admin/users/restore-password'
-                                                class='btn btn-success waves-effect waves-light'
-                                                data-toggle='tooltip'
-                                                data-placement='top'
-                                                title=''
-                                                data-original-title='Restore Password'
-                                                onclick="return confirm('Confirm Restore Password ??')"
-                                            >
-                                                <i class="mdi mdi-sync"></i>
-                                            </a>
+                                    @foreach ($users as $index => $user)
+                                        <tr>
+                                            <th>{{ $index + 1 }}</th>
+                                            <td>{{ $user['email'] }}</td>
+                                            <td>
+                                                <img
+                                                    src="/assets/{{ $user['avatar'] }}"
+                                                    alt="user-image"
+                                                    width="80"
+                                                    height="80"
+                                                    style=" object-fit: cover;
+                                                            border-radius: 4px;
+                                                            box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.2);
+                                                            "
+                                                >
+                                            </td>
+                                            <td>
+                                                <span
+                                                    class="badge badge-default"
+                                                    style=" font-size: 1rem;
+                                                            @if ($user['role'] == 0)
+                                                            font-weight: 400
+                                                            @endif
+                                                            "
+                                                >
+                                                    
+                                                    @if ($user['role'] == 0)
+                                                        User
+                                                    @else
+                                                        Admin
+                                                    @endif
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <span
+                                                    class="badge badge-@if ($user['status'] == 1)warning
+                                                                        @elseif ($user['status'] == 2)success
+                                                                        @endif
+                                                            "
+                                                    style="font-size: 1rem;"
+                                                >
+                                                    @if ($user['status'] == 1)
+                                                        Wait Activation
+                                                    @elseif ($user['status'] == 2)
+                                                        Active
+                                                    @endif
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <a  href='/admin/users/restore-password/{{ $user['id'] }}'
+                                                    class='btn btn-success waves-effect waves-light'
+                                                    data-toggle='tooltip'
+                                                    data-placement='top'
+                                                    title=''
+                                                    data-original-title='Restore Password'
+                                                    onclick="return confirm('Confirm restore password for {{ $user['email'] }} ??')"
+                                                >
+                                                    <i class="mdi mdi-sync"></i>
+                                                </a>
 
-                                            <a 
-                                                href="/admin/users/edit"
-                                                class="btn btn-warning waves-effect waves-light"
-                                                data-toggle="tooltip"
-                                                data-placement="top"
-                                                title=""
-                                                data-original-title="Edit"
-                                            >
-                                                <i class="ion-edit"></i>
-                                            </a>
+                                                <a 
+                                                    href='/admin/users/edit/{{ $user['id'] }}'
+                                                    class="btn btn-warning waves-effect waves-light"
+                                                    data-toggle="tooltip"
+                                                    data-placement="top"
+                                                    title=""
+                                                    data-original-title="Edit"
+                                                >
+                                                    <i class="ion-edit"></i>
+                                                </a>
 
-                                            <a  href='/admin/users/lock'
-                                                class='btn btn-danger waves-effect waves-light'
-                                                data-toggle='tooltip'
-                                                data-placement='top'
-                                                title=''
-                                                data-original-title='Lock'
-                                                onclick="return confirm('Lock ??')"
-                                            >
-                                                <i class="mdi mdi-lock"></i>
-                                            </a>
-                                            
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">1</th>
-                                        <td>Mark</td>
-                                        <td>Mark</td>
-                                        <td>
-                                            <img
-                                                src="/assets/uploads/gir2.jpg"
-                                                alt=""
-                                                width="80"
-                                                height="80"
-                                                style=" object-fit: cover;
-                                                        border-radius: 4px;
-                                                        box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.2);
-                                                        "
-                                            >
-                                        </td>
-                                        <td>
-                                            <span
-                                                class="badge badge-default"
-                                                style="font-size: 1rem; font-weight: 400"
-                                            >
-                                                User
-                                            </span>
-                                        </td>
-                                        <td>
-                                            <span
-                                                class="badge badge-warning"
-                                                style="font-size: 1rem;"
-                                            >
-                                                Wait Activation
-                                            </span>
-                                        </td>
-                                        <td>
-                                            <a  href='/admin/users/restore-password'
-                                                class='btn btn-success waves-effect waves-light'
-                                                data-toggle='tooltip'
-                                                data-placement='top'
-                                                title=''
-                                                data-original-title='Restore Password'
-                                                onclick="return confirm('Confirm Restore Password ??')"
-                                            >
-                                                <i class="mdi mdi-sync"></i>
-                                            </a>
-                                            
-                                        </td>
-                                    </tr>
+                                                @if ($user['status'] !== 1)
+                                                    <a  href='/admin/users/lock/{{ $user['id'] }}'
+                                                        class='btn btn-danger waves-effect waves-light'
+                                                        data-toggle='tooltip'
+                                                        data-placement='top'
+                                                        title=''
+                                                        data-original-title='Lock'
+                                                        onclick="return confirm('Lock: {{ $user['email'] }} ?')"
+                                                    >
+                                                        <i class="mdi mdi-lock"></i>
+                                                    </a>
+                                                @endif
+
+                                            </td>
+                                        </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>
