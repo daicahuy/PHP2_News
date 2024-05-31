@@ -56,9 +56,10 @@
                                     </tr>
                                 </thead>
                                 <tbody class="table-group-divider">
+                                    @foreach ($data as $item)
                                     <tr>
-                                        <th scope="row">1</th>
-                                        <td>Mark</td>
+                                        <th scope="row">{{$item['id']}}</th>
+                                        <td>{{$item['title']}}</td>
                                         <td>
                                             <img
                                                 src="/assets/uploads/gir2.jpg"
@@ -71,15 +72,15 @@
                                                         "
                                             >
                                         </td>
-                                        <td>Mark</td>
-                                        <td>Mark</td>
+                                        <td>{{$item['userName']}}</td>
+                                        <td>{{$item['nameCategory']}}</td>
                                         <td>
                                             <span class="badge badge-danger" style="font-size: 1rem;">
-                                                Hot
+                                                {{$item['typeName']}}
                                             </span>
                                         </td>
                                         <td>
-                                            <a  href='/admin/posts/detail'
+                                            <a  href='/admin/posts/detail/{{$item['id']}}'
                                                 class='btn btn-success waves-effect waves-light'
                                                 data-toggle='tooltip'
                                                 data-placement='top'
@@ -89,7 +90,7 @@
                                                 <i class="mdi mdi-launch"></i>
                                             </a>
                                             <a 
-                                                href="/admin/posts/edit"
+                                                href="/admin/posts/edit/{{$item['id']}}"
                                                 class="btn btn-warning waves-effect waves-light"
                                                 data-toggle="tooltip"
                                                 data-placement="top"
@@ -99,7 +100,7 @@
                                                 <i class="ion-edit"></i>
                                             </a>
 
-                                            <a  href='/admin/posts/hide'
+                                            <a  href='/admin/posts/hide/{{$item['id']}}'
                                                 class='btn btn-danger waves-effect waves-light'
                                                 data-toggle='tooltip'
                                                 data-placement='top'
@@ -111,6 +112,7 @@
                                             </a>
                                         </td>
                                     </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>

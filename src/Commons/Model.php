@@ -10,6 +10,7 @@ class Model
     protected $connect;
 
     protected $queryBuilder;
+    // protected string $tableName;
 
     public function __construct()
     {
@@ -21,13 +22,12 @@ class Model
                 'password'  =>  $_ENV['DB_PASSWORD'],
                 'dbname'    =>  $_ENV['DB_DATABASE'],
                 'charset'   =>  $_ENV['DB_CHARSET'],
-                'driver'    =>  'pdo_mysql'
+                'driver'    =>  $_ENV['DB_DRIVER']
             ];
 
             $this->connect = DriverManager::getConnection($connectionParams);
 
             $this->queryBuilder = $this->connect->createQueryBuilder();
-            
         } catch (\PDOException $e) {
             Helper::debug($e);
         }

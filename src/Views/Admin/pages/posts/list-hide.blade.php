@@ -27,7 +27,7 @@
                         <div class="d-flex justify-content-between mb-4" style="width: 100%">
                             <div class="d-flex">
                                 <div style="margin-right: 32px">
-                                    <a href="/admin/posts" class="btn btn-secondary mo-mb-2" data-toggle="tooltip"
+                                    <a href="/admin/posts/" class="btn btn-secondary mo-mb-2" data-toggle="tooltip"
                                         data-placement="left" title=""
                                         data-original-title="List Posts">
                                         <i class="dripicons-view-list"></i>
@@ -52,9 +52,10 @@
                                     </tr>
                                 </thead>
                                 <tbody class="table-group-divider">
+                                    @foreach ($data as $item)
                                     <tr>
-                                        <th scope="row">1</th>
-                                        <td>Mark</td>
+                                        <th scope="row">{{$item['id']}}</th>
+                                        <td>{{$item['title']}}</td>
                                         <td>
                                             <img
                                                 src="/assets/uploads/gir2.jpg"
@@ -67,11 +68,15 @@
                                                         "
                                             >
                                         </td>
-                                        <td>Mark</td>
-                                        <td>Mark</td>
-                                        <td>Mark</td>
+                                        <td>{{$item['userName']}}</td>
+                                        <td>{{$item['nameCategory']}}</td>
                                         <td>
-                                            <a  href="/admin/posts/show"
+                                            <span class="badge badge-danger" style="font-size: 1rem;">
+                                                {{$item['typeName']}}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <a  href="/admin/posts/show/{{$item['id']}}"
                                                 class="btn btn-success waves-effect waves-light"
                                                 data-toggle="tooltip"
                                                 data-placement="top"
@@ -80,7 +85,7 @@
                                             >
                                                 <i class="mdi mdi-eye"></i>
                                             </a>
-                                            <a  href='/admin/posts/delete'
+                                            <a  href='/admin/posts/delete/{{$item['id']}}'
                                                 class='btn btn-danger waves-effect waves-light'
                                                 data-toggle='tooltip'
                                                 data-placement='top'
@@ -92,6 +97,7 @@
                                             </a>
                                         </td>
                                     </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>

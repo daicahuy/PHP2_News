@@ -21,7 +21,7 @@ class UsersController extends Controller
     public function list()
     {
 
-        Helper::debug($this->user->getAll());
+        // Helper::debug($this->user->getAll());
 
         return $this->renderViewAdmin($this->folder . __FUNCTION__);
     }

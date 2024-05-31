@@ -4,14 +4,14 @@ namespace Assignment\Php2News\Models;
 
 use Assignment\Php2News\Commons\Model;
 
-class User extends Model
+class Type extends Model
 {
-    private string $tableName = 'users';
+    private string $tableName = 'type';
 
     public function getAll(string ...$colums)
     {
         return $this->queryBuilder
-            ->select('*')
+            ->select(...$colums)
             ->from($this->tableName)
             ->fetchAllAssociative();
     }

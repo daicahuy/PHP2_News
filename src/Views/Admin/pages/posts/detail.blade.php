@@ -42,8 +42,7 @@
                                         <label class="d-block">Content</label>
                                         <div class="cart-body">
                                             <div class="content">
-                                                <h1>THIS IS EXAMPLE TITLE POST</h1>
-                                                <h1>Content POST</h1>
+                                                {{$data['content']}}
                                             </div>
                                         </div>
                                     </div>
@@ -52,16 +51,18 @@
                                     <div class="form-group">    
                                         <label class="d-block">Title</label>
                                         <input class="form-control" type="text" placeholder="Title Post..."
-                                            name="title">
+                                            name="title"
+                                            value="{{$data['title']}}"
+                                            >
                                     </div>
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label class="d-block" for="">Name Category</label>
                                                 <select class="form-control">
-                                                    <option>Heath</option>
-                                                    <option>Life</option>
-                                                    <option>Football</option>
+                                                    @foreach ($cate as $item)
+                                                    <option value="{{$item['idCategory']}}" {{$data['idCategory'] == $item['id'] ? 'selected' : ''}}> {{$item['nameCategory']}} </option>
+                                                     @endforeach
                                                   </select>
                                             </div>
                                         </div>
@@ -69,9 +70,10 @@
                                             <div class="form-group">
                                                 <label class="d-block" for="">Type</label>
                                                 <select class="form-control">
-                                                    <option>Default</option>
-                                                    <option>Hot</option>
-                                                    <option>Breaking</option>
+                                                    @foreach ($type as $item)
+                                                    <option value="{{$item['id']}}" {{$data['idType'] == $item['id'] ? 'selected' : ''}}> {{$item['name']}} </option>
+                                                     @endforeach
+                                                  </select>
                                                   </select>
                                             </div>
                                         </div>
