@@ -6,7 +6,7 @@ use Assignment\Php2News\Commons\Model;
 
 class Categories extends Model
 {
-    protected $tableName = 'categories';
+    private string $tableName = 'categories';
 
     public function getAll()
     {
@@ -15,7 +15,8 @@ class Categories extends Model
             ->from($this->tableName)
             ->fetchAllAssociative();
     }
-    public function getCategoriesById($categoriesId){
+    public function getCategoriesById($categoriesId)
+    {
         return $this->queryBuilder
             ->select('*')
             ->from($this->tableName)
@@ -23,30 +24,59 @@ class Categories extends Model
             ->setParameter('id', $categoriesId)
             ->fetchAllAssociative();
     }
-    public function addCategories($data){
+    public function getByStatus($status)
+    {
+
+        // điều kiện truy vấn trong WHERE
+
+
         return $this->queryBuilder
-        ->insert($this->tableName)
-        ->values([
-            'name' => ':name',
-            'status' => ':status'
-        ])
-        ->setParameters($data)
-        ->executeQuery();
+            ->select('*')
+            ->from($this->tableName)
+            ->where('status = ?')
+            ->setParameter(0, $status)
+            ->fetchAllAssociative();
     }
-    public function updateCategories($categoriesId, $data){
+    public function add($name)
+    {
         return $this->queryBuilder
-        ->update($this->tableName)
-        ->set('name', ':name')
-        ->set('status', ':status')
-        ->where('id = :id')
-        ->setParameters(array_merge(['id' => $categoriesId], $data))
-        ->executeQuery();
+            ->insert($this->tableName)
+            ->setValue('nameCategory', '?')
+            ->setValue('status', 1)
+            ->setParameter(0, $name)
+            ->executeQuery();
     }
-    public function deleteCategories($categoriesId){
+    public function updateStatus($id, $data = [])
+    {
+        return $this->connect->update(
+            $this->tableName,
+            $data,
+            ['id' => $id]
+        );
+    }
+    public function updateName($id, $data = [])
+    {
+        return $this->connect->update(
+            $this->tableName,
+            $data,
+            ['id' => $id]
+        );
+    }
+    public function delete($categoriesId)
+    {
         return $this->queryBuilder
-        ->delete($this->tableName)
-        ->where('id = :id')
-        ->setParameter(':id', $categoriesId)
-        ->executeQuery();
+            ->delete($this->tableName)
+            ->where('id = ?')
+            ->setParameter(0, $categoriesId)
+            ->executeQuery();
+    }
+    public function getByID($id, $columnsName = ['*'])
+    {
+        return $this->queryBuilder
+            ->select(...$columnsName)
+            ->from($this->tableName)
+            ->where('id = ?')
+            ->setParameter(0, $id)
+            ->fetchAssociative();
     }
 }

@@ -10,7 +10,6 @@ class Model
     protected $connect;
 
     protected $queryBuilder;
-    protected $tableName = 'category';
     public function __construct()
     {
         try {

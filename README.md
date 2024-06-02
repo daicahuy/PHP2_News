@@ -1,6 +1,14 @@
 # PHP2_News
 
 ## Table
+### Table Categories
+
+1. status
+
+```php
+    status = 0: Trạng thái ẩn danh mục      
+    status = 1: Trạng thái hiện danh mục    
+```
 
 ### Table User
 
@@ -18,7 +26,6 @@
     role = 0: Người dùng
     role = 1: Admin
 ```
-
 
 
 
