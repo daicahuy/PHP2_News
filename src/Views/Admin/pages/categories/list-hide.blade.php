@@ -25,16 +25,15 @@
                                 <div class="d-flex justify-content-between mb-4" style="width: 100%">
                                     <div>
                                         <a href="/admin/categories" class="btn btn-secondary mo-mb-2" data-toggle="tooltip"
-                                            data-placement="left" title=""
-                                            data-original-title="List Categories">
+                                            data-placement="left" title="" data-original-title="List Categories">
                                             <i class="dripicons-view-list"></i>
                                         </a>
                                     </div>
                                     @include('components.table.search')
                                 </div>
-                                @if(isset($message))
+                                {{-- @if (isset($message))
                                     <p>{{ $message }}</p>
-                                @else
+                                @else --}}
                                 <div class="table-responsive">
                                     <table class="table table-bordered mb-0">
                                         <thead class="thead-dark">
@@ -44,42 +43,43 @@
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
+
                                         <tbody class="table-group-divider">
-                                            @foreach ($cateHide as $index => $catesHide)
-                                            <tr>
-                                                <th>{{ $index + 1 }}</th>
-                                                <td>{{ $catesHide['nameCategory'] }}</td>
-                                                <td>
-                                                    <a  href="/admin/categories/show/{{ $catesHide['id'] }}"
-                                                        class="btn btn-success waves-effect waves-light"
-                                                        data-toggle="tooltip"
-                                                        data-placement="top"
-                                                        title=""
-                                                        data-original-title="Show"
-                                                    >
-                                                        <i class="mdi mdi-eye"></i>
-                                                    </a>
-                                                    <a  href='/admin/categories/delete/{{ $catesHide['id'] }}'
-                                                        class='btn btn-danger waves-effect waves-light'
-                                                        data-toggle='tooltip'
-                                                        data-placement='top'
-                                                        title=''
-                                                        data-original-title='Delete'
-                                                        onclick="return confirm('Delete category {{ $catesHide['nameCategory'] }} ?')"
-                                                    >
-                                                        <i class="mdi mdi-delete"></i>
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                            @endforeach
+                                            @if (isset($message))
+                                                <p>{{ $message }}</p>
+                                            @else
+                                                @foreach ($cateHide as $index => $catesHide)
+                                                    <tr>
+                                                        <th>{{ $index + 1 }}</th>
+                                                        <td>{{ $catesHide['nameCategory'] }}</td>
+                                                        <td>
+                                                            <a href="/admin/categories/show/{{ $catesHide['id'] }}"
+                                                                class="btn btn-success waves-effect waves-light"
+                                                                data-toggle="tooltip" data-placement="top" title=""
+                                                                data-original-title="Show">
+                                                                <i class="mdi mdi-eye"></i>
+                                                            </a>
+                                                            <a href='/admin/categories/delete/{{ $catesHide['id'] }}'
+                                                                class='btn btn-danger waves-effect waves-light'
+                                                                data-toggle='tooltip' data-placement='top' title=''
+                                                                data-original-title='Delete'
+                                                                onclick="return confirm('Delete category {{ $catesHide['nameCategory'] }} ?')">
+                                                                <i class="mdi mdi-delete"></i>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                            @endif
                                         </tbody>
+
                                     </table>
+
                                 </div>
                                 <div class="mt-4 d-flex justify-content-between">
                                     @include('components.table.show-row')
                                     @include('components.table.pagination')
                                 </div>
-                                @endif
+
                             </div>
                         </div>
                     </div>

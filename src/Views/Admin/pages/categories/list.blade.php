@@ -23,9 +23,11 @@
                                 <form action="/admin/categories" method="POST" enctype="multipart/form-data">
                                     <div class="form-group">
                                         <label class="d-block">Name</label>
-                                        <input class="form-control" type="text" placeholder="Name Category..." name="nameCategory">
+                                        <input class="form-control" type="text" placeholder="Name Category..."
+                                            name="nameCategory">
                                     </div>
-                                    <button type="submit" class="btn btn-success waves-effect waves-light float-right" name="btn-add">
+                                    <button type="submit" class="btn btn-success waves-effect waves-light float-right"
+                                        name="btn-add">
                                         Add
                                     </button>
                                 </form>

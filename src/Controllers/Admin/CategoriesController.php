@@ -145,7 +145,7 @@ class CategoriesController extends Controller
     public function listHide()
     {
         $cateHide = $this->categories->getByStatus(0);
-        if(empty($cateHide)) {
+        if (empty($cateHide)) {
             $message = "Không có dữ liệu.";
             return $this->renderViewAdmin($this->folder . 'list-hide', ['message' => $message]);
         }
