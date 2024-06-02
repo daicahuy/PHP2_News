@@ -19,41 +19,31 @@
                         <h2 class="mb-4">
                             <span class="badge badge-default"> Detail Post </span>
                         </h2>
-                        <img
-                            src="/assets/uploads/gir2.jpg"
-                            alt=""
-                            width="80"
-                            height="80"
+                        <img src="/assets/uploads/gir2.jpg" alt="" width="80" height="80"
                             style=" object-fit: cover;
                                     border-radius: 4px;
                                     box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.2);
                                     margin-bottom: 16px
-                                    "
-                        >
-                        <div class="alert alert-danger mb-2" role="alert">
-                            <strong>Error:</strong>
-                            and try submitting
-                            again.
-                        </div>
+                                    ">
+                        @include('components.alert')
+
                         <form action="" method="POST" enctype="multipart/form-data" class="mt-4">
                             <div class="row">
                                 <div class="col-md-8">
-                                    <div class="form-group">    
+                                    <div class="form-group">
                                         <label class="d-block">Content</label>
                                         <div class="cart-body">
                                             <div class="content">
-                                                {{$data['content']}}
+                                                {{ $data['content'] }}
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
-                                    <div class="form-group">    
+                                    <div class="form-group">
                                         <label class="d-block">Title</label>
                                         <input class="form-control" type="text" placeholder="Title Post..."
-                                            name="title"
-                                            value="{{$data['title']}}"
-                                            >
+                                            name="title" value="{{ $data['title'] }}">
                                     </div>
                                     <div class="row">
                                         <div class="col-md-6">
@@ -61,9 +51,11 @@
                                                 <label class="d-block" for="">Name Category</label>
                                                 <select class="form-control">
                                                     @foreach ($cate as $item)
-                                                    <option value="{{$item['idCategory']}}" {{$data['idCategory'] == $item['id'] ? 'selected' : ''}}> {{$item['nameCategory']}} </option>
-                                                     @endforeach
-                                                  </select>
+                                                        <option value="{{ $item['idCategory'] }}"
+                                                            {{ $data['idCategory'] == $item['id'] ? 'selected' : '' }}>
+                                                            {{ $item['nameCategory'] }} </option>
+                                                    @endforeach
+                                                </select>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
@@ -71,10 +63,12 @@
                                                 <label class="d-block" for="">Type</label>
                                                 <select class="form-control">
                                                     @foreach ($type as $item)
-                                                    <option value="{{$item['id']}}" {{$data['idType'] == $item['id'] ? 'selected' : ''}}> {{$item['name']}} </option>
-                                                     @endforeach
-                                                  </select>
-                                                  </select>
+                                                        <option value="{{ $item['id'] }}"
+                                                            {{ $data['idType'] == $item['id'] ? 'selected' : '' }}>
+                                                            {{ $item['name'] }} </option>
+                                                    @endforeach
+                                                </select>
+                                                </select>
                                             </div>
                                         </div>
                                     </div>

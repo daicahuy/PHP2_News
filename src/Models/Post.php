@@ -8,7 +8,7 @@ class Post extends Model
 {
     protected string $tableName = 'posts';
     // get all
-    public function getAll(string ...$colums)
+    public function getAll(int $status, string ...$colums)
     {
         return $this->queryBuilder
             ->select(...$colums)
@@ -17,8 +17,8 @@ class Post extends Model
             ->join('p', 'categories', 'c', 'p.idCategory = c.id')
             ->join('p', 'type', 't', 'p.idType = t.id')
             ->where("p.status = ?")
-            ->setParameter(0, 1)
-            ->orderBy("p.date", "ASC")
+            ->setParameter(0, $status)
+            ->orderBy("p.id", "ASC")
             ->fetchAllAssociative();
     }
     // get post by id     
@@ -34,15 +34,15 @@ class Post extends Model
             ->fetchAssociative();
     }
     //hidden post
-    public function hidden(int $id, $data = [])
+    public function update(int $id, $data = [])
     {
         return $this->connect->update($this->tableName, $data, ['id' => $id]);
     }
     // show post
-    public function showPost(int $id, $data = [])
-    {
-        return $this->connect->update($this->tableName, $data, ['id' => $id]);
-    }
+    // public function showPost(int $id, $data = [])
+    // {
+    //     return $this->connect->update($this->tableName, $data, ['id' => $id]);
+    // }
     // get all list hidden 
     public function getAllHeide(string ...$colums)
     {
@@ -61,5 +61,10 @@ class Post extends Model
     public function deletePost(int $id)
     {
         return $this->connect->delete($this->tableName, ["id" => $id]);
+    }
+    // add 
+    public function addPost($data = [])
+    {
+        return $this->connect->insert($this->tableName, $data);
     }
 }

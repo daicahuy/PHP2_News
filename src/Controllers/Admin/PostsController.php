@@ -17,33 +17,72 @@ class PostsController extends Controller
         $this->post = new Post();
     }
     // Posts List
-    public function list()
+    public function list($status = 1)
     {
+        $cates = new Category();
+        $cate = $cates->getAll('*');
 
-        $data = $this->post->getAll('p.id', 'p.title', 'p.content', 'u.name userName', 'c.nameCategory', 't.name typeName');
-
-        return $this->renderViewAdmin($this->folder . __FUNCTION__, ['data' => $data]);
+        $data = $this->post->getAll($status, 'p.id', 'p.title', 'p.content', 'u.name userName', 'c.nameCategory', 't.name typeName');
+        // Helper::debug($data);
+        return $this->renderViewAdmin($this->folder . __FUNCTION__, [
+            'cate' => $cate,
+            'data' => $data
+        ]);
     }
 
-    // Posts Add
+    // Posts Add  
     public function add()
     {
-        return $this->renderViewAdmin($this->folder . __FUNCTION__);
+        if (isset($_POST['btn-add'])) {
+
+            // Helper::debug($_POST);
+            $this->post->addPost(
+                [
+                    'title' => $_POST['title'],
+                    'idCategory' => $_POST['idCategory'],
+                    'idType' => $_POST['idType'],
+                ]
+            );
+        }
+
+        // $title = $_POST['title'];
+        // $content = $_POST['content'];
+        // $categoryId = $_POST['category_id'];
+        // $typeId = $_POST['type_id'];
+        // $add= ;
+        // [
+        //     'title' => $title,
+        //     'categoryId' => $categoryId,
+        //     'type' => $typeId
+        // ]
+
+
+        // lấy dữ liệu category
+        $cates = new Category();
+        $cate = $cates->getAll('*');
+
+        // lấy dữ liệu type
+        $types = new Type();
+        $type = $types->getAll('*');
+        return $this->renderViewAdmin($this->folder . __FUNCTION__, [
+            'cate' => $cate,
+            'type' => $type
+        ]);
     }
 
-    // Posts Detail
+    // Posts Detail luminate\Http\Request
     public function detail($id)
     {
+        $cates = new Category();
+        $cate = $cates->getAll('*');
 
-        $cate = $this->post->getAll('*');
-
-        $detailPost = new Post();
-        $data = $detailPost->getById($id, 'p.id', 'p.title', 'p.content', 'u.name userName', 'c.nameCategory', 'c.id idCategory', 't.name typeName', 't.id idType');   // lưu ý thứ tự truyền vào tham số
+        // $detailPost = new Post();
+        $data = $this->post->getById($id, 'p.id', 'p.title', 'p.content', 'u.name userName', 'c.nameCategory', 'c.id idCategory', 't.name typeName', 't.id idType');   // lưu ý thứ tự truyền vào tham số
 
         $types = new Type();
         $type = $types->getAll('*');
         // echo __CLASS__ . '@' . __FUNCTION__ . ' - ID = ' . $id;
-        // Helper::debug($data);
+        // Helper::debug($cate);
         return $this->renderViewAdmin($this->folder . __FUNCTION__, [
             'data' => $data,
             'cate' => $cate,
@@ -52,52 +91,101 @@ class PostsController extends Controller
     }
 
     // Posts Edit
-    public function edit()
+    public function edit($id)
     {
-        return $this->renderViewAdmin($this->folder . __FUNCTION__);
+        // lấy dữ liệu category
+        $cates = new Category();
+        $cate = $cates->getAll('*');
+        // lấy dữ liệu chi tiết
+        $data = $this->post->getById($id, 'p.id', 'p.title', 'p.content', 'u.name userName', 'c.nameCategory', 'c.id idCategory', 't.name typeName', 't.id idType');   // lưu ý thứ tự truyền vào tham số
+
+        // lấy dữ liệu type
+        $types = new Type();
+        $type = $types->getAll('*');
+        // Helper::debug($data);
+
+        return $this->renderViewAdmin($this->folder . __FUNCTION__, [
+            'cate' => $cate,
+            'type' => $type,
+            'data' => $data
+        ]);
     }
 
     // Posts Hiden
     public function hide($id)
     {
         // $hide = new Post();
-        $this->post->hidden($id, ['status' => '0']);
+        try {
+            $this->post->update(
+                $id,
+                [
+                    'status' => '0',
+                    'dateChange' => date('Y-m-d H:i:s', time())
+                ]
+            );
+            $_SESSION['notify']['success'][] = 'Successfully hidden';
+        } catch (\Throwable $e) {
+            $_SESSION['notify']['danger'][] = $e->getMessage();
+        }
+
         // Helper::debug($data1);
         // echo __CLASS__ . '@' . __FUNCTION__ . ' - ID = ' . $id;
 
-        $data = $this->post->getAll('p.id', 'p.title', 'p.content', 'u.name userName', 'c.nameCategory', 't.name typeName');
-        return $this->renderViewAdmin($this->folder . 'list', ['data' => $data]);
+        header('Location: /admin/posts');
+        die;
     }
 
     // Posts Show
     public function show($id)
     {
-        // SHOW code...
-        $this->post->showPost($id, ['status' => '1']);
+        try {
+            $this->post->update(
+                $id,
+                [
+                    'status' => '1',
+                    'dateChange' => date('Y-m-d H:i:s', time())
+                ]
+            );
+            $_SESSION['notify']['success'][] = 'Displayed successfully';
+        } catch (\Throwable $th) {
+            $_SESSION['notify']['danger'][] = $th->getMessage();
+        }
 
-        $data = $this->post->getAll('p.id', 'p.title', 'p.content', 'u.name userName', 'c.nameCategory', 't.name typeName');
-        return $this->renderViewAdmin($this->folder . 'list', ['data' => $data]);
+
+        header('Location: /admin/posts/list-hide');
+        die;
     }
 
     // Posts Delete
     public function delete($id)
     {
-        $this->post->deletePost($id);
-        $data = $this->post->getAllHeide('p.id', 'p.title', 'p.content', 'u.name userName', 'c.nameCategory', 't.name typeName');
-        return $this->renderViewAdmin($this->folder . 'list', ['data' => $data]);
+        try {
+            $this->post->deletePost($id);
+            $_SESSION['notify']['success'][] = 'Deleted successfully';
+        } catch (\Throwable $th) {
+            $_SESSION['notify']['danger'][] = $th->getMessage();
+        }
+
+
+        header('Location: /admin/posts/list-hide');
+        die;
         // DELETE code...
     }
 
     // Posts List Hiden
-    public function listHide()
+    public function listHide($status = 0)
     {
 
-        // Helper::debug($status);
-        // $list = $this->post->getAll();
-        $data = $this->post->getAllHeide('p.id', 'p.title', 'p.content', 'u.name userName', 'c.nameCategory', 't.name typeName');
+        $cates = new Category();
+        $cate = $cates->getAll('*');
+
+        $data = $this->post->getAll($status, 'p.id', 'p.title', 'p.content', 'u.name userName', 'c.nameCategory', 't.name typeName');
         // echo __CLASS__ . '@' . __FUNCTION__ . ' - ID = ' . $status;
         // die;
 
-        return $this->renderViewAdmin($this->folder . 'list-hide', ['data' => $data]);
+        return $this->renderViewAdmin($this->folder . 'list-hide', [
+            'cate' => $cate,
+            'data' => $data
+        ]);
     }
 }

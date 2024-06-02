@@ -12,8 +12,8 @@ class Category extends Model
     {
         return $this->queryBuilder
             ->select(...$colums)
-            ->from($this->tableName, 'c')
-            ->where("c.status = 1")
+            ->from($this->tableName)
+            ->where("status = 1")
             ->fetchAllAssociative();
     }
 }

@@ -18,11 +18,9 @@
                         <h2 class="mb-4">
                             <span class="badge badge-default"> Posts </span>
                         </h2>
-                        <div class="alert alert-success mb-4" role="alert">
-                            <strong>Success:</strong>
-                            and try submitting
-                            again.
-                        </div>
+                       
+                            @include('components.alert')
+                        
                         <div class="d-flex justify-content-between mb-4" style="width: 100%">
                             <div class="d-flex">
                                 <div style="margin-right: 32px">
@@ -37,7 +35,20 @@
                                         <i class="ion-android-add"></i>
                                     </a>
                                 </div>
-                                @include('components.table.filter')
+                                {{-- filter  --}}
+                                <form action="" class="d-flex">
+                                    <select class="custom-select mr-2">
+                                        <option selected="selected">All Category</option>
+                                        @foreach ($cate as $item)
+                                            <option value="{{$item['id']}}">{{$item['nameCategory']}}</option>
+                                        @endforeach
+                                    </select>
+                                    <button type="submit" class="btn btn-success mo-mb-2" data-toggle="tooltip"
+                                        data-placement="top" title=""
+                                        data-original-title="Filter">
+                                        <i class="mdi mdi-filter"></i>
+                                    </button>
+                                </form>
                             </div>
                             @include('components.table.search')
                         </div>

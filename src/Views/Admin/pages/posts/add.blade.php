@@ -27,12 +27,9 @@
                         <h2 class="mb-4">
                             <span class="badge badge-default"> Add Post </span>
                         </h2>
-                        <div class="alert alert-danger mb-2" role="alert">
-                            <strong>Error:</strong>
-                            and try submitting
-                            again.
-                        </div>
-                        <form action="" method="POST" enctype="multipart/form-data" class="mt-4">
+                        @include('components.alert')
+
+                        <form action="/admin/posts/add" method="POST" enctype="multipart/form-data" class="mt-4">
                             <div class="row">
                                 <div class="col-md-8">
                                     <div class="form-group">    
@@ -54,20 +51,20 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label class="d-block" for="">Name Category</label>
-                                                <select class="form-control">
-                                                    <option>Heath</option>
-                                                    <option>Life</option>
-                                                    <option>Football</option>
+                                                <select class="form-control" name="idCategory" >
+                                                    @foreach ($cate as $item)
+                                                    <option value="{{$item['idCategory']}}" > {{$item['nameCategory']}} </option>
+                                                     @endforeach
                                                   </select>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label class="d-block" for="">Type</label>
-                                                <select class="form-control">
-                                                    <option>Default</option>
-                                                    <option>Hot</option>
-                                                    <option>Breaking</option>
+                                                <select class="form-control" name="idType">
+                                                   @foreach ($type as $item)
+                                                       <option value="{{$tiem['id']}}">{{$item['name']}}</option>
+                                                   @endforeach
                                                   </select>
                                             </div>
                                         </div>
@@ -75,6 +72,7 @@
                                     
                                     
                                     <button
+                                        name="btn-add"
                                         type="submit"
                                         class="btn btn-success waves-effect waves-light float-right mt-8"
                                         style="
