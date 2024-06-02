@@ -66,6 +66,17 @@ class User extends Model
             ->fetchAssociative();
     }
 
+    // Hàm insert: Insert
+    public function insert($data = [])
+    {
+        $this->connect->insert(
+            $this->tableName,
+            $data
+        );
+
+        return $this->connect->lastInsertId();
+    }
+
     // Hàm update: Update
     public function update($id, $data = [])
     {

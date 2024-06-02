@@ -1,61 +1,96 @@
 @extends('layouts.master')
-@section('title')
-    {{ $title }}
-@endsection
-@section('page-title')
-    Đăng ký
+@section('css')
+    <style>
+        .label-input span {
+            color: red;
+        }
+    </style>
 @endsection
 @section('content')
     <!-- 1rd Block Wrapper Start -->
     <section class="utf_block_wrapper">
         <div class="container">
-            <div class="row">
-                <div class="col-lg-12 col-md-12 ">
-                    <div class="text-center">
-                        <h3>Đăng ký</h3>
-
-                    </div>
-                    <div class="d-flex no-block justify-content-center align-items-center">
-                        <form action="/auth/sign-up" method="POST" enctype="multipart/form-data">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <input class="form-control" name="name" id="name" placeholder="Name*"
-                                            type="text" required>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <input class="form-control" placeholder="Mật khẩu*" type="text" required>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <input class="form-control" placeholder="Email*" type="email" required>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <input class="form-control" placeholder="Nhập lại mật khẩu*" type="text"
-                                            required>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <input class="form-control" placeholder="Chọn ảnh đại diện" type="file" required>
-                                    </div>
+            <form action="/auth/sign-up" method="POST" enctype="multipart/form-data">
+                <div class="row mb-4">
+                    <div class="col-lg-12 col-md-12 ">
+                        <div class="text-center mb-4">
+                            <h2>Sign Up</h2>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group mb-2">
+                                    <label class="label-input">Username <span>*</span></label>
+                                    <input
+                                        class="form-control"
+                                        placeholder="Your username..."
+                                        type="text"
+                                        name="name"
+                                        value="{{ $_POST['name'] }}"
+                                    >
+                                    @include('components.error', ['name' => 'name'])
                                 </div>
                             </div>
-                            <div class="clearfix mt-2">
-                                <button class="btn btn-info float-right" type="submit">Đăng ký</button>
-                                <a href="/auth/"><button class="btn btn-warning" type="button">Quay lại</button> </a>
+                            <div class="col-md-6">
+                                <div class="form-group mb-2">
+                                    <label class="label-input">Password <span>*</span></label>
+                                    <input
+                                        class="form-control"
+                                        placeholder="Your password..."
+                                        type="password"
+                                        name="password"
+                                        value="{{ $_POST['password'] }}"
+                                    >
+                                    @include('components.error', ['name' => 'password'])
+                                </div>
                             </div>
-                        </form>
-                    </div>
+                            <div class="col-md-6">
+                                <div class="form-group mb-2">
+                                    <label class="label-input">Email <span>*</span></label>
+                                    <input
+                                        class="form-control"
+                                        placeholder="Your email..."
+                                        type="email"
+                                        name="email"
+                                        value="{{ $_POST['email'] }}"
+                                    >
+                                    @include('components.error', ['name' => 'email'])
+                                </div>
+                            </div>
 
+                            <div class="col-md-6">
+                                <div class="form-group mb-2">
+                                    <label class="label-input">Confirm Password <span>*</span></label>
+                                    <input
+                                        class="form-control"
+                                        placeholder="Confirm password..."
+                                        type="password"
+                                        name="confirm_password"
+                                        value="{{ $_POST['confirm_password'] }}"
+                                    >
+                                    @include('components.error', ['name' => 'confirm_password'])
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="label-input">Avatar</label>
+                                <div class="form-group mb-2 custom-file">
+                                    <label class="custom-file-label" for="customFile">Choose file</label>
+                                    <input
+                                        class="custom-file-input"
+                                        id="customFile"
+                                        type="file"
+                                        name="avatar"
+                                    >
+                                </div>
+                                @include('components.error', ['name' => 'avatar'])
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
+                <div class="clearfix">
+                    <a href="/auth/"><button class="btn btn-warning" type="button">Back</button> </a>
+                    <button class="btn btn-info float-right" type="submit" name="btn-sign-up">Sign Up</button>
+                </div>
+            </form>
         </div>
     </section>
     <!-- 1rd Block Wrapper End -->

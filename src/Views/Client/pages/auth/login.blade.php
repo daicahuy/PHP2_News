@@ -1,10 +1,5 @@
 @extends('layouts.master')
-@section('title')
-    {{ $title }}
-@endsection
-@section('page-title')
-    Đăng nhập
-@endsection
+
 @section('content')
     <!-- 1rd Block Wrapper Start -->
     <section class="utf_block_wrapper">
@@ -21,23 +16,22 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <input class="form-control" placeholder="Email*" type="email" required>
+                                        <input class="form-control" placeholder="Email*" type="email">
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <input class="form-control form-control-lg" placeholder="Password*" type="text"
-                                            required>
+                                        <input class="form-control form-control-lg" placeholder="Password*" type="text">
                                     </div>
                                 </div>
                             </div>
-                            <a href="/auth/forgot-passowrd">Quên mật khẩu?</a>
+                            <a href="/auth/forgot-password">Forgort Password?</a>
 
                             <div class="clearfix mt-2">
-                                <button class="btn btn-info" type="submit">Đăng nhập</button>
                                 <a href="/auth/sign-up">
-                                    <button class="btn btn-warning float-right" type="button">Đăng ký?</button>
+                                    <button class="btn btn-info" type="button">Sign Up?</button>
                                 </a>
+                                <button class="btn btn-success float-right" type="submit">Login</button>
                             </div>
                         </form>
                     </div>
