@@ -44,16 +44,16 @@ $router->mount('/admin', function () use ($router) {
         $router->match  ('GET|POST',    '/'                 ,       CategoriesController::class     .   '@list');
 
         // Categories Edit
-        $router->match  ('GET|POST',    '/edit'             ,       CategoriesController::class     .   '@edit');
+        $router->match  ('GET|POST',    '/edit/{id}'        ,       CategoriesController::class     .   '@edit');
 
         // Categories Hide
-        $router->get    (               '/hide'             ,       CategoriesController::class     .   '@hide');
+        $router->get    (               '/hide/{id}'             ,       CategoriesController::class     .   '@hide');
 
         // Categories Show
-        $router->get    (               '/show'             ,       CategoriesController::class     .   '@show');
+        $router->get    (               '/show/{id}'             ,       CategoriesController::class     .   '@show');
 
         // Categories Delete
-        $router->get    (               '/delete'           ,       CategoriesController::class     .   '@delete');
+        $router->get    (               '/delete/{id}'           ,       CategoriesController::class     .   '@delete');
 
         // Categories List Hide
         $router->get    (               '/list-hide'        ,       CategoriesController::class     .   '@listHide');
@@ -116,6 +116,7 @@ $router->mount('/admin', function () use ($router) {
     $router->mount('/users'     , function () use ($router) {
 
         // Users List
+
         $router->match  ('GET|POST',    '/'                         ,       UsersController::class          .   '@list');
 
         // Users Restore Password
