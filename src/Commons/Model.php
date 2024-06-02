@@ -7,9 +7,9 @@ use Doctrine\DBAL\DriverManager;
 class Model
 {
 
-    protected $connect;
+    public $connect;
 
-    protected $queryBuilder;
+    public $queryBuilder;
 
     public function __construct()
     {
