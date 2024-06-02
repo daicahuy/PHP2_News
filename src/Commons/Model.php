@@ -10,7 +10,6 @@ class Model
     protected $connect;
 
     protected $queryBuilder;
-
     public function __construct()
     {
         try {
@@ -27,12 +26,17 @@ class Model
             $this->connect = DriverManager::getConnection($connectionParams);
 
             $this->queryBuilder = $this->connect->createQueryBuilder();
-            
         } catch (\PDOException $e) {
             Helper::debug($e);
         }
     }
-
+    public function getAll()
+    {
+        return $this->queryBuilder
+            ->select('*')
+            ->from($this->tableName)
+            ->fetchAllAssociative();
+    }
     public function __destruct()
     {
         $this->connect = null;
