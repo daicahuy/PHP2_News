@@ -47,6 +47,9 @@
                                     </tr>
                                 </thead>
                                 <tbody class="table-group-divider">
+                                    @empty($usersLock)
+                                        <tr><td colspan="6" class="text-center">{{ "No user has been locked" }}</td></tr>
+                                    @endempty
                                     @foreach ($usersLock as $index => $userLock)
                                         <tr>
                                             <th>{{ $index + 1 }}</th>

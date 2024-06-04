@@ -10,7 +10,34 @@
     status = 1: Trạng thái hiện danh mục    
 ```
 
-### Table User
+### * Dữ liệu trong database
+
+``Table Type``
+
+| ID    | Name              |
+| ----- | ----------------- |
+| 1     | Normal            |
+| 2     | Hot               |
+| 3     | Hot On Social     |
+
+
+<br>
+<br>
+
+### * Mô tả thông tin trong database
+
+```Table Categories```
+
+1. status
+
+```php
+    status = 0: Trạng thái ẩn danh mục      
+    status = 1: Trạng thái hiện danh mục    
+```
+
+<br>
+
+```Table User```
 
 1. status
 
@@ -26,6 +53,7 @@
     role = 0: Người dùng
     role = 1: Admin
 ```
+
 
 
 

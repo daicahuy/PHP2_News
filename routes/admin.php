@@ -9,6 +9,25 @@ use Assignment\Php2News\Controllers\Admin\SettingsController;
 use Assignment\Php2News\Controllers\Admin\TagsController;
 use Assignment\Php2News\Controllers\Admin\UsersController;
 
+// Check login to /admin
+$router->before('GET|POST', '/admin/*.*', function() {
+
+    if (!isset($_SESSION['user'])) {
+        $thongbao = "You need to login to admin";
+        header("Location: /auth/?thongbao=$thongbao");
+        die;
+    }
+
+    if(isset($_SESSION['user']) && $_SESSION['user']['role'] == 0) {
+        $thongbao = "You do not have access to admin";
+        header("Location: /?thongbao=$thongbao");
+        die;
+    }
+
+});
+
+
+// ROUTES ADMIN
 
 $router->mount('/admin', function () use ($router) {
 
@@ -19,10 +38,10 @@ $router->mount('/admin', function () use ($router) {
     $router->mount('/settings'  , function () use ($router) {
 
         // Settings index
-        $router->get(                   '/'                 ,       SettingsController::class       .   '@index');
+        $router->get    (               '/'                 ,       SettingsController::class       .   '@index');
 
         // Settings Edit
-        $router->get(                   '/edit'             ,       SettingsController::class       .   '@edit');
+        $router->match  ('GET|POST',    '/edit'             ,       SettingsController::class       .   '@edit');
         
     });
 
@@ -30,10 +49,10 @@ $router->mount('/admin', function () use ($router) {
     $router->mount('/profile'   , function () use ($router) {
 
         // Profile index
-        $router->get(                   '/'                 ,       ProfileController::class        .   '@index');
+        $router->get    (               '/'                 ,       ProfileController::class        .   '@index');
 
         // Profile Edit
-        $router->get(                   '/edit'             ,       ProfileController::class        .   '@edit');
+        $router->match  ('GET|POST',    '/edit'             ,       ProfileController::class        .   '@edit');
         
     });
 
@@ -47,13 +66,13 @@ $router->mount('/admin', function () use ($router) {
         $router->match  ('GET|POST',    '/edit/{id}'        ,       CategoriesController::class     .   '@edit');
 
         // Categories Hide
-        $router->get    (               '/hide/{id}'             ,       CategoriesController::class     .   '@hide');
+        $router->get    (               '/hide/{id}'        ,       CategoriesController::class     .   '@hide');
 
         // Categories Show
-        $router->get    (               '/show/{id}'             ,       CategoriesController::class     .   '@show');
+        $router->get    (               '/show/{id}'        ,       CategoriesController::class     .   '@show');
 
         // Categories Delete
-        $router->get    (               '/delete/{id}'           ,       CategoriesController::class     .   '@delete');
+        $router->get    (               '/delete/{id}'      ,       CategoriesController::class     .   '@delete');
 
         // Categories List Hide
         $router->get    (               '/list-hide'        ,       CategoriesController::class     .   '@listHide');

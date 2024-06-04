@@ -4,6 +4,7 @@ namespace Assignment\Php2News\Commons;
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
+use Rakit\Validation\Validator;
 
 class Helper
 {
@@ -25,7 +26,6 @@ class Helper
 
         try {
             //Server settings
-            $mail->SMTPDebug = SMTP::DEBUG_SERVER;
             $mail->IsSMTP();
 
             $mail->Host = 'smtp.gmail.com'; // Set the SMTP server to send through
@@ -71,5 +71,36 @@ class Helper
         }
 
         return md5($code);
+    }
+
+    // Hàm validate: validate các dữ liệu
+    public static function validate($data, $defineValidate = [])
+    {
+        $validator = new Validator();
+
+        $validation = $validator->validate($data, $defineValidate);
+
+        if ($validation->fails()) {
+            // handling errors
+            $errors = $validation->errors();
+
+            return $errors->firstOfAll();
+        } else {
+            // validation passes
+            return [];
+        }
+    }
+
+    // Hàm uploadFile: dùng để upload file và trả về tên của file
+    public static function uploadFile($infoFile, $to = '') {
+        $nameFile = 'uploads/' . $to . time() . $infoFile['name'];
+
+        if(move_uploaded_file($infoFile['tmp_name'], BASE_URL_ABSOLUTE . '/assets/' . $nameFile)) {
+
+            return $nameFile;
+
+        }
+
+        return false;
     }
 }

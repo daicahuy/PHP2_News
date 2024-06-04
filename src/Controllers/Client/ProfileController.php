@@ -1,6 +1,6 @@
 <?php
 
-namespace Assignment\Php2News\Controllers\Admin;
+namespace Assignment\Php2News\Controllers\Client;
 
 use Assignment\Php2News\Commons\Controller;
 use Assignment\Php2News\Commons\Helper;
@@ -8,7 +8,6 @@ use Assignment\Php2News\Models\User;
 
 class ProfileController extends Controller
 {
-    private string $folder = 'pages.profile.';
     private User $user;
 
     public function __construct()
@@ -16,24 +15,16 @@ class ProfileController extends Controller
         $this->user = new User;
     }
 
-    
-    // Profile
-    public function index() {
+
+    public function index()
+    {
         $totalComment = $this->user->getTotalComment($_SESSION['user']['id']);
 
-        $totalPost = $this->user->getTotalPost($_SESSION['user']['id']);
-
-        return $this->renderViewAdmin(
-            $this->folder . __FUNCTION__,
-            [
-                'totalComment'  => $totalComment,
-                'totalPost'     => $totalPost
-            ]
-        );
+        return $this->renderViewClient('pages.profile', ['totalComment' => $totalComment]);
     }
 
-    // Profile Edit
-    public function edit() {
+    public function edit()
+    {
         if (isset($_POST['btn-save'])) {
             $validation = Helper::validate(
                 $_POST + $_FILES,
@@ -73,12 +64,12 @@ class ProfileController extends Controller
                     else {
 
                         $data['updated_at'] = date('Y-m-d H:i:s', time());
-                        
+
                         try {
                             $this->user->update($_SESSION['user']['id'], $data);
 
                             unlink(BASE_URL_ABSOLUTE . '/assets/' . $_SESSION['user']['avatar']);
-                            
+
                             $_SESSION['notify']['success'][] = "Updated";
 
                             $_SESSION['user'] = $this->user->getByID($_SESSION['user']['id']);
@@ -101,7 +92,6 @@ class ProfileController extends Controller
             }
         }
 
-        return $this->renderViewAdmin($this->folder . __FUNCTION__);
+        return $this->renderViewClient('pages.profile-edit');
     }
-
 }
