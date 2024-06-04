@@ -1,23 +1,33 @@
 <?php
 
 namespace Assignment\Php2News\Controllers\Admin;
-
+use Assignment\Php2News\Commons\Helper;
 use Assignment\Php2News\Commons\Controller;
+use Assignment\Php2News\Models\Comment;
 
 class CommentsController extends Controller
 {
     private string $folder = 'pages.comments.';
-
+    private Comment $comment;
+    public function __construct()
+    {
+        $this->comment = new Comment;
+    }
     // Comments List
     public function list()
     {
-        return $this->renderViewAdmin($this->folder . __FUNCTION__);
+       
+        $comments = $this->comment->getCommentsWithUsers();
+        // Helper::debug($comments);
+        return $this->renderViewAdmin($this->folder . __FUNCTION__, ['comments' => $comments]);
     }
 
     // Comments Detail Comment
     public function detailComment()
     {
-        return $this->renderViewAdmin($this->folder . 'detail-comment');
+        $detail = $this->comment->getUsersWithReply();
+        Helper::debug($detail);
+        return $this->renderViewAdmin($this->folder . 'detail-comment', ['detail-comment' => $detail]);
     }
 
     // Comments Delete Comment

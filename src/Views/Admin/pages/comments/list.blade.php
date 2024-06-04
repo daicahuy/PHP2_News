@@ -18,11 +18,7 @@
                         <h2 class="mb-4">
                             <span class="badge badge-default"> Comments </span>
                         </h2>
-                        <div class="alert alert-success mb-4" role="alert">
-                            <strong>Success:</strong>
-                            and try submitting
-                            again.
-                        </div>
+                        @include('components.alert')
                         <div class="d-flex justify-content-between mb-4" style="width: 100%">
                             <div class="d-flex">
                                 @include('components.table.filter')
@@ -44,110 +40,64 @@
                                     </tr>
                                 </thead>
                                 <tbody class="table-group-divider">
-                                    <tr>
-                                        <th>1</th>
-                                        <td>
-                                            huydeptrai2222
-                                        </td>
-                                        <td>
-                                            <img src="/assets/uploads/gir2.jpg" alt="" width="80" height="80"
-                                                style=" object-fit: cover;
+                                    @foreach ($comments as $index => $comment)
+                                        <tr>
+                                            <th>{{ $index + 1 }}</th>
+                                            <td>
+                                                {{ $comment['name']}}
+                                            </td>
+                                            <td>
+                                                <img src="/assets/{{ $comment['avatar'] }}" alt="" width="80"
+                                                    height="80"
+                                                    style=" object-fit: cover;
                                                         border-radius: 4px;
                                                         box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.2);
                                                         ">
-                                        </td>
-                                        <td>
-                                            <p
-                                                style="
+                                            </td>
+                                            <td>
+                                                <p
+                                                    style="
                                                         font-size: 1rem;
                                                         background-color: #eff3f6;
                                                         color: #0a1832;
                                                         padding: 8px 16px;
                                                         text-align: justify;
                                                         border-radius: 8px;">
-                                                Admin Admin Admin Admin Admin Admin Admin Admin \n Admin Admin Admin Admin
-                                                Admin Admin Admin Admin Admin Admin AdminAdmin Admin Admin Admin Admin Admin
-                                                Admin AdminAdmin Admin Admin Admin Admin Admin Admin Admin
-                                            </p>
-                                        </td>
-                                        <td style="text-align: center">
-                                            <a
-                                                href="#!"
-                                                type="submit"
-                                                data-toggle="tooltip"
-                                                data-placement="top"
-                                                title=""
-                                                data-original-title="No Reply"
-                                            >
-                                                <i class="mdi mdi-comment-remove-outline" style="font-size: 34px; color: red"></i>
-                                            </a>
-                                        </td>
-                                        <td>
-                                            <label for="">2024-23-05 09:59:00 PM</label>
-                                        </td>
-                                        <td>
-                                            <a
-                                                href="/admin/comments/delete-comment"
-                                                class="btn btn-danger waves-effect waves-light"
-                                                data-toggle="tooltip" data-placement="top" title=""
-                                                data-original-title="Delete" onclick="return confirm('Delete ??')"
-                                            >
-                                                <i class="mdi mdi-delete"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th>1</th>
-                                        <td>
-                                            huydeptrai2222
-                                        </td>
-                                        <td>
-                                            <img src="/assets/uploads/gir2.jpg" alt="" width="80" height="80"
-                                                style=" object-fit: cover;
-                                                        border-radius: 4px;
-                                                        box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.2);
-                                                        ">
-                                        </td>
-                                        <td>
-                                            <p
-                                                style="
-                                                        font-size: 1rem;
-                                                        background-color: #eff3f6;
-                                                        color: #0a1832;
-                                                        padding: 8px 16px;
-                                                        text-align: justify;
-                                                        border-radius: 8px;">
-                                                Admin Admin Admin Admin Admin Admin Admin Admin \n Admin Admin Admin Admin
-                                                Admin Admin Admin Admin Admin Admin AdminAdmin Admin Admin Admin Admin Admin
-                                                Admin AdminAdmin Admin Admin Admin Admin Admin Admin Admin
-                                            </p>
-                                        </td>
-                                        <td style="text-align: center">
-                                            <a
-                                                href="/admin/comments/detail-comment"
-                                                type="submit"
-                                                data-toggle="tooltip"
-                                                data-placement="top"
-                                                title=""
-                                                data-original-title="Reply: 500"
-                                            >
-                                                <i class="mdi mdi-comment-text-outline" style="font-size: 34px; color: green"></i>
-                                            </a>
-                                        </td>
-                                        <td>
-                                            <label for="">2024-23-05 09:59:00 PM</label>
-                                        </td>
-                                        <td>
-                                            <a
-                                                href="/admin/comments/delete-comment"
-                                                class="btn btn-danger waves-effect waves-light"
-                                                data-toggle="tooltip" data-placement="top" title=""
-                                                data-original-title="Delete" onclick="return confirm('Delete ??')"
-                                            >
-                                                <i class="mdi mdi-delete"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
+                                                    {{ $comment['content'] }}
+                                                </p>
+                                            </td>
+                                            <td style="text-align: center">
+                                                <a href="#!" type="submit" data-toggle="tooltip" data-placement="top"
+                                                    title="" data-original-title="No Reply">
+                                                    <i class="mdi mdi-comment-remove-outline"
+                                                        style="font-size: 34px; color: red"></i>
+                                                </a>
+                                            
+                                                <a
+                                                    href="/admin/comments/detail-comment"
+                                                    type="submit"
+                                                    data-toggle="tooltip"
+                                                    data-placement="top"
+                                                    title=""
+                                                    data-original-title="Reply: 500"
+                                                >
+                                                    <i class="mdi mdi-comment-text-outline" style="font-size: 34px; color: green"></i>
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <label for="">{{$comment['date']}}</label>
+                                            </td>
+                                            <td>
+                                                <a href="/admin/comments/delete-comment/{{ $comment['id'] }}"
+                                                    class="btn btn-danger waves-effect waves-light" data-toggle="tooltip"
+                                                    data-placement="top" title="" data-original-title="Delete"
+                                                    onclick="return confirm('Delete ??')">
+                                                    <i class="mdi mdi-delete"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>

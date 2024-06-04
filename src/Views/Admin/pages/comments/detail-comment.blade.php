@@ -42,11 +42,12 @@
                                         <th style="width: 5%">Action</th>
                                     </tr>
                                 </thead>
+                                @foreach ($detail as $index => $details)
                                 <tbody class="table-group-divider">
                                     <tr>
-                                        <th>1</th>
+                                        <th>{{$index + 1}}</th>
                                         <td>
-                                            huydeptrai2222
+                                           {{-- {{$detail['name']}} --}}
                                         </td>
                                         <td>
                                             <img src="/assets/uploads/gir2.jpg" alt="" width="80" height="80"
@@ -87,6 +88,7 @@
                                         </td>
                                     </tr>
                                 </tbody>
+                                @endforeach
                             </table>
                         </div>
                         <div class="mt-4 d-flex justify-content-between">
