@@ -3,7 +3,10 @@
     "autoload": {
         "psr-4": {
             "Assignment\\Php2News\\": "src/"
-        }
+        },
+        "files":[
+            "helper.php"
+        ]
     },
     "authors": [
         {

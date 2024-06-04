@@ -25,8 +25,7 @@
                             <div class="d-flex">
                                 <div style="margin-right: 32px">
                                     <a href="/admin/posts/" class="btn btn-secondary mo-mb-2" data-toggle="tooltip"
-                                        data-placement="left" title=""
-                                        data-original-title="List Posts">
+                                        data-placement="left" title="" data-original-title="List Posts">
                                         <i class="dripicons-view-list"></i>
                                     </a>
                                 </div>
@@ -35,12 +34,11 @@
                                     <select class="custom-select mr-2">
                                         <option selected="selected">All Category</option>
                                         @foreach ($cate as $item)
-                                            <option value="{{$item['id']}}">{{$item['nameCategory']}}</option>
+                                            <option value="{{ $item['id'] }}">{{ $item['nameCategory'] }}</option>
                                         @endforeach
                                     </select>
                                     <button type="submit" class="btn btn-success mo-mb-2" data-toggle="tooltip"
-                                        data-placement="top" title=""
-                                        data-original-title="Filter">
+                                        data-placement="top" title="" data-original-title="Filter">
                                         <i class="mdi mdi-filter"></i>
                                     </button>
                                 </form>
@@ -63,50 +61,38 @@
                                 </thead>
                                 <tbody class="table-group-divider">
                                     @foreach ($data as $item)
-                                    <tr>
-                                        <th scope="row">{{$item['id']}}</th>
-                                        <td>{{$item['title']}}</td>
-                                        <td>
-                                            <img
-                                                src="/assets/uploads/gir2.jpg"
-                                                alt=""
-                                                width="80"
-                                                height="80"
-                                                style=" object-fit: cover;
+                                        <tr>
+                                            <th scope="row">{{ $item['id'] }}</th>
+                                            <td>{{ $item['title'] }}</td>
+                                            <td>
+                                                <img src="{{ show_upload($item['image']) }}" alt="" width="80"
+                                                    height="80"
+                                                    style=" object-fit: cover;
                                                         border-radius: 4px;
                                                         box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.2);
-                                                        "
-                                            >
-                                        </td>
-                                        <td>{{$item['userName']}}</td>
-                                        <td>{{$item['nameCategory']}}</td>
-                                        <td>
-                                            <span class="badge badge-danger" style="font-size: 1rem;">
-                                                {{$item['typeName']}}
-                                            </span>
-                                        </td>
-                                        <td>
-                                            <a  href="/admin/posts/show/{{$item['id']}}"
-                                                class="btn btn-success waves-effect waves-light"
-                                                data-toggle="tooltip"
-                                                data-placement="top"
-                                                title=""
-                                                data-original-title="Show"
-                                            >
-                                                <i class="mdi mdi-eye"></i>
-                                            </a>
-                                            <a  href='/admin/posts/delete/{{$item['id']}}'
-                                                class='btn btn-danger waves-effect waves-light'
-                                                data-toggle='tooltip'
-                                                data-placement='top'
-                                                title=''
-                                                data-original-title='Delete'
-                                                onclick="return confirm('Delete ??')"
-                                            >
-                                                <i class="mdi mdi-delete"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
+                                                        ">
+                                            </td>
+                                            <td>{{ $item['userName'] }}</td>
+                                            <td>{{ $item['nameCategory'] }}</td>
+                                            <td>
+                                                <span class="badge badge-danger" style="font-size: 1rem;">
+                                                    {{ $item['typeName'] }}
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <a href="/admin/posts/show/{{ $item['id'] }}"
+                                                    class="btn btn-success waves-effect waves-light" data-toggle="tooltip"
+                                                    data-placement="top" title="" data-original-title="Show">
+                                                    <i class="mdi mdi-eye"></i>
+                                                </a>
+                                                <a href='/admin/posts/delete/{{ $item['id'] }}'
+                                                    class='btn btn-danger waves-effect waves-light' data-toggle='tooltip'
+                                                    data-placement='top' title='' data-original-title='Delete'
+                                                    onclick="return confirm('Delete ??')">
+                                                    <i class="mdi mdi-delete"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
                                     @endforeach
                                 </tbody>
                             </table>

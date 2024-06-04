@@ -19,7 +19,7 @@
                         <h2 class="mb-4">
                             <span class="badge badge-default"> Detail Post </span>
                         </h2>
-                        <img src="/assets/uploads/gir2.jpg" alt="" width="80" height="80"
+                        <img src="{{show_upload($data['image'])}}" alt="" width="80" height="80"
                             style=" object-fit: cover;
                                     border-radius: 4px;
                                     box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.2);
@@ -29,27 +29,27 @@
 
                         <form action="" method="POST" enctype="multipart/form-data" class="mt-4">
                             <div class="row">
-                                <div class="col-md-8">
+                                <div class="col-md-6">
                                     <div class="form-group">
-                                        <label class="d-block">Content</label>
+                                        <label class="d-block" style="font-weight: bold; font-size: large">Content</label>
                                         <div class="cart-body">
-                                            <div class="content">
-                                                {{ $data['content'] }}
+                                            <div class="content" >
+                                                {!! $data['content'] !!}
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="d-block">Title</label>
-                                        <input class="form-control" type="text" placeholder="Title Post..."
+                                        <input class="form-control" type="text" placeholder="Title Post..." disabled
                                             name="title" value="{{ $data['title'] }}">
                                     </div>
                                     <div class="row">
-                                        <div class="col-md-6">
+                                        <div class="col-md-4">
                                             <div class="form-group">
                                                 <label class="d-block" for="">Name Category</label>
-                                                <select class="form-control">
+                                                <select class="form-control" disabled>
                                                     @foreach ($cate as $item)
                                                         <option value="{{ $item['idCategory'] }}"
                                                             {{ $data['idCategory'] == $item['id'] ? 'selected' : '' }}>
@@ -58,14 +58,27 @@
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="col-md-6">
+                                        <div class="col-md-4">
                                             <div class="form-group">
                                                 <label class="d-block" for="">Type</label>
-                                                <select class="form-control">
+                                                <select class="form-control" disabled>
                                                     @foreach ($type as $item)
                                                         <option value="{{ $item['id'] }}"
                                                             {{ $data['idType'] == $item['id'] ? 'selected' : '' }}>
                                                             {{ $item['name'] }} </option>
+                                                    @endforeach
+                                                </select>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="d-block" for="">Author</label>
+                                                <select class="form-control" disabled>
+                                                    @foreach ($user as $us)
+                                                        <option value="{{ $us['id'] }}"
+                                                            {{ $data['idAuthor'] == $us['id'] ? 'selected' : '' }}>
+                                                            {{ $us['name'] }} </option>
                                                     @endforeach
                                                 </select>
                                                 </select>

@@ -2,10 +2,7 @@
 
 @section('css')
     <!-- Summernote css -->
-    <link
-    href="/assets/admin/assets/plugins/summernote/summernote-bs4.css"
-    rel="stylesheet"
-    />
+    <link href="/assets/admin/assets/plugins/summernote/summernote-bs4.css" rel="stylesheet" />
 @endsection
 
 @section('content')
@@ -28,59 +25,91 @@
                             <span class="badge badge-default"> Add Post </span>
                         </h2>
                         @include('components.alert')
+                        {{-- @if (!empty($_SESSION['errors']))
+                            <div class="alert alert-warning">
+                                <ul>
+                                    @foreach ($_SESSION['errors'] as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                            @php
+                                unset($_SESSION['errors']);
+                            @endphp
+                        @endif
 
+                        @if (isset($_SESSION['status']) && $_SESSION['status'])
+                            <div class="alert alert-success">{{ $_SESSION['msg'] }}</div>
+
+                            @php
+                                unset($_SESSION['status']);
+                                unset($_SESSION['msg']);
+                            @endphp
+                        @endif --}}
                         <form action="/admin/posts/add" method="POST" enctype="multipart/form-data" class="mt-4">
                             <div class="row">
-                                <div class="col-md-8">
-                                    <div class="form-group">    
+                                <div class="col-md-6">
+                                    <div class="form-group">
                                         <label class="d-block">Content</label>
-                                        <div class="summernote">Content Post</div>
+                                        <div class="summernote">
+
+                                        </div>
+                                        <textarea id="postContent" name="content" style="display:none;"></textarea>
                                     </div>
                                 </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">    
+                                <div class="col-md-6">
+                                    <div class="form-group">
                                         <label class="d-block">Title</label>
                                         <input class="form-control" type="text" placeholder="Title Post..."
-                                            name="title">
+                                            value="{{ $_POST['title'] }}" name="title">
                                     </div>
                                     <div class="form-group">
                                         <label class="d-block">Image</label>
-                                        <input type="file" name="image" accept="image/*">
+                                        <input type="file" name="image" value="{{ $_POST['image'] }}">
+
                                     </div>
                                     <div class="row">
-                                        <div class="col-md-6">
+                                        <div class="col-md-4">
                                             <div class="form-group">
                                                 <label class="d-block" for="">Name Category</label>
-                                                <select class="form-control" name="idCategory" >
+                                                <select class="form-control" name="idCategory" type="nummber">
                                                     @foreach ($cate as $item)
-                                                    <option value="{{$item['idCategory']}}" > {{$item['nameCategory']}} </option>
-                                                     @endforeach
-                                                  </select>
+                                                        <option value="{{ $item['id'] }}"> {{ $item['nameCategory'] }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
                                             </div>
                                         </div>
-                                        <div class="col-md-6">
+                                        <div class="col-md-4">
                                             <div class="form-group">
                                                 <label class="d-block" for="">Type</label>
-                                                <select class="form-control" name="idType">
-                                                   @foreach ($type as $item)
-                                                       <option value="{{$tiem['id']}}">{{$item['name']}}</option>
-                                                   @endforeach
-                                                  </select>
+                                                <select class="form-control" name="idType" type="nummber">
+                                                    @foreach ($type as $item)
+                                                        <option value="{{ $item['id'] }}">{{ $item['name'] }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="d-block" for="">Auther</label>
+                                                <select class="form-control" name="idAuthor" type="nummber">
+                                                    @foreach ($user as $item)
+                                                        <option value="{{ $item['id'] }}">{{ $item['name'] }}</option>
+                                                    @endforeach
+                                                </select>
                                             </div>
                                         </div>
                                     </div>
-                                    
-                                    
-                                    <button
-                                        name="btn-add"
-                                        type="submit"
+
+
+                                    <button name="btn-add" type="submit"
                                         class="btn btn-success waves-effect waves-light float-right mt-8"
                                         style="
                                             position: absolute;
                                             bottom: 0;
                                             right: 0;
-                                        "
-                                    >
+                                        ">
                                         Add
                                     </button>
                                 </div>
@@ -99,13 +128,38 @@
     <script src="/assets/admin/assets/plugins/summernote/summernote-bs4.min.js"></script>
 
     <script>
-    jQuery(document).ready(function () {
-        $(".summernote").summernote({
-        height: 300, // set editor height
-        minHeight: null, // set minimum height of editor
-        maxHeight: null, // set maximum height of editor
-        focus: true, // set focus to editable area after initializing summernote
+        jQuery(document).ready(function() {
+            $(".summernote").summernote({
+                height: 300, // set editor height
+                minHeight: null, // set minimum height of editor
+                maxHeight: null, // set maximum height of editor
+                focus: true, // set focus to editable area after initializing summernote
+            });
+            // subbmit form
+            $('form').on('submit', function(e) {
+                var content = $('.summernote').summernote('code');
+                $('#postContent').val(content);
+            });
         });
-    });
+        window.addEventListener('load', function() {
+            let noteEditable = document.querySelector('.note-editable')
+            // console.log(noteEditable)
+            let extPost = `<?php echo isset($_POST['content']) ? $_POST['content'] : false; ?>`
+            if (extPost) {
+                let content = document.querySelector('#postContent')
+                noteEditable.innerHTML = `${extPost}`;
+                content.innerHTML = `${extPost}`;
+                console.log(extPost)
+
+
+            }
+        })
     </script>
 @endsection
+
+<!-- <script>
+    window.addEventListener('load', function() {
+        let noteEditable = document.querySelector('.note-editable')
+        console.log(noteEditable)
+    })
+</script> -->

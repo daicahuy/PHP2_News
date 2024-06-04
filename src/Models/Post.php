@@ -16,9 +16,9 @@ class Post extends Model
             ->join('p', 'users', 'u', 'p.idAuthor = u.id')
             ->join('p', 'categories', 'c', 'p.idCategory = c.id')
             ->join('p', 'type', 't', 'p.idType = t.id')
-            ->where("p.status = ?")
+            ->where("p.status = ? AND u.status=2")
             ->setParameter(0, $status)
-            ->orderBy("p.id", "ASC")
+            ->orderBy("p.dateChange", "DESC")
             ->fetchAllAssociative();
     }
     // get post by id     
