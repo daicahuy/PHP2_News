@@ -34,7 +34,7 @@
                 <div class="row">
                 <div class="col-md-6 offset-md-3">
                     <div class="profile-header">
-                        <img src="/assets/uploads/gir2.jpg" alt="Avatar" class="profile-avatar">
+                        <img src="/assets/{{ $_SESSION['user']['avatar'] }}" alt="Avatar" class="profile-avatar">
                         <a
                             href="/admin/profile/edit"
                             class="btn btn-warning"
@@ -44,17 +44,29 @@
                             <i class="mdi mdi-lead-pencil"></i>
 
                         </a>
-                        <h2 class="mt-3">Nguyen Huu Huy</h2>
-                        <p class="text-muted">huymmimimi123@gmail.com</p>
+                        <h2 class="mt-3">{{ $_SESSION['user']['name'] }}</h2>
+                        <p class="text-muted">{{ $_SESSION['user']['email'] }}</p>
                     </div>
                     <ul class="list-group">
                         <li class="list-group-item d-flex justify-content-between align-items-center">
                             <span>Tổng số bài đăng</span>
-                            <span class="badge badge-primary">10</span>
+                            <span class="badge badge-primary">{{ $totalPost }}</span>
                         </li>
                         <li class="list-group-item d-flex justify-content-between align-items-center">
                             <span>Tổng số bình luận</span>
-                            <span class="badge badge-primary">10</span>
+                            <span class="badge badge-primary">{{ $totalComment }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <span>Vai trò</span>
+                            <span >{{ $_SESSION['user']['role'] === 1 ? 'Admin' : '' }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <span>Created at</span>
+                            <span>{{ $_SESSION['user']['created_at'] }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <span>Updated at</span>
+                            <span>{{ $_SESSION['user']['updated_at'] }}</span>
                         </li>
                     </ul>
                 </div>

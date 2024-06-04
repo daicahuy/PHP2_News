@@ -7,7 +7,9 @@ use Doctrine\DBAL\DriverManager;
 class Model
 {
 
-    protected $connect;
+    public $connect;
+
+    public $queryBuilder;
 
     protected $queryBuilder;
     // protected string $tableName;
@@ -28,10 +30,12 @@ class Model
             $this->connect = DriverManager::getConnection($connectionParams);
 
             $this->queryBuilder = $this->connect->createQueryBuilder();
+            
         } catch (\PDOException $e) {
             Helper::debug($e);
         }
     }
+
 
     public function __destruct()
     {

@@ -66,6 +66,67 @@ class User extends Model
             ->fetchAssociative();
     }
 
+    // Hàm getByEmail: Lấy theo Email
+    public function getByEmail($email, $columnsName = ['*'])
+    {
+        return $this->queryBuilder
+        ->select(...$columnsName)
+        ->from($this->tableName)
+        ->where('email = ?')
+        ->setParameter(0, $email)
+        ->fetchAssociative();
+    }
+
+    // Hàm getTotalComment: lấy tất cả comment của 1 người dùng
+    public function getTotalComment($id)
+    {
+        $queryBuilder1 = clone($this->queryBuilder);
+        $queryBuilder2 = clone($this->queryBuilder);
+
+        $totalComment = $queryBuilder1
+        ->select('COUNT(A.id) AS totalComment')
+        ->from($this->tableName, 'A')
+        ->innerJoin('A', 'comments', 'B', 'A.id = B.idUser')
+        ->where('A.id = ?')
+        ->setParameter(0, $id)
+        ->fetchOne();
+
+        $totalReplyComment = $queryBuilder2
+        ->select('COUNT(A.id) AS totalReplyComment')
+        ->from($this->tableName, 'A')
+        ->innerJoin('A', 'replycomment', 'C', 'A.id = C.idUser')
+        ->where('A.id = ?')
+        ->setParameter(0, $id)
+        ->fetchOne();
+
+        return $totalComment + $totalReplyComment;
+    }
+
+    // Hàm getTotalPost: lấy tất cả post của 1 người dùng
+    public function getTotalPost($id)
+    {
+
+        return $this->queryBuilder
+        ->select('COUNT(A.id) AS totalPost')
+        ->from($this->tableName, 'A')
+        ->innerJoin('A', 'posts', 'B', 'A.id = B.idAuthor')
+        ->where('A.id = ?')
+        ->setParameter(0, $id)
+        ->fetchOne();
+
+    }
+
+    // Hàm insert: Insert
+    public function insert($data = [])
+    {
+        $this->connect->insert(
+            $this->tableName,
+            $data
+        );
+
+        return $this->connect->lastInsertId();
+    }
+
     // Hàm update: Update
     public function update($id, $data = [])
     {
