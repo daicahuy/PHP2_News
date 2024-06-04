@@ -8,15 +8,6 @@ use Rakit\Validation\Validator;
 
 class Helper
 {
-    // Hàm debug: hiển thị ra dữ liệu và die luôn
-    public static function debug($data)
-    {
-        echo "<pre>";
-
-        print_r($data);
-
-        die;
-    }
 
     // Hàm sendEmail: gửi mail
     public static function sendEmail($to, $title, $contents)
@@ -30,8 +21,8 @@ class Helper
 
             $mail->Host = 'smtp.gmail.com'; // Set the SMTP server to send through
             $mail->SMTPAuth = true; // Enable SMTP authentication
-            $mail->Username = 'huymamicoi@gmail.com'; // SMTP username
-            $mail->Password = 'dnhf xhpa niox wmod'; // SMTP password
+            $mail->Username = $_ENV['SMTP_USERNAME']; // SMTP username
+            $mail->Password = $_ENV['SMTP_PASSWORD']; // SMTP password
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS; //Enable implicit TLS encryption
             $mail->Port = 587; // TCP port to connect to
 

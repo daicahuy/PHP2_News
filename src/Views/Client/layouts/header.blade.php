@@ -112,7 +112,14 @@
                                 <li class="nav-item dropdown active">
                                     <a href="/" class="nav-link" >Home</a>
                                 </li>
-                                <li><a href="/detail-category">Football</a></li>
+                                @php
+                                    $categories = (new Assignment\Php2News\Models\Categories)->getByStatus(1);
+                                @endphp
+                                @foreach ($categories as $category)
+                                    <li>
+                                        <a href="/detail-category/{{ $category['id'] }}">{{ $category['nameCategory'] }}</a>
+                                    </li>
+                                @endforeach
                             </ul>
                         </div>
                     </div>

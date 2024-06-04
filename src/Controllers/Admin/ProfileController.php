@@ -76,8 +76,6 @@ class ProfileController extends Controller
                         
                         try {
                             $this->user->update($_SESSION['user']['id'], $data);
-
-                            unlink(BASE_URL_ABSOLUTE . '/assets/' . $_SESSION['user']['avatar']);
                             
                             $_SESSION['notify']['success'][] = "Updated";
 
