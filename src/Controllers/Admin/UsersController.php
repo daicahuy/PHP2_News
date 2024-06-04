@@ -27,11 +27,18 @@ class UsersController extends Controller
             ['id', 'email', 'role', 'avatar', 'status']
         );
 
+        $usersExceptMe = array_filter(
+            $users,
+            fn($user) => $user['id'] !== $_SESSION['user']['id']
+        );
+
+        // Helper::debug($users);
+        // Helper::debug($usersExceptMe);
         return $this->renderViewAdmin (
 
             $this->folder . __FUNCTION__,
             [
-                'users' => $users
+                'users' => $usersExceptMe
             ]
 
         );
@@ -55,7 +62,7 @@ class UsersController extends Controller
                     Dear {$user['name']},
                     <br> <br>
                     Please click here to restore your password.
-                    <h4><a href='{$_ENV['BASE_URL']}auth/confirm-token?email={$user['email']}&token=$token'>Restore password</a></h4>
+                    <h4><a href='{$_ENV['BASE_URL']}auth/confirm-token?email={$user['email']}&act=restore-account&token=$token'>Restore password</a></h4>
         ";
 
         // Nếu gửi mail thành công thì sẽ update token và tạo thông báo thành công
