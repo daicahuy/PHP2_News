@@ -48,7 +48,7 @@
                                 <tbody class="table-group-divider">
                                     @foreach ($users as $index => $user)
                                         <tr>
-                                            <th>{{ $index + 1 }}</th>
+                                            <th>{{ $loop->index + 1 }}</th>
                                             <td>{{ $user['email'] }}</td>
                                             <td>
                                                 <img

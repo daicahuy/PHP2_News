@@ -4,7 +4,7 @@
          <div class="container">
              <div class="row">
                  <div class="col-lg-4 col-sm-12 col-xs-12 footer-widget contact-widget">
-                     <h3 class="widget-title">Giớ thiệu</h3>
+                     <h3 class="widget-title">About</h3>
                      <ul>
                          <li>
                              Lorem Ipsum is simply dummy text of the printing and
@@ -46,7 +46,7 @@
                  </div>
 
                  <div class="col-lg-4 col-sm-12 col-xs-12 footer-widget widget-categories">
-                     <h3 class="widget-title">Danh mục phổ biến</h3>
+                     <h3 class="widget-title">POPULAR CATEGORIES</h3>
                      <ul>
                          <li>
                              <i class="fa fa-angle-double-right"></i><a href="#"><span
@@ -83,7 +83,7 @@
                  </div>
 
                  <div class="col-lg-4 col-sm-12 col-xs-12 footer-widget">
-                     <h3 class="widget-title">Bài đăng phổ biến</h3>
+                     <h3 class="widget-title">POPULAR NEWS</h3>
                      <div class="utf_list_post_block">
                          <ul class="utf_list_post">
                              <li class="clearfix">

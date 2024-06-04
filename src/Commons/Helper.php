@@ -93,11 +93,11 @@ class Helper
 
     // Hàm uploadFile: dùng để upload file và trả về tên của file
     public static function uploadFile($infoFile, $to = '') {
-        $nameFile = 'uploads\\' . $to . time() . $infoFile['name'];
+        $nameFile = 'uploads/' . $to . time() . $infoFile['name'];
 
-        if(move_uploaded_file($infoFile['tmp_name'], $_ENV['PATH_ABSOLUTE'] . 'assets\\' . $nameFile)) {
+        if(move_uploaded_file($infoFile['tmp_name'], BASE_URL_ABSOLUTE . '/assets/' . $nameFile)) {
 
-            return str_replace('\\', '/', $nameFile);
+            return $nameFile;
 
         }
 

@@ -6,20 +6,26 @@
             <div class="row">
                 <div class="col-lg-12 col-md-12 mrb-40">
                     <div class="text-center">
-                        <h3>Nhập email của bạn để lấy lại mật khẩu</h3>
-
+                        <h3 class="mb-4">Enter your email to password restore</h3>
+                        @include('components.alert')
                         <div class="d-flex no-block justify-content-center align-items-center">
-                            <form action="" method="POST">
-                                <div class="row">
-                                    <div class="">
-                                        <div class="form-group">
-                                            <input class="form-control " placeholder="Email*" type="email" required
-                                                style="width: 450px">
+                            <form action="/auth/forgot-password" method="POST">
+                                <div class="row mb-1">
+                                    <div class="form-group mb-2">
+                                        <input
+                                            class="form-control"
+                                            placeholder="Your email..."
+                                            type="email"
+                                            name="email"
+                                            style="width: 350px"
+                                            value="{{ $_POST['email'] }}"
+                                        >
+                                        <div class="text-left">
+                                            @include('components.error', ['name' => 'email'])
                                         </div>
                                     </div>
-
                                 </div>
-                                <button class="btn btn-primary" type="submit">Lấy lại mật khẩu</button>
+                                <button class="btn btn-primary" type="submit" name="btn-continue">Continue</button>
                             </form>
                         </div>
                     </div>

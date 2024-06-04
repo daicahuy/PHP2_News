@@ -16,6 +16,7 @@
                         <div class="text-center mb-4">
                             <h2>Sign Up</h2>
                         </div>
+                        @include('components.alert')
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group mb-2">

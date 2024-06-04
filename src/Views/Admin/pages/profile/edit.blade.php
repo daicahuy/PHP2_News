@@ -56,29 +56,37 @@
             </div>
             <div class="col-md-12">
                 <div class="container">
-                    <div class="row">
-                        <div class="col-md-6 offset-md-3">
-                            <div class="profile-header">
-                                <div class="position-relative d-inline-block profile-avatar">
-                                    <img src="/assets/uploads/gir2.jpg" alt="Avatar" class="avatar">
-                                    <div class="upload-icon">
-                                        <input type="file"
-                                            style="opacity:0; position:absolute; top:0; left:0; bottom:0; right:0; cursor:pointer;">
-                                        <i class="mdi mdi-camera" style="font-size: 2rem;"></i>
+                    <form action="/admin/profile/edit" method="post" enctype="multipart/form-data">
+                        <div class="row">
+                            <div class="col-md-6 offset-md-3">
+                                <div class="profile-header">
+                                    <div class="position-relative d-inline-block profile-avatar">
+                                        <img src="/assets/{{ $_SESSION['user']['avatar'] }}" alt="Avatar" class="avatar">
+                                        <div class="upload-icon">
+                                            <input
+                                                type="file"
+                                                style="opacity:0; position:absolute; top:0; left:0; bottom:0; right:0; cursor:pointer;"
+                                                name="avatar"
+                                            >
+                                            <i class="mdi mdi-camera" style="font-size: 2rem;"></i>
+                                        </div>
                                     </div>
+                                    <h4 class="mt-3">{{ $_SESSION['user']['email'] }}</h4>
+                                    @include('components.alert')
                                 </div>
-                                <h2 class="mt-3">Edit Profile</h2>
+                                    <div class="form-group">
+                                        <label for="username">Username</label>
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                            name="name"
+                                            value="{{ $_SESSION['user']['name'] }}"
+                                        >
+                                    </div>
+                                    <button type="submit" class="btn btn-success float-right" name="btn-save">Save Changes</button>
                             </div>
-                            <form action="save-profile.php" method="post">
-                                <div class="form-group">
-                                    <label for="username">Username</label>
-                                    <input type="text" class="form-control" id="username" name="username"
-                                        value="Nguyen Huu Huy">
-                                </div>
-                                <button type="submit" class="btn btn-success float-right">Save Changes</button>
-                            </form>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>
 
