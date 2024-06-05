@@ -5,7 +5,7 @@ namespace Assignment\Php2News\Controllers\Admin;
 use Assignment\Php2News\Commons\Controller;
 use Assignment\Php2News\Commons\Helper;
 use Assignment\Php2News\Models\Category;
-use Assignment\Php2News\Models\Post;
+use Assignment\Php2News\Models\Posts;
 use Assignment\Php2News\Models\Type;
 use Assignment\Php2News\Models\User;
 use Rakit\Validation\Validator;
@@ -13,10 +13,10 @@ use Rakit\Validation\Validator;
 class PostsController extends Controller
 {
     private string $folder = 'pages.posts.';
-    private Post $post;
+    private Posts $post;
     public function __construct()
     {
-        $this->post = new Post();
+        $this->post = new Posts();
     }
     // Posts List
     public function list($status = 1)

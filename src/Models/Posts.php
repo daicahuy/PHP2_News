@@ -15,69 +15,128 @@ class Posts extends Model
     // Mặc định là top 1, kiểu 1 (Normal)
     public function getTopByType($top = 1, $type = 1)
     {
-        $queryBulder = clone($this->queryBuilder);
+        $queryBulder = clone ($this->queryBuilder);
 
         return $queryBulder
-        ->select('A.id, A.title, A.image, A.date, B.id as idCategory, B.nameCategory, C.name as nameAuthor')
-        ->from($this->tableName, 'A')
-        ->innerJoin('A', 'categories', 'B', 'A.idCategory = B.id')
-        ->innerJoin('A', 'users', 'C', 'A.idAuthor = C.id')
-        ->innerJoin('A', 'type', 'D', 'A.idType = D.id')
-        ->where(
-            $queryBulder->expr()->and(
-                'D.id = ?',
-                'A.status = 1'
+            ->select('A.id, A.title, A.image, A.date, B.id as idCategory, B.nameCategory, C.name as nameAuthor')
+            ->from($this->tableName, 'A')
+            ->innerJoin('A', 'categories', 'B', 'A.idCategory = B.id')
+            ->innerJoin('A', 'users', 'C', 'A.idAuthor = C.id')
+            ->innerJoin('A', 'type', 'D', 'A.idType = D.id')
+            ->where(
+                $queryBulder->expr()->and(
+                    'D.id = ?',
+                    'A.status = 1'
+                )
             )
-        )
-        ->setParameter(0, $type)
-        ->orderBy('A.date', 'DESC')
-        ->setMaxResults($top)
-        ->fetchAllAssociative();
-
+            ->setParameter(0, $type)
+            ->orderBy('A.date', 'DESC')
+            ->setMaxResults($top)
+            ->fetchAllAssociative();
     }
 
     // Lấy tất cả tin tức theo ngày hiện tại
     public function getAllCurrentDate()
     {
-        $queryBulder = clone($this->queryBuilder);
+        $queryBulder = clone ($this->queryBuilder);
 
         $currentDate = date("Y-m-d") . '%';
 
         return $queryBulder
-        ->select('A.id, A.title, A.image, A.date, B.nameCategory, C.name as nameAuthor')
-        ->from($this->tableName, 'A')
-        ->innerJoin('A', 'categories', 'B', 'A.idCategory = B.id')
-        ->innerJoin('A', 'users', 'C', 'A.idAuthor = C.id')
-        ->where(
-            $queryBulder->expr()->and(
-                $queryBulder->expr()->like('A.date', '?'),
-                'A.status = 1'
+            ->select('A.id, A.title, A.image, A.date, B.nameCategory, C.name as nameAuthor')
+            ->from($this->tableName, 'A')
+            ->innerJoin('A', 'categories', 'B', 'A.idCategory = B.id')
+            ->innerJoin('A', 'users', 'C', 'A.idAuthor = C.id')
+            ->where(
+                $queryBulder->expr()->and(
+                    $queryBulder->expr()->like('A.date', '?'),
+                    'A.status = 1'
+                )
             )
-        )
-        ->setParameter(0, $currentDate)
-        ->orderBy('A.date', 'DESC')
-        ->fetchAllAssociative();
+            ->setParameter(0, $currentDate)
+            ->orderBy('A.date', 'DESC')
+            ->fetchAllAssociative();
     }
 
     // Lấy top 9 tin tức nhiều view nhất trong 3 ngày gần nhất
     public function getTop9NewPopuler()
     {
-        $queryBulder = clone($this->queryBuilder);
+        $queryBulder = clone ($this->queryBuilder);
 
         return $queryBulder
-        ->select('A.id, A.title, A.image, A.date, A.views, B.id as idCategory, B.nameCategory, C.name as nameAuthor')
-        ->from($this->tableName, 'A')
-        ->innerJoin('A', 'categories', 'B', 'A.idCategory = B.id')
-        ->innerJoin('A', 'users', 'C', 'A.idAuthor = C.id')
-        ->where(
-            $queryBulder->expr()->and(
-                'A.date >= DATE_ADD(CURDATE(), INTERVAL - 3 DAY)',
-                'A.status = 1'
+            ->select('A.id, A.title, A.image, A.date, A.views, B.id as idCategory, B.nameCategory, C.name as nameAuthor')
+            ->from($this->tableName, 'A')
+            ->innerJoin('A', 'categories', 'B', 'A.idCategory = B.id')
+            ->innerJoin('A', 'users', 'C', 'A.idAuthor = C.id')
+            ->where(
+                $queryBulder->expr()->and(
+                    'A.date >= DATE_ADD(CURDATE(), INTERVAL - 3 DAY)',
+                    'A.status = 1'
+                )
             )
-        )
-        ->orderBy('A.views', 'DESC')
-        ->setMaxResults(9)
-        ->fetchAllAssociative(); 
+            ->orderBy('A.views', 'DESC')
+            ->setMaxResults(9)
+            ->fetchAllAssociative();
     }
-
+//Mạnh
+    // get all
+    public function getAll(int $status, string ...$colums)
+    {
+        return $this->queryBuilder
+            ->select(...$colums)
+            ->from($this->tableName, 'p')
+            ->join('p', 'users', 'u', 'p.idAuthor = u.id')
+            ->join('p', 'categories', 'c', 'p.idCategory = c.id')
+            ->join('p', 'type', 't', 'p.idType = t.id')
+            ->where("p.status = ? AND u.status=2")
+            ->setParameter(0, $status)
+            ->orderBy("p.dateChange", "DESC")
+            ->fetchAllAssociative();
+    }
+    // get post by id     
+    public function getById(int $id, string ...$colums)
+    {
+        return $this->queryBuilder
+            ->select(...$colums)
+            ->from($this->tableName, 'p')
+            ->join('p', 'users', 'u', 'p.idAuthor = u.id')
+            ->join('p', 'categories', 'c', 'p.idCategory = c.id')
+            ->join('p', 'type', 't', 'p.idType = t.id')
+            ->where("p.status = 1 AND p.id=$id")
+            ->fetchAssociative();
+    }
+    //hidden post
+    public function update(int $id, $data = [])
+    {
+        return $this->connect->update($this->tableName, $data, ['id' => $id]);
+    }
+    // show post
+    // public function showPost(int $id, $data = [])
+    // {
+    //     return $this->connect->update($this->tableName, $data, ['id' => $id]);
+    // }
+    // get all list hidden 
+    public function getAllHeide(string ...$colums)
+    {
+        return $this->queryBuilder
+            ->select(...$colums)
+            ->from($this->tableName, 'p')
+            ->join('p', 'users', 'u', 'p.idAuthor = u.id')
+            ->join('p', 'categories', 'c', 'p.idCategory = c.id')
+            ->join('p', 'type', 't', 'p.idType = t.id')
+            ->where("p.status = ?")
+            ->setParameter(0, 0)
+            ->orderBy("p.date", "ASC")
+            ->fetchAllAssociative();
+    }
+    // delete post
+    public function deletePost(int $id)
+    {
+        return $this->connect->delete($this->tableName, ["id" => $id]);
+    }
+    // add 
+    public function addPost($data = [])
+    {
+        return $this->connect->insert($this->tableName, $data);
+    }
 }

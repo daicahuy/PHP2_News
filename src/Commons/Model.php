@@ -11,7 +11,7 @@ class Model
 
     public $queryBuilder;
 
-    protected $queryBuilder;
+    // protected $queryBuilder;
     // protected string $tableName;
 
     public function __construct()
