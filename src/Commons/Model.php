@@ -24,7 +24,7 @@ class Model
                 'password'  =>  $_ENV['DB_PASSWORD'],
                 'dbname'    =>  $_ENV['DB_DATABASE'],
                 'charset'   =>  $_ENV['DB_CHARSET'],
-                'driver'    =>  $_ENV['DB_DRIVER']
+                'driver'    =>  'pdo_mysql'
             ];
 
             $this->connect = DriverManager::getConnection($connectionParams);
