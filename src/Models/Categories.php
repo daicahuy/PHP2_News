@@ -15,18 +15,6 @@ class Categories extends Model
             ->from($this->tableName)
             ->fetchAllAssociative();
     }
-
-
-
-    public function getCategoriesById($categoriesId)
-    {
-        return $this->queryBuilder
-            ->select('*')
-            ->from($this->tableName)
-            ->where('id = :id')
-            ->setParameter('id', $categoriesId)
-            ->fetchAllAssociative();
-    }
     
     // Lấy ra tất cả tổng các bài post trong 1 category
     public function getTotalPostInCategory()
@@ -39,6 +27,16 @@ class Categories extends Model
         )
         ->from($this->tableName, 'B')
         ->fetchAllAssociative();
+    }
+
+    public function getByID($id, $columnsName = ['*'])
+    {
+        return $this->queryBuilder
+            ->select(...$columnsName)
+            ->from($this->tableName)
+            ->where('id = ?')
+            ->setParameter(0, $id)
+            ->fetchAssociative();
     }
 
     public function getByStatus($status)
@@ -54,6 +52,7 @@ class Categories extends Model
             ->setParameter(0, $status)
             ->fetchAllAssociative();
     }
+
     public function add($name)
     {
         return $this->queryBuilder
@@ -63,6 +62,7 @@ class Categories extends Model
             ->setParameter(0, $name)
             ->executeQuery();
     }
+
     public function updateStatus($id, $data = [])
     {
         return $this->connect->update(
@@ -71,6 +71,7 @@ class Categories extends Model
             ['id' => $id]
         );
     }
+
     public function updateName($id, $data = [])
     {
         return $this->connect->update(
@@ -79,6 +80,7 @@ class Categories extends Model
             ['id' => $id]
         );
     }
+
     public function delete($categoriesId)
     {
         return $this->queryBuilder
@@ -86,14 +88,5 @@ class Categories extends Model
             ->where('id = ?')
             ->setParameter(0, $categoriesId)
             ->executeQuery();
-    }
-    public function getByID($id, $columnsName = ['*'])
-    {
-        return $this->queryBuilder
-            ->select(...$columnsName)
-            ->from($this->tableName)
-            ->where('id = ?')
-            ->setParameter(0, $id)
-            ->fetchAssociative();
     }
 }

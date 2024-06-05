@@ -11,6 +11,9 @@ class Model
 
     public $queryBuilder;
 
+    // protected $queryBuilder;
+    // protected string $tableName;
+
     public function __construct()
     {
         try {
@@ -28,16 +31,11 @@ class Model
 
             $this->queryBuilder = $this->connect->createQueryBuilder();
         } catch (\PDOException $e) {
-            Helper::debug($e);
+            debug($e);
         }
     }
-    public function getAll()
-    {
-        return $this->queryBuilder
-            ->select('*')
-            ->from($this->tableName)
-            ->fetchAllAssociative();
-    }
+
+
     public function __destruct()
     {
         $this->connect = null;

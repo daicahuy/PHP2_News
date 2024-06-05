@@ -109,14 +109,15 @@
                         <div id="navbarSupportedContent" class="collapse navbar-collapse navbar-responsive-collapse">
                             <!-- menu -->
                             <ul class="nav navbar-nav">
-                                <li class="nav-item dropdown active">
+                                <li class="nav-item">
                                     <a href="/" class="nav-link" >Home</a>
                                 </li>
+                                {{-- active --}}
                                 @php
                                     $categories = (new Assignment\Php2News\Models\Categories)->getByStatus(1);
                                 @endphp
                                 @foreach ($categories as $category)
-                                    <li>
+                                    <li class="nav-item">
                                         <a href="/detail-category/{{ $category['id'] }}">{{ $category['nameCategory'] }}</a>
                                     </li>
                                 @endforeach

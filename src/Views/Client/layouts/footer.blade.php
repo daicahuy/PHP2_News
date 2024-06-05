@@ -73,7 +73,7 @@
                                 <li class="clearfix">
                                     <div class="utf_post_block_style post-float clearfix">
                                         <div class="utf_post_thumb">
-                                            <a href="#">
+                                            <a href="#!">
                                                 <img
                                                     class="img-fluid"
                                                     src="/assets/{{ $item['image'] }}"
@@ -83,7 +83,7 @@
                                         </div>
                                         <div class="utf_post_content">
                                             <h2 class="utf_post_title title-small">
-                                                <a href="#">{{ $item['title'] }}</a>
+                                                <a href="/detail-post/{{ $item['id'] }}">{{ $item['title'] }}</a>
                                             </h2>
                                             <div class="utf_post_meta">
                                                 <span class="utf_post_date">
