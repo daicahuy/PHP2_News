@@ -25,7 +25,7 @@ class HomeController extends Controller
 
         $newsOfTheDay = array_chunk($this->posts->getAllCurrentDate(), 5);
 
-        $top9NewPopular = $this->posts->getTop9NewPopuler();
+        $top9NewPopular = $this->posts->getTopNewPopuler(9);
         
         return $this->renderViewClient(
             'home',

@@ -7,40 +7,39 @@
                      <h3 class="widget-title">About</h3>
                      <ul>
                          <li>
-                             Lorem Ipsum is simply dummy text of the printing and
-                             typesetting industry. Lorem Ipsum has been the industry's
-                             standard dummy text since has five...
+                            Vietnamese newspaper has the most views
+                            Belongs to the Ministry of Science and Technology
+                            License number: 999/GP-BTTTT dated June 02, 2024
                          </li>
                          <li>
-                             <i class="fa fa-home"></i> 15 Cliff St, New York NY 10038,
-                             USA
+                             <i class="fa fa-home"></i> 15 Nguyen Si Sach, Tan Binh, Ho Chi Minh
                          </li>
                          <li>
-                             <i class="fa fa-phone"></i> <a href="#">+91 234 567 8765</a>
+                             <i class="fa fa-phone"></i> <a href="!#">+84 999 868 686</a>
                          </li>
                          <li>
                              <i class="fa fa-envelope-o"></i>
-                             <a href="#">mail@example.com</a>
+                             <a href="!#">php2news@gmail.com</a>
                          </li>
                      </ul>
                      <ul class="unstyled utf_footer_social">
                          <li>
-                             <a title="Facebook" href="#"><i class="fa fa-facebook"></i></a>
+                             <a title="Facebook" href="!#"><i class="fa fa-facebook"></i></a>
                          </li>
                          <li>
-                             <a title="Twitter" href="#"><i class="fa fa-twitter"></i></a>
+                             <a title="Twitter" href="!#"><i class="fa fa-twitter"></i></a>
                          </li>
                          <li>
-                             <a title="Google+" href="#"><i class="fa fa-google-plus"></i></a>
+                             <a title="Google+" href="!#"><i class="fa fa-google-plus"></i></a>
                          </li>
                          <li>
-                             <a title="Linkdin" href="#"><i class="fa fa-linkedin"></i></a>
+                             <a title="Linkdin" href="!#"><i class="fa fa-linkedin"></i></a>
                          </li>
                          <li>
-                             <a title="Skype" href="#"><i class="fa fa-skype"></i></a>
+                             <a title="Skype" href="!#"><i class="fa fa-skype"></i></a>
                          </li>
                          <li>
-                             <a title="Skype" href="#"><i class="fa fa-instagram"></i></a>
+                             <a title="Skype" href="!#"><i class="fa fa-instagram"></i></a>
                          </li>
                      </ul>
                  </div>
@@ -48,37 +47,18 @@
                  <div class="col-lg-4 col-sm-12 col-xs-12 footer-widget widget-categories">
                      <h3 class="widget-title">POPULAR CATEGORIES</h3>
                      <ul>
-                         <li>
-                             <i class="fa fa-angle-double-right"></i><a href="#"><span
-                                     class="catTitle">Make-Up</span><span class="catCounter"> (05)</span></a>
-                         </li>
-                         <li>
-                             <i class="fa fa-angle-double-right"></i><a href="#"><span class="catTitle">Sức
-                                     khỏe</span><span class="catCounter">
-                                     (06)</span></a>
-                         </li>
-                         <li>
-                             <i class="fa fa-angle-double-right"></i><a href="#"><span
-                                     class="catTitle">Audio</span><span class="catCounter"> (15)</span></a>
-                         </li>
-                         <li>
-                             <i class="fa fa-angle-double-right"></i><a href="#"><span class="catTitle">Du
-                                     lịch</span><span class="catCounter"> (25)</span></a>
-                         </li>
-                         <li>
-                             <i class="fa fa-angle-double-right"></i><a href="#"><span class="catTitle">Sức
-                                     khỏe</span><span class="catCounter">
-                                     (05)</span></a>
-                         </li>
-                         <li>
-                             <i class="fa fa-angle-double-right"></i><a href="#"><span class="catTitle">Thiết bị
-                                     điển tử</span><span class="catCounter">
-                                     (12)</span></a>
-                         </li>
-                         <li>
-                             <i class="fa fa-angle-double-right"></i><a href="#"><span
-                                     class="catTitle">Food</span><span class="catCounter"> (14)</span></a>
-                         </li>
+                        @php
+                            $totalPostInCategories = (new Assignment\Php2News\Models\Categories)->getTotalPostInCategory();
+                        @endphp
+                        @foreach ($totalPostInCategories as $category)
+                            <li>
+                                <i class="fa fa-angle-double-right"></i>
+                                <a href="/detail-category/{{ $category['id'] }}">
+                                    <span class="catTitle">{{ $category['nameCategory'] }}</span>
+                                    <span class="catCounter"> ({{ $category['totalPost'] }})</span>
+                                </a>
+                            </li>
+                        @endforeach
                      </ul>
                  </div>
 
@@ -86,74 +66,35 @@
                      <h3 class="widget-title">POPULAR NEWS</h3>
                      <div class="utf_list_post_block">
                          <ul class="utf_list_post">
-                             <li class="clearfix">
-                                 <div class="utf_post_block_style post-float clearfix">
-                                     <div class="utf_post_thumb">
-                                         <a href="#">
-                                             <img class="img-fluid"
-                                                 src="/assets/client/assets/images/news/lifestyle/health2.jpg"
-                                                 alt="" />
-                                         </a>
-                                     </div>
-                                     <div class="utf_post_content">
-                                         <h2 class="utf_post_title title-small">
-                                             <a href="#">Santino loganne legan an year old
-                                                 resident...</a>
-                                         </h2>
-                                         <div class="utf_post_meta">
-                                             <span class="utf_post_date"><i class="fa fa-clock-o"></i> Ngày
-                                                 18, tháng 5,
-                                                 năm 2024</span>
-                                         </div>
-                                     </div>
-                                 </div>
-                             </li>
-
-                             <li class="clearfix">
-                                 <div class="utf_post_block_style post-float clearfix">
-                                     <div class="utf_post_thumb">
-                                         <a href="#">
-                                             <img class="img-fluid"
-                                                 src="/assets/client/assets/images/news/lifestyle/health3.jpg"
-                                                 alt="" />
-                                         </a>
-                                     </div>
-                                     <div class="utf_post_content">
-                                         <h2 class="utf_post_title title-small">
-                                             <a href="#">Santino loganne legan an year old
-                                                 resident...</a>
-                                         </h2>
-                                         <div class="utf_post_meta">
-                                             <span class="utf_post_date"><i class="fa fa-clock-o"></i> Ngày
-                                                 18, tháng 5,
-                                                 năm 2024</span>
-                                         </div>
-                                     </div>
-                                 </div>
-                             </li>
-
-                             <li class="clearfix">
-                                 <div class="utf_post_block_style post-float clearfix">
-                                     <div class="utf_post_thumb">
-                                         <a href="#">
-                                             <img class="img-fluid"
-                                                 src="/assets/client/assets/images/news/lifestyle/health4.jpg"
-                                                 alt="" />
-                                         </a>
-                                     </div>
-                                     <div class="utf_post_content">
-                                         <h2 class="utf_post_title title-small">
-                                             <a href="#">Santino loganne legan an year old
-                                                 resident...</a>
-                                         </h2>
-                                         <div class="utf_post_meta">
-                                             <span class="utf_post_date"><i class="fa fa-clock-o"></i> Ngày
-                                                 18, tháng 5,
-                                                 năm 2024</span>
-                                         </div>
-                                     </div>
-                                 </div>
-                             </li>
+                            @php
+                                $top3PostViewHighest = (new Assignment\Php2News\Models\Posts)->getTopNewPopuler();
+                            @endphp
+                            @foreach ($top3PostViewHighest as $item)
+                                <li class="clearfix">
+                                    <div class="utf_post_block_style post-float clearfix">
+                                        <div class="utf_post_thumb">
+                                            <a href="#">
+                                                <img
+                                                    class="img-fluid"
+                                                    src="/assets/{{ $item['image'] }}"
+                                                    alt="image new"
+                                                />
+                                            </a>
+                                        </div>
+                                        <div class="utf_post_content">
+                                            <h2 class="utf_post_title title-small">
+                                                <a href="#">{{ $item['title'] }}</a>
+                                            </h2>
+                                            <div class="utf_post_meta">
+                                                <span class="utf_post_date">
+                                                    <i class="fa fa-clock-o"></i>
+                                                    {{ $item['date'] }}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            @endforeach
                          </ul>
                      </div>
                  </div>
