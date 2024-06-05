@@ -45,7 +45,7 @@ class Posts extends Model
         $currentDate = date("Y-m-d") . '%';
 
         return $queryBulder
-        ->select('A.id, A.title, A.image, A.date, B.nameCategory, C.name as nameAuthor')
+        ->select('A.id, A.title, A.description, A.image, A.date, B.nameCategory, C.name as nameAuthor')
         ->from($this->tableName, 'A')
         ->innerJoin('A', 'categories', 'B', 'A.idCategory = B.id')
         ->innerJoin('A', 'users', 'C', 'A.idAuthor = C.id')
@@ -61,7 +61,7 @@ class Posts extends Model
         ->fetchAllAssociative();
     }
 
-    // Lấy top ... tin tức nhiều view nhất trong 3 ngày gần nhất
+    // Lấy top ... tin tức nhiều view nhất trong ... ngày gần nhất
     public function getTopNewPopuler($top = 3)
     {
         $queryBulder = clone($this->queryBuilder);
@@ -81,6 +81,66 @@ class Posts extends Model
         ->orderBy('A.views', 'DESC')
         ->setMaxResults($top)
         ->fetchAllAssociative(); 
+    }
+
+    // Lấy tất cả tin tức theo ID DANH MỤC
+    public function getAllByIDCategory($id)
+    {
+        $queryBulder = clone($this->queryBuilder);
+        
+        return $queryBulder
+        ->select(
+            'A.id', 'A.title', 'A.description', 'A.image', 'A.date',
+            'B.id AS idCategory', 'B.nameCategory',
+            'C.name AS nameAuthor',
+            '
+                (
+                    SELECT
+                        SUM(totalReplyComment) + COUNT(comments.id)
+                    FROM
+                    ( 
+                        SELECT
+                            B.id,
+                            ( SELECT COUNT(*) FROM replycomment A WHERE A.idComment = B.id ) AS totalReplyComment
+                        FROM comments B
+                        WHERE idPost = A.id
+                    ) AS comments
+                ) AS sumCommentInPost
+            '
+        )
+        ->from($this->tableName, 'A')
+        ->innerJoin('A', 'categories', 'B', 'A.idCategory = B.id')
+        ->innerJoin('A', 'users', 'C', 'A.idAuthor = C.id')
+        ->where(
+            $queryBulder->expr()->and(
+                'B.id = ?',
+                'A.status = 1',
+                'B.status = 1'
+            )
+        )
+        ->setParameter(0, $id)
+        ->orderBy('A.date', 'DESC')
+        ->fetchAllAssociative();
+    }
+
+    // Lấy tin tức theo ID
+    public function getByID($id)
+    {
+        $queryBulder = clone($this->queryBuilder);
+
+        return $queryBulder
+        ->select('A.*', 'B.id AS idCategory', 'B.nameCategory', 'C.name AS nameAuthor')
+        ->from($this->tableName, 'A')
+        ->innerJoin('A', 'categories', 'B', 'A.idCategory = B.id')
+        ->innerJoin('A', 'users', 'C', 'A.idAuthor = C.id')
+        ->where(
+            $queryBulder->expr()->and(
+                'A.id = ?',
+                'A.status = 1'
+            )
+        )
+        ->setParameter(0, $id)
+        ->fetchAssociative();
     }
 
 }
