@@ -116,11 +116,7 @@
                                                     </span>
                                                     <span class="utf_post_date"><i class="fa fa-clock-o"></i>{{ $item['date'] }}</span>
                                                 </div>
-                                                <p>
-                                                    Lorem Ipsum is simply dummy text of the printing and
-                                                    typesetting industry. Lorem Ipsum has been the
-                                                    industry's standard dummy text since has five...
-                                                </p>
+                                                <p>{{ $item['description'] }}</p>
                                             </div>
                                         </div>
                                     @endforeach
@@ -198,7 +194,8 @@
                                                             <i class="fa fa-user"></i>
                                                             <a href="!#">{{ $item['nameAuthor'] }}</a>
                                                         </span>
-                                                        <span class="utf_post_date" style="padding-right: 1px">
+                                                        <span class="utf_post_date">
+                                                            <i class="fa fa-clock-o"></i>
                                                             {{ $item['date'] }}
                                                         </span>
                                                     </div>

@@ -29,7 +29,7 @@ class Model
             $this->queryBuilder = $this->connect->createQueryBuilder();
             
         } catch (\PDOException $e) {
-            Helper::debug($e);
+            debug($e);
         }
     }
 

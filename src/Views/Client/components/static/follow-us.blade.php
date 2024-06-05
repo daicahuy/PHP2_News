@@ -1,6 +1,5 @@
 <div class="widget">
-    <h3 class="utf_block_title"><span>Theo dõi báo trên
-        </span></h3>
+    <h3 class="utf_block_title"><span>Folowing News On</span></h3>
     <ul class="social-icon">
         <li>
             <a href="#" target="_blank"><i class="fa fa-rss"></i></a>
