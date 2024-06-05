@@ -106,28 +106,28 @@ $router->mount('/admin', function () use ($router) {
     $router->mount('/posts'     , function () use ($router) {
 
         // Posts List
-        $router->match  ('GET|POST',    '/'                 ,       PostsController::class          .   '@list');
+        $router->match  ('GET|POST',    '/'         ,       PostsController::class          .   '@list');
 
         // Posts Add
         $router->match  ('GET|POST',    '/add'              ,       PostsController::class          .   '@add');
         
         // Posts Detail
-        $router->match  ('GET|POST',    '/detail'           ,       PostsController::class          .   '@detail');
+        $router->match  ('GET|POST',    '/detail/{id}'      ,       PostsController::class          .   '@detail');
 
         // Posts Edit
-        $router->match  ('GET|POST',    '/edit'             ,       PostsController::class          .   '@edit');
+        $router->match  ('GET|POST',    '/edit/{id}'        ,       PostsController::class          .   '@edit');
 
         // Posts Hide
-        $router->get    (               '/hide'             ,       PostsController::class          .   '@hide');
+        $router->get    (                '/hide/{id}'       ,       PostsController::class          .   '@hide');
 
         // Posts Show
-        $router->get    (               '/show'             ,       PostsController::class          .   '@show');
+        $router->get    (               '/show/{id}'         ,       PostsController::class          .   '@show');
 
         // Posts Delete
-        $router->get    (               '/delete'           ,       PostsController::class          .   '@delete');
-
+        $router->get    (               '/delete/{id}'       ,       PostsController::class          .   '@delete');
+ 
         // Posts List Hide
-        $router->get    (               '/list-hide'        ,       PostsController::class          .   '@listHide');
+        $router->get    (               '/list-hide'         ,       PostsController::class          .   '@listHide');
    
     });
 
