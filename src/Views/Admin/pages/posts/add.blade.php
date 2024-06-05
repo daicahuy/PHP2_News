@@ -24,28 +24,9 @@
                         <h2 class="mb-4">
                             <span class="badge badge-default"> Add Post </span>
                         </h2>
+
                         @include('components.alert')
-                        {{-- @if (!empty($_SESSION['errors']))
-                            <div class="alert alert-warning">
-                                <ul>
-                                    @foreach ($_SESSION['errors'] as $error)
-                                        <li>{{ $error }}</li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                            @php
-                                unset($_SESSION['errors']);
-                            @endphp
-                        @endif
 
-                        @if (isset($_SESSION['status']) && $_SESSION['status'])
-                            <div class="alert alert-success">{{ $_SESSION['msg'] }}</div>
-
-                            @php
-                                unset($_SESSION['status']);
-                                unset($_SESSION['msg']);
-                            @endphp
-                        @endif --}}
                         <form action="/admin/posts/add" method="POST" enctype="multipart/form-data" class="mt-4">
                             <div class="row">
                                 <div class="col-md-6">
@@ -62,6 +43,11 @@
                                         <label class="d-block">Title</label>
                                         <input class="form-control" type="text" placeholder="Title Post..."
                                             value="{{ $_POST['title'] }}" name="title">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="d-block">Description</label>
+                                        <input class="form-control" type="text" placeholder="Description Post..."
+                                            value="{{ $_POST['description'] }}" name="description">
                                     </div>
                                     <div class="form-group">
                                         <label class="d-block">Image</label>
@@ -92,11 +78,12 @@
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group">
-                                                <label class="d-block" for="">Auther</label>
+                                                <label class="d-block" for="">Author</label>
                                                 <select class="form-control" name="idAuthor" type="nummber">
-                                                    @foreach ($user as $item)
-                                                        <option value="{{ $item['id'] }}">{{ $item['name'] }}</option>
-                                                    @endforeach
+                                                 
+                                                    <option value="{{ $_SESSION['user']['id'] }}">
+                                                        {{ $_SESSION['user']['name'] }}</option>
+                                                
                                                 </select>
                                             </div>
                                         </div>
@@ -157,9 +144,4 @@
     </script>
 @endsection
 
-<!-- <script>
-    window.addEventListener('load', function() {
-        let noteEditable = document.querySelector('.note-editable')
-        console.log(noteEditable)
-    })
-</script> -->
+

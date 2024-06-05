@@ -19,7 +19,7 @@
                         <h2 class="mb-4">
                             <span class="badge badge-default"> Detail Post </span>
                         </h2>
-                        <img src="{{show_upload($data['image'])}}" alt="" width="80" height="80"
+                        <img src="{{ show_upload($data['image']) }}" alt="" width="80" height="80"
                             style=" object-fit: cover;
                                     border-radius: 4px;
                                     box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.2);
@@ -33,7 +33,7 @@
                                     <div class="form-group">
                                         <label class="d-block" style="font-weight: bold; font-size: large">Content</label>
                                         <div class="cart-body">
-                                            <div class="content" >
+                                            <div class="content">
                                                 {!! $data['content'] !!}
                                             </div>
                                         </div>
@@ -44,6 +44,11 @@
                                         <label class="d-block">Title</label>
                                         <input class="form-control" type="text" placeholder="Title Post..." disabled
                                             name="title" value="{{ $data['title'] }}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="d-block">Description</label>
+                                        <input class="form-control" type="text" placeholder="Title Post..." disabled
+                                            name="title" value="{{ $data['description'] }}">
                                     </div>
                                     <div class="row">
                                         <div class="col-md-4">

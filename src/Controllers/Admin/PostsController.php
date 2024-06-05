@@ -21,13 +21,12 @@ class PostsController extends Controller
     // Posts List
     public function list($status = 1)
     {
-        session_destroy();
 
         $cates = new Category();
         $cate = $cates->getAll('*');
 
         $data = $this->post->getAll($status, 'p.id', 'p.title', 'image', 'p.content', 'u.name userName', 'c.nameCategory', 't.name typeName');
-        // Helper::debug($data);
+        // debug($data);
         return $this->renderViewAdmin($this->folder . __FUNCTION__, [
             'cate' => $cate,
             'data' => $data
@@ -37,15 +36,12 @@ class PostsController extends Controller
     // Posts Add  
     public function add()
     {
-
         if (isset($_POST['btn-add'])) {
-            //   Helper::debug($_POST);
-
-
             // Validato
             $validator = new Validator();
             $validation = $validator->make($_POST + $_FILES, [
                 'title'         => 'required|min:3', // Tối thiểu 3 kí tự
+                'description'   => 'required|min:5', // Tối thiểu 5 kí tự
                 'content'       => 'required|min:10', // Tối thiểu 10
                 'image'         => 'required|uploaded_file:0,2048K,png,jpeg,jpg', //tệp tải lên, max 2MB,....
                 'idAuthor'      => 'numeric', // phải là số
@@ -56,12 +52,10 @@ class PostsController extends Controller
             if ($validation->fails()) {
                 $_SESSION['notify']['danger'] = $validation->errors()->firstOfAll();
                 // Helper::debug(firstOfAll());
-
-                // header("Location: /admin/posts/add");
-                // exit;
             } else {
                 $data = [
                     'title'        =>  $_POST['title'],
+                    'description'  => $_POST['description'],
                     'content'      =>  $_POST['content'],
                     'idAuthor'     =>  $_POST['idAuthor'],
                     'idCategory'   =>  $_POST['idCategory'],
@@ -78,29 +72,13 @@ class PostsController extends Controller
                         $data['image'] = $to;
                     }
                 }
-                // $_SESSION['notify']['danger'][] = 'Lỗi upload file image';
-
-                // header("Location: /admin/posts/add");
-                // die;
-                if ($this->post->addPost($data)) {
-                    $_SESSION['notify']['success'][] = 'Update successful';
-                }
-
-
-
-
-                // if ($post['image'] && file_exists(PATH_ASSET . $post['image'])) {
-                //     unlink(PATH_ASSET . $post['image']);
-                // }
-                // $_SESSION['status'] = true;
-                // $_SESSION['msg'] = 'Thao tác thành công!';
-
-
-
-                // header("Location: /admin/posts/add");
-                // die;
+                $this->post->addPost($data);
+                $_SESSION['notify']['success'][] = 'Add successful';
+                header("Location: /admin/posts");
+                die;
             }
         }
+        // debug($_SESSION);
         $users = new User();
         $user = $users->getByStatus([2], ['id', 'name']);
 
@@ -130,7 +108,7 @@ class PostsController extends Controller
         $cate = $cates->getAll('*');
 
         // $detailPost = new Post();
-        $data = $this->post->getById($id, 'p.id', 'p.title', 'image', 'idAuthor', 'p.content', 'u.name userName', 'c.nameCategory', 'c.id idCategory', 't.name typeName', 't.id idType');   // lưu ý thứ tự truyền vào tham số
+        $data = $this->post->getById($id, 'p.id', 'p.title', 'description', 'image', 'idAuthor', 'p.content', 'u.name userName', 'c.nameCategory', 'c.id idCategory', 't.name typeName', 't.id idType');   // lưu ý thứ tự truyền vào tham số
 
         $types = new Type();
         $type = $types->getAll('*');
@@ -147,14 +125,13 @@ class PostsController extends Controller
     // Posts Edit
     public function edit($id)
     {
-
-        // $post = $this->post->getById($id,'p.*');
         if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] ==  'POST') {
-            // Helper::debug($_POST);
+
             // Validato
             $validator = new Validator();
             $validation = $validator->make($_POST + $_FILES, [
                 'title'         => 'required|min:3', // Tối thiểu 3 kí tự
+                'description'   =>  'required|min:5',
                 'content'       => 'required|min:10', // Tối thiểu 10
                 'image'         => 'uploaded_file:0,2048K,png,jpeg,jpg', //tệp tải lên, max 2MB,....
                 'idAuthor'      => 'numeric', // phải là số
@@ -163,12 +140,13 @@ class PostsController extends Controller
             ]);
             $validation->validate();
             if ($validation->fails()) {
-                $_SESSION['errors'] = $validation->errors()->firstOfAll();
-                header("Location: /admin/posts/edit/$id");
-                exit;
+                $_SESSION['notify']['danger'] = $validation->errors()->firstOfAll();
+                // header("Location: /admin/posts/edit/$id");
+                // exit;
             } else {
                 $data = [
                     'title'        =>  $_POST['title'],
+                    'description'  =>  $_POST['description'],
                     'content'      =>  $_POST['content'],
                     'idAuthor'     =>  $_POST['idAuthor'],
                     'idCategory'   =>  $_POST['idCategory'],
@@ -184,38 +162,29 @@ class PostsController extends Controller
 
                     if (move_uploaded_file($from, PATH_ASSET . $to)) {
                         $data['image'] = $to;
-                    } else {
-                        $_SESSION['errors']['avatar'] = 'Lỗi upload file image';
-
-                        header("Location: /admin/posts/edit/$id");
                     }
                 }
                 $this->post->update($id, $data);
-                // if ($post['image'] && file_exists(PATH_ASSET . $post['image'])) {
-                //     unlink(PATH_ASSET . $post['image']);
-                // }
-                $_SESSION['status'] = true;
-                $_SESSION['msg'] = 'Thao tác thành công!';
-
-                // $_SESSION['errors'] = 'Update successful';
-
-                header("Location: /admin/posts/edit/$id");
+                $_SESSION['notify']['success'][] = 'Update successful';
+                header("Location: /admin/posts");
                 die;
             }
         }
         //user
         $users = new User();
         $user = $users->getByStatus([2], ['id', 'name']);
+
         // lấy dữ liệu category
         $cates = new Category();
         $cate = $cates->getAll('*');
+
         // lấy dữ liệu chi tiết
-        $data = $this->post->getById($id, 'p.id', 'p.title', 'image', 'idAuthor', 'p.content', 'u.name userName', 'c.nameCategory', 'c.id idCategory', 't.name typeName', 't.id idType');   // lưu ý thứ tự truyền vào tham số
+        $data = $this->post->getById($id, 'p.id', 'p.title', 'description', 'image', 'idAuthor', 'p.content', 'u.name userName', 'c.nameCategory', 'c.id idCategory', 't.name typeName', 't.id idType');   // lưu ý thứ tự truyền vào tham số
 
         // lấy dữ liệu type
         $types = new Type();
         $type = $types->getAll('*');
-        // Helper::debug($data);
+        // debug($data);
 
         return $this->renderViewAdmin($this->folder . __FUNCTION__, [
             'user' => $user,
@@ -228,7 +197,6 @@ class PostsController extends Controller
     // Posts Hiden
     public function hide($id)
     {
-        // $hide = new Post();
         try {
             $this->post->update(
                 $id,
@@ -241,10 +209,6 @@ class PostsController extends Controller
         } catch (\Throwable $e) {
             $_SESSION['notify']['danger'][] = $e->getMessage();
         }
-
-        // Helper::debug($data1);
-        // echo __CLASS__ . '@' . __FUNCTION__ . ' - ID = ' . $id;
-
         header('Location: /admin/posts');
         die;
     }
@@ -283,7 +247,6 @@ class PostsController extends Controller
 
         header('Location: /admin/posts/list-hide');
         die;
-        // DELETE code...
     }
 
     // Posts List Hiden
@@ -294,9 +257,6 @@ class PostsController extends Controller
         $cate = $cates->getAll('*');
 
         $data = $this->post->getAll($status, 'p.id', 'p.title', 'image', 'p.content', 'u.name userName', 'c.nameCategory', 't.name typeName');
-        // echo __CLASS__ . '@' . __FUNCTION__ . ' - ID = ' . $status;
-        // die;
-
         return $this->renderViewAdmin($this->folder . 'list-hide', [
             'cate' => $cate,
             'data' => $data

@@ -30,28 +30,8 @@
                                     box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.2);
                                     margin-bottom: 16px
                                     ">
-                        {{-- @include('components.alert') --}}
-                        @if (!empty($_SESSION['errors']))
-                            <div class="alert alert-warning">
-                                <ul>
-                                    @foreach ($_SESSION['errors'] as $error)
-                                        <li>{{ $error }}</li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                            @php
-                                unset($_SESSION['errors']);
-                            @endphp
-                        @endif
-
-                        @if (isset($_SESSION['status']) && $_SESSION['status'])
-                            <div class="alert alert-success">{{ $_SESSION['msg'] }}</div>
-
-                            @php
-                                unset($_SESSION['status']);
-                                unset($_SESSION['msg']);
-                            @endphp
-                        @endif
+                        @include('components.alert')
+                        
                         <form action="/admin/posts/edit/{{ $data['id'] }}" method="POST" enctype="multipart/form-data"
                             class="mt-4">
                             <div class="row">
@@ -70,9 +50,13 @@
                                             name="title" value="{{ $data['title'] }}">
                                     </div>
                                     <div class="form-group">
+                                        <label class="d-block">Description</label>
+                                        <input class="form-control" type="text" placeholder="Description Post..."
+                                            value="{{ $data['description'] }}" name="description">
+                                    </div>
+                                    <div class="form-group">
                                         <label class="d-block">Image</label>
-                                        <input type="file" name="image" accept="image/*" value="{{$_POST['image']}}">
-                                        {{-- <input type="hidden" name="img" value="{{$data['image']}}"> --}}
+                                        <input type="file" name="image" accept="image/*" value="{{ $data['image'] }}">
                                         <img src="{{ show_upload($data['image']) }}" width="40px" height="40"
                                             style="object-fit: cover" alt="">
 
@@ -108,11 +92,8 @@
                                             <div class="form-group">
                                                 <label class="d-block" for="">Author</label>
                                                 <select class="form-control" name="idAuthor" type="nummber">
-                                                    @foreach ($user as $us)
-                                                        <option value="{{ $us['id'] }}"
-                                                            {{ $data['idAuthor'] == $us['id'] ? 'selected' : '' }}>
-                                                            {{ $us['name'] }}</option>
-                                                    @endforeach
+                                                    <option value="{{ $_SESSION['user']['id'] }}">
+                                                        {{ $_SESSION['user']['name'] }}</option>                                                  
                                                 </select>
                                             </div>
                                         </div>
