@@ -26,7 +26,8 @@ class Posts extends Model
         ->where(
             $queryBulder->expr()->and(
                 'D.id = ?',
-                'A.status = 1'
+                'A.status = 1',
+                'B.status = 1'
             )
         )
         ->setParameter(0, $type)
@@ -51,7 +52,8 @@ class Posts extends Model
         ->where(
             $queryBulder->expr()->and(
                 $queryBulder->expr()->like('A.date', '?'),
-                'A.status = 1'
+                'A.status = 1',
+                'B.status = 1'
             )
         )
         ->setParameter(0, $currentDate)
@@ -59,8 +61,8 @@ class Posts extends Model
         ->fetchAllAssociative();
     }
 
-    // Lấy top 9 tin tức nhiều view nhất trong 3 ngày gần nhất
-    public function getTop9NewPopuler()
+    // Lấy top ... tin tức nhiều view nhất trong 3 ngày gần nhất
+    public function getTopNewPopuler($top = 3)
     {
         $queryBulder = clone($this->queryBuilder);
 
@@ -72,11 +74,12 @@ class Posts extends Model
         ->where(
             $queryBulder->expr()->and(
                 'A.date >= DATE_ADD(CURDATE(), INTERVAL - 3 DAY)',
-                'A.status = 1'
+                'A.status = 1',
+                'B.status = 1'
             )
         )
         ->orderBy('A.views', 'DESC')
-        ->setMaxResults(9)
+        ->setMaxResults($top)
         ->fetchAllAssociative(); 
     }
 

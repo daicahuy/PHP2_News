@@ -7,3 +7,17 @@ if (!function_exists('url')) {
         return $_ENV . $uri;
     }
 }
+
+
+if (!function_exists('debug')) {
+
+    // Hàm debug: hiển thị ra dữ liệu và die luôn
+
+    function debug($data) {
+        echo "<pre>";
+
+        print_r($data);
+
+        die;
+    }
+}

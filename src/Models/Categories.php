@@ -15,6 +15,9 @@ class Categories extends Model
             ->from($this->tableName)
             ->fetchAllAssociative();
     }
+
+
+
     public function getCategoriesById($categoriesId)
     {
         return $this->queryBuilder
@@ -24,6 +27,20 @@ class Categories extends Model
             ->setParameter('id', $categoriesId)
             ->fetchAllAssociative();
     }
+    
+    // Lấy ra tất cả tổng các bài post trong 1 category
+    public function getTotalPostInCategory()
+    {
+        return $this->queryBuilder
+        ->select(
+            'B.id,
+            nameCategory,
+            (SELECT COUNT(*) FROM posts A WHERE A.idCategory = B.id AND A.status = 1) AS totalPost'
+        )
+        ->from($this->tableName, 'B')
+        ->fetchAllAssociative();
+    }
+
     public function getByStatus($status)
     {
 
