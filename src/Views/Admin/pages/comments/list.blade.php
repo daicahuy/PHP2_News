@@ -81,10 +81,10 @@
                                                 <label for="">{{$comment['date']}}</label>
                                             </td>
                                             <td>
-                                                <a href="/admin/comments/delete-comment/{{ $comment['id'] }}"
+                                                <a href="/admin/comments/delete-comment/{{$comment['id']}}"
                                                     class="btn btn-danger waves-effect waves-light" data-toggle="tooltip"
                                                     data-placement="top" title="" data-original-title="Delete"
-                                                    onclick="return confirm('Delete ??')">
+                                                    onclick="return confirm('Delete comment {{ $comment['name']}}??')">
                                                     <i class="mdi mdi-delete"></i>
                                                 </a>
                                             </td>

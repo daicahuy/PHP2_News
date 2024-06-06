@@ -72,7 +72,7 @@
                                         </td>
                                         <td>
                                             <a
-                                                href="/admin/comments/delete-reply"
+                                                href="/admin/comments/delete-reply/{{$dt['id']}}"
                                                 class="btn btn-danger waves-effect waves-light"
                                                 data-toggle="tooltip" data-placement="top" title=""
                                                 data-original-title="Delete" onclick="return confirm('Delete ??')"

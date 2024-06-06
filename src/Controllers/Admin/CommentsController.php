@@ -3,15 +3,15 @@
 namespace Assignment\Php2News\Controllers\Admin;
 use Assignment\Php2News\Commons\Helper;
 use Assignment\Php2News\Commons\Controller;
-use Assignment\Php2News\Models\Comment;
+use Assignment\Php2News\Models\Comments;
 
 class CommentsController extends Controller
 {
     private string $folder = 'pages.comments.';
-    private Comment $comment;
+    private Comments $comment;
     public function __construct()
     {
-        $this->comment = new Comment;
+        $this->comment = new Comments;
     }
     // Comments List
     public function list()
@@ -31,15 +31,29 @@ class CommentsController extends Controller
     }
 
     // Comments Delete Comment
-    public function deleteComment()
+    public function deleteComment($idCmt)
     {
-        // HIDE code...
+        try {
+            $comments = $this->comment->delete($idCmt);
+            $_SESSION['notify']['success'][] = "Deleted comment !";
+        } catch (\Throwable $e) {
+            $_SESSION['notify']['danger'][] = $e->getMessage();
+        }
+        return $this->renderViewAdmin($this->folder . 'list', ['comments' => $comments]);
     }
 
     // Comments Delete Reply
-    public function deleteReply()
+    public function deleteReply($idRepCmt)
     {
-        // SHOW code...
+        
+        try {
+            $detail = $this->comment->deleteReply($idRepCmt);
+            $_SESSION['notify']['success'][] = "Deleted comment !";
+        } catch (\Throwable $e) {
+            $_SESSION['notify']['danger'][] = $e->getMessage();
+        }
+        return $this->renderViewAdmin($this->folder . 'detail-comment', ['detail' => $detail]);
+        
     }
     
 }

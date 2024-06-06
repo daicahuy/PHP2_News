@@ -123,24 +123,24 @@ class Posts extends Model
     }
 
     // Lấy tin tức theo ID
-    // public function getByID($id)
-    // {
-    //     $queryBulder = clone($this->queryBuilder);
+    public function getByID($id)
+    {
+        $queryBulder = clone($this->queryBuilder);
 
-    //     return $queryBulder
-    //     ->select('A.*', 'B.id AS idCategory', 'B.nameCategory', 'C.name AS nameAuthor')
-    //     ->from($this->tableName, 'A')
-    //     ->innerJoin('A', 'categories', 'B', 'A.idCategory = B.id')
-    //     ->innerJoin('A', 'users', 'C', 'A.idAuthor = C.id')
-    //     ->where(
-    //         $queryBulder->expr()->and(
-    //             'A.id = ?',
-    //             'A.status = 1'
-    //         )
-    //     )
-    //     ->setParameter(0, $id)
-    //     ->fetchAssociative();
-    // }
+        return $queryBulder
+        ->select('A.*', 'B.id AS idCategory', 'B.nameCategory', 'C.name AS nameAuthor')
+        ->from($this->tableName, 'A')
+        ->innerJoin('A', 'categories', 'B', 'A.idCategory = B.id')
+        ->innerJoin('A', 'users', 'C', 'A.idAuthor = C.id')
+        ->where(
+            $queryBulder->expr()->and(
+                'A.id = ?',
+                'A.status = 1'
+            )
+        )
+        ->setParameter(0, $id)
+        ->fetchAssociative();
+    }
     public function postHot(){
         return $this->queryBuilder
         ->select('COUNT(DISTINCT id) AS numberPostHot')

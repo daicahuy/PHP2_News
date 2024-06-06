@@ -4,7 +4,7 @@ namespace Assignment\Php2News\Controllers\Admin;
 
 use Assignment\Php2News\Commons\Controller;
 use Assignment\Php2News\Commons\Helper;
-use Assignment\Php2News\Models\Category;
+use Assignment\Php2News\Models\Categories;
 use Assignment\Php2News\Models\Posts;
 use Assignment\Php2News\Models\Type;
 use Assignment\Php2News\Models\User;
@@ -22,7 +22,7 @@ class PostsController extends Controller
     public function list($status = 1)
     {
 
-        $cates = new Category();
+        $cates = new Categories();
         $cate = $cates->getAll('*');
 
         $data = $this->post->getAll($status, 'p.id', 'p.title', 'image', 'p.content', 'u.name userName', 'c.nameCategory', 't.name typeName');
@@ -82,7 +82,7 @@ class PostsController extends Controller
         $user = $users->getByStatus([2], ['id', 'name']);
 
         // lấy dữ liệu category
-        $cates = new Category();
+        $cates = new Categories();
         $cate  = $cates->getAll('*');
 
         // lấy dữ liệu type
@@ -103,7 +103,7 @@ class PostsController extends Controller
         $user = $users->getByStatus([2], ['id', 'name']);
 
         //Category
-        $cates = new Category();
+        $cates = new Categories();
         $cate = $cates->getAll('*');
 
         // $detailPost = new Post();
@@ -173,7 +173,7 @@ class PostsController extends Controller
         $user = $users->getByStatus([2], ['id', 'name']);
 
         // lấy dữ liệu category
-        $cates = new Category();
+        $cates = new Categories();
         $cate = $cates->getAll('*');
 
         // lấy dữ liệu chi tiết
@@ -251,7 +251,7 @@ class PostsController extends Controller
     public function listHide($status = 0)
     {
 
-        $cates = new Category();
+        $cates = new Categories();
         $cate = $cates->getAll('*');
 
         $data = $this->post->getAll($status, 'p.id', 'p.title', 'image', 'p.content', 'u.name userName', 'c.nameCategory', 't.name typeName');
