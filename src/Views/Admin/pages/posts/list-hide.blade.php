@@ -30,18 +30,7 @@
                                     </a>
                                 </div>
                                 {{-- filter  --}}
-                                <form action="" class="d-flex">
-                                    <select class="custom-select mr-2">
-                                        <option selected="selected">All Category</option>
-                                        @foreach ($cate as $item)
-                                            <option value="{{ $item['id'] }}">{{ $item['nameCategory'] }}</option>
-                                        @endforeach
-                                    </select>
-                                    <button type="submit" class="btn btn-success mo-mb-2" data-toggle="tooltip"
-                                        data-placement="top" title="" data-original-title="Filter">
-                                        <i class="mdi mdi-filter"></i>
-                                    </button>
-                                </form>
+                                @include('components.table.filter')
                             </div>
                             @include('components.table.search')
                         </div>
@@ -99,7 +88,6 @@
                         </div>
 
                         <div class="mt-4 d-flex justify-content-between">
-                            @include('components.table.show-row')
                             @include('components.table.pagination')
                         </div>
                     </div>

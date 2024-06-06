@@ -3,7 +3,6 @@
 namespace Assignment\Php2News\Controllers\Admin;
 
 use Assignment\Php2News\Commons\Controller;
-use Assignment\Php2News\Commons\Helper;
 use Assignment\Php2News\Models\Categories;
 use Assignment\Php2News\Models\Posts;
 use Assignment\Php2News\Models\Type;
@@ -13,23 +12,34 @@ use Rakit\Validation\Validator;
 class PostsController extends Controller
 {
     private string $folder = 'pages.posts.';
+
     private Posts $post;
+    private Categories $categories;
+
     public function __construct()
     {
         $this->post = new Posts();
+        $this->categories = new Categories();
     }
     // Posts List
     public function list($status = 1)
     {
+        
+        $page = $_GET['page'] ?? 1;
+        $perPage = $_GET['per-page'] ?? 5;
 
-        $cates = new Categories();
-        $cate = $cates->getAll('*');
+        [$posts, $totalPage] = $this->post->getAllByPaginate(
+            $status,
+            ['p.id', 'p.title', 'image', 'u.name userName', 'c.nameCategory', 't.name typeName'],
+            $page,
+            $perPage
+        );
 
-        $data = $this->post->getAll($status, 'p.id', 'p.title', 'image', 'p.content', 'u.name userName', 'c.nameCategory', 't.name typeName');
-        // debug($data);
         return $this->renderViewAdmin($this->folder . __FUNCTION__, [
-            'cate' => $cate,
-            'data' => $data
+            'posts' => $posts,
+            'totalPage' => $totalPage,
+            'page' => $page,
+            'perPage' => $perPage
         ]);
     }
 
@@ -251,13 +261,17 @@ class PostsController extends Controller
     public function listHide($status = 0)
     {
 
-        $cates = new Categories();
-        $cate = $cates->getAll('*');
+        $data = $this->post->getAll(
+            $status,
+            ['p.id', 'p.title', 'image', 'p.content', 'u.name userName', 'c.nameCategory', 't.name typeName']
+        );
 
-        $data = $this->post->getAll($status, 'p.id', 'p.title', 'image', 'p.content', 'u.name userName', 'c.nameCategory', 't.name typeName');
-        return $this->renderViewAdmin($this->folder . 'list-hide', [
-            'cate' => $cate,
-            'data' => $data
-        ]);
+
+        return $this->renderViewAdmin(
+            $this->folder . 'list-hide',
+            [
+                'data' => $data
+            ]
+        );
     }
 }

@@ -147,23 +147,23 @@ class Posts extends Model
      * ////////////////////////////////////////////////////////////////////////////
      */
 
-     public function postHot(){
+     public function postHotSum(){
         return $this->queryBuilder
         ->select('COUNT(DISTINCT id) AS numberPostHot')
-       ->from('posts')
-       ->where('idType = 2')
-       ->fetchAssociative();
+        ->from('posts')
+        ->where('idType = 2')
+        ->fetchOne();
     }
 
     public function postSum(){
         return $this->queryBuilder
         ->select('COUNT(DISTINCT id) AS numberPost')
-       ->from('posts')
-       ->fetchAssociative();
+        ->from('posts')
+        ->fetchOne();
     }
 
     // get all
-    public function getAll(int $status, string ...$colums)
+    public function getAll(int $status, $colums = ['*'])
     {
         return $this->queryBuilder
             ->select(...$colums)
@@ -175,6 +175,32 @@ class Posts extends Model
             ->setParameter(0, $status)
             ->orderBy("p.dateChange", "DESC")
             ->fetchAllAssociative();
+    }
+
+    // get all
+    public function getAllByPaginate(int $status, $colums = ['*'], $page = 1, $perPage = 10)
+    {
+
+        $queryBuilder = clone($this->queryBuilder);
+
+        $offset = $perPage * ($page - 1);
+        
+        $totalPage = ceil($this->postSum() / $perPage);
+
+        $posts = $queryBuilder
+            ->select(...$colums)
+            ->from($this->tableName, 'p')
+            ->join('p', 'users', 'u', 'p.idAuthor = u.id')
+            ->join('p', 'categories', 'c', 'p.idCategory = c.id')
+            ->join('p', 'type', 't', 'p.idType = t.id')
+            ->where("p.status = ? ")
+            ->setParameter(0, $status)
+            ->orderBy("p.dateChange", "DESC")
+            ->setFirstResult($offset)
+            ->setMaxResults($perPage)
+            ->fetchAllAssociative();
+
+        return [$posts, $totalPage];
     }
 
     // get detail post by id

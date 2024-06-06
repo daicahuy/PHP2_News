@@ -24,15 +24,7 @@
                 'components.statistic.mini-stat',
                 [
                     'title' => 'Total Categories',
-                    'quantity' => $cate['numbercategories']
-                ]
-            )
-            @include(
-                'components.statistic.mini-stat',
-                [
-                    'title' => 'Total Breaking Posts',
-                    'icon' => 'ion-flame ',
-                    'quantity' => $postHot['numberPostHot']
+                    'quantity' => $cateSum
                 ]
             )
             @include(
@@ -40,15 +32,23 @@
                 [
                     'title' => 'Total Posts',
                     'icon' => 'mdi mdi-newspaper ',
-                    'quantity' => $post['numberPost']
+                    'quantity' => $postSum
+                ]
+            )
+            @include(
+                'components.statistic.mini-stat',
+                [
+                    'title' => 'Total Hot Posts',
+                    'icon' => 'ion-flame ',
+                    'quantity' => $postHotSum
                 ]
             )
             @include(
                 'components.statistic.mini-stat',
                 [
                     'title' => 'Total Comments',
-                    'icon' => 'fa fa-user-circle-o ',
-                    'quantity' => $comment['SoLuong']
+                    'icon' => 'mdi mdi-comment-processing ',
+                    'quantity' => $commentSum
                 ]
             )
         </div>

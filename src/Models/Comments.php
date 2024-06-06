@@ -35,10 +35,10 @@ class Comments extends Model
     {
         return $this->queryBuilder
         ->select('
-        (SELECT COUNT(*) FROM comments) + 
-        (SELECT COUNT(*) FROM replycomment) AS SoLuong
-    ')
-     ->fetchAssociative();
+            (SELECT COUNT(*) FROM comments) + 
+            (SELECT COUNT(*) FROM replycomment) AS SoLuong
+        ')
+        ->fetchOne();
     }
     public function postHot(){
         return $this->queryBuilder

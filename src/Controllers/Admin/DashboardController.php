@@ -22,18 +22,19 @@ class DashboardController extends Controller
     }
     public function dashboard()
     {
-        $cate = $this->categories->categoryNumber();
-        $post = $this->posts->postSum();
-        $postHot = $this->posts->postHot();
-        $comment = $this->comment->Commentsum();
-        // Commentsum
-        //    debug($comment);
-        $this->renderViewAdmin(__FUNCTION__, [
-            "cate" => $cate,
-            "post" => $post,
-            "postHot" => $postHot,
-            "comment" => $comment
+        $cateSum = $this->categories->categoryNumber();
 
+        $postSum = $this->posts->postSum();
+
+        $postHotSum = $this->posts->postHotSum();
+
+        $commentSum = $this->comment->Commentsum();
+
+        $this->renderViewAdmin(__FUNCTION__, [
+            "cateSum" => $cateSum,
+            "postSum" => $postSum,
+            "postHotSum" => $postHotSum,
+            "commentSum" => $commentSum
         ]);
     }
    

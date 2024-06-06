@@ -33,19 +33,6 @@
                                         <i class="ion-android-add"></i>
                                     </a>
                                 </div>
-                                {{-- filter  --}}
-                                <form action="" class="d-flex">
-                                    <select class="custom-select mr-2">
-                                        <option selected="selected">All Category</option>
-                                        @foreach ($cate as $item)
-                                            <option value="{{ $item['id'] }}">{{ $item['nameCategory'] }}</option>
-                                        @endforeach
-                                    </select>
-                                    <button type="submit" class="btn btn-success mo-mb-2" data-toggle="tooltip"
-                                        data-placement="top" title="" data-original-title="Filter">
-                                        <i class="mdi mdi-filter"></i>
-                                    </button>
-                                </form>
                             </div>
                             @include('components.table.search')
                         </div>
@@ -64,38 +51,38 @@
                                     </tr>
                                 </thead>
                                 <tbody class="table-group-divider">
-                                    @foreach ($data as $key => $item)
+                                    @foreach ($posts as $key => $post)
                                         <tr>
                                             <th scope="row">{{ $key + 1 }}</th>
-                                            <td>{{ $item['title'] }}</td>
+                                            <td>{{ $post['title'] }}</td>
                                             <td>
-                                                <img src="{{ show_upload($item['image']) }}" alt="" width="80"
+                                                <img src="{{ show_upload($post['image']) }}" alt="" width="80"
                                                     height="80"
                                                     style=" object-fit: cover;
                                                         border-radius: 4px;
                                                         box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.2);
                                                         ">
                                             </td>
-                                            <td>{{ $item['userName'] }}</td>
-                                            <td>{{ $item['nameCategory'] }}</td>
+                                            <td>{{ $post['userName'] }}</td>
+                                            <td>{{ $post['nameCategory'] }}</td>
                                             <td>
                                                 <span class="badge badge-danger" style="font-size: 1rem;">
-                                                    {{ $item['typeName'] }}
+                                                    {{ $post['typeName'] }}
                                                 </span>
                                             </td>
                                             <td>
-                                                <a href='/admin/posts/detail/{{ $item['id'] }}'
+                                                <a href='/admin/posts/detail/{{ $post['id'] }}'
                                                     class='btn btn-success waves-effect waves-light' data-toggle='tooltip'
                                                     data-placement='top' title='' data-original-title='Detail'>
                                                     <i class="mdi mdi-launch"></i>
                                                 </a>
-                                                <a href="/admin/posts/edit/{{ $item['id'] }}"
+                                                <a href="/admin/posts/edit/{{ $post['id'] }}"
                                                     class="btn btn-warning waves-effect waves-light" data-toggle="tooltip"
                                                     data-placement="top" title="" data-original-title="Edit">
                                                     <i class="ion-edit"></i>
                                                 </a>
 
-                                                <a href='/admin/posts/hide/{{ $item['id'] }}'
+                                                <a href='/admin/posts/hide/{{ $post['id'] }}'
                                                     class='btn btn-danger waves-effect waves-light' data-toggle='tooltip'
                                                     data-placement='top' title='' data-original-title='Hide'
                                                     onclick="return confirm('Hide ??')">
@@ -108,7 +95,6 @@
                             </table>
                         </div>
                         <div class="mt-4 d-flex justify-content-between">
-                            @include('components.table.show-row')
                             @include('components.table.pagination')
                         </div>
                     </div>

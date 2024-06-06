@@ -111,7 +111,6 @@
                         </div>
 
                         <div class="mt-4 d-flex justify-content-between">
-                            @include('components.table.show-row')
                             @include('components.table.pagination')
                         </div>
                     </div>
