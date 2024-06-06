@@ -3,45 +3,126 @@
 namespace Assignment\Php2News\Controllers\Admin;
 
 use Assignment\Php2News\Commons\Controller;
+use Assignment\Php2News\Commons\Helper;
+use Assignment\Php2News\Models\Tags;
 
 class TagsController extends Controller
 {
     private string $folder = 'pages.tags.';
 
-    // Categories List
+    private Tags $tags;
+
+    public function __construct()
+    {
+        $this->tags = new Tags();
+    }
+    // Tags List
     public function list()
     {
-        return $this->renderViewAdmin($this->folder . __FUNCTION__);
+        
+        if (isset($_POST['btn-add'])) {
+
+            try {
+                if (empty($_POST['nameTag'])) {
+                                $_SESSION['notify']['danger'][] = "Please enter name Tags";
+                            }else{
+                                $this->tags->insert($_POST['nameTag']);
+                            $_SESSION['notify']['success'][] = "Đã thêm danh mục mới {$_POST['nameTag']}!";
+                            }
+            } catch (\Throwable $e) {
+                $_SESSION['notify']['danger'][] = $e->getMessage();
+            }
+        }
+
+
+        // tags List
+
+        $data = $this->tags->getByStatus(1);
+        return $this->renderViewAdmin($this->folder . 'list', ['data' => $data]);
     }
 
-    // Categories Edit
-    public function edit()
+    // Tags Edit
+    public function edit($id)
     {
-        return $this->renderViewAdmin($this->folder . __FUNCTION__);
+        if (isset($_POST['btn-edit'])) {
+            if (empty($_POST['nameTag'])) {
+                $_SESSION['notify']['danger'][] = "Please enter name Tags";
+            } else {
+                $tags = $this->tags->getByID($id, ['id', 'nameTag', 'status']);
+                if ($tags['nameTag'] !== (string)$_POST['nameTag']) {
+                    try {
+                        $this->tags->updateName(
+                            $id,
+                            [
+                                'nameTag' => $_POST['nameTag']
+                            ]
+                        );
+                        $_SESSION['notify']['success'][] = "Updated !";
+                    } catch (\Throwable $e) {
+                        $_SESSION['notify']['danger'][] = $e->getMessage();
+                    }
+                } else {
+                    $_SESSION['notify']['warning'][] = "No changes";
+                }
+            }
+        }
+        $tags = $this->tags->getByID($id, ['id', 'nameTag']);
+        return $this->renderViewAdmin(
+            $this->folder . __FUNCTION__,
+            ['tags' => $tags]
+        );
     }
 
-    // Categories Hiden
-    public function hide()
+    // Tags Hiden
+    public function hide($id)
     {
+
         // HIDE code...
+        try {
+            $this->tags->getShow($id, ['status' => '0']);
+
+            $_SESSION['notify']['success'][] = "Hide nameTag !";
+        } catch (\Throwable $e) {
+            $_SESSION['notify']['danger'][] = $e->getMessage();
+        }
+        $data = $this->tags->getAll('*');
+        return $this->renderViewAdmin($this->folder . 'list', ['data' => $data]);
     }
 
-    // Categories Show
-    public function show()
+    // Tags Show
+    public function show($id)
     {
-        // SHOW code...
+        try {
+            $this->tags->getShow($id, ['status' => '1']);
+
+            $_SESSION['notify']['success'][] = "Showed nameTag !";
+        } catch (\Throwable $e) {
+            $_SESSION['notify']['danger'][] = $e->getMessage();
+        }
+        $data = $this->tags->getAllHide('*');
+        return $this->renderViewAdmin($this->folder . 'list-hide', ['data' => $data]);
     }
 
-    // Categories Delete
-    public function delete()
+    // Tags Delete
+    public function delete($id)
     {
-        // DELETE code...
+
+
+        $tags = $this->tags->getByID($id, ['id', 'nameTag']);
+        try {
+            $this->tags->delete($tags['id']);
+            $_SESSION['notify']['success'][] = "Deleted {$tags['nameTag']} !";
+        } catch (\Throwable $e) {
+            $_SESSION['notify']['danger'][] = $e->getMessage();
+        }
+        header('location: /admin/tags/list-hide');
+        die;
     }
 
-    // Categories List Hiden
+    // Tags List Hiden
     public function listHide()
     {
-        return $this->renderViewAdmin($this->folder . 'list-hide');
+        $data = $this->tags->getAllHide('*');
+        return $this->renderViewAdmin($this->folder . 'list-hide', ['data' => $data]);
     }
-    
 }

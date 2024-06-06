@@ -1,6 +1,7 @@
 @extends('layouts.master')
 
 @section('content')
+
     <div class="container-fluid">
         <div class="row">
             <div class="col-sm-12">
@@ -20,22 +21,23 @@
                                 <h2 class="mb-4">
                                     <span class="badge badge-default"> Add Tag </span>
                                 </h2>
-                                <div class="alert alert-danger mb-2" role="alert">
+                                @include('components.alert')
+                                {{-- <div class="alert alert-danger mb-2" role="alert">
                                     <strong>Error:</strong>
                                     and try submitting
-                                    again.
-                                </div>
+                                    again. 2222
+                                </div> --}}
                                 <form action="" method="POST" enctype="multipart/form-data">
                                     <div class="form-group">
                                         <label class="d-block">Name</label>
-                                        <input class="form-control" type="text" placeholder="Name Tag..."
-                                            name="name">
-                                    </div>
+                                        <input class="form-control" type="text"  placeholder="Name Tag..."
+                                            name="nameTag">
+                                    </div> 
                                     {{-- <div class="form-group">
                                         <label class="d-block">Image</label>
                                         <input type="file" name="image" accept="image/*">
                                     </div> --}}
-                                    <button type="submit" class="btn btn-success waves-effect waves-light float-right">
+                                    <button name="btn-add" type="submit" class="btn btn-success waves-effect waves-light float-right">
                                         Add
                                     </button>
                                 </form>
@@ -48,11 +50,12 @@
                                 <h2 class="mb-4">
                                     <span class="badge badge-default"> Tags </span>
                                 </h2>
-                                <div class="alert alert-success mb-4" role="alert">
+
+                                {{-- <div class="alert alert-success mb-4" role="alert">
                                     <strong>Success:</strong>
                                     and try submitting
                                     again.
-                                </div>
+                                </div> --}}
                                 <div class="d-flex justify-content-between mb-4" style="width: 100%">
                                     <div>
                                         <a href="/admin/tags/list-hide" class="btn btn-danger mo-mb-2" data-toggle="tooltip"
@@ -75,9 +78,11 @@
                                             </tr>
                                         </thead>
                                         <tbody class="table-group-divider">
+                                            @foreach ($data as $item)
                                             <tr>
-                                                <th scope="row">1</th>
-                                                <td>Mark</td>
+                                                    
+                                                <td scope="row">{{$item['id']}}</td>
+                                                <td>{{$item['nameTag']}}</td>
                                                 {{-- <td>
                                                     <img src="/assets/uploads/gir2.jpg" alt="" width="80"
                                                         height="80"
@@ -88,7 +93,7 @@
                                                 </td> --}}
                                                 <td>
                                                     <a 
-                                                        href="/admin/tags/edit"
+                                                        href="/admin/tags/edit/{{$item['id']}}"
                                                         class="btn btn-warning waves-effect waves-light"
                                                         data-toggle="tooltip"
                                                         data-placement="top"
@@ -98,7 +103,7 @@
                                                         <i class="ion-edit"></i>
                                                     </a>
 
-                                                    <a  href='/admin/tags/hide'
+                                                    <a  href='/admin/tags/hide/{{$item['id']}}'
                                                         class='btn btn-danger waves-effect waves-light'
                                                         data-toggle='tooltip'
                                                         data-placement='top'
@@ -111,6 +116,7 @@
                                                 </td>
                                             </tr>
                                         </tbody>
+                                        @endforeach
                                     </table>
                                 </div>
                                 <div class="mt-4 d-flex justify-content-between">
