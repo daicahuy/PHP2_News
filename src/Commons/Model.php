@@ -30,7 +30,6 @@ class Model
             $this->connect = DriverManager::getConnection($connectionParams);
 
             $this->queryBuilder = $this->connect->createQueryBuilder();
-            
         } catch (\PDOException $e) {
             debug($e);
         }
