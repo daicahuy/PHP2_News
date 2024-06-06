@@ -18,7 +18,7 @@ class CommentsController extends Controller
     {
        
         $comments = $this->comment->getCommentsWithUsers();
-        // Helper::debug($comments);
+        // debug($comments);
         return $this->renderViewAdmin($this->folder . __FUNCTION__, ['comments' => $comments]);
     }
 
@@ -26,8 +26,8 @@ class CommentsController extends Controller
     public function detailComment()
     {
         $detail = $this->comment->getUsersWithReply();
-        Helper::debug($detail);
-        return $this->renderViewAdmin($this->folder . 'detail-comment', ['detail-comment' => $detail]);
+        // debug($detail);
+        return $this->renderViewAdmin($this->folder . 'detail-comment', ['detail' => $detail]);
     }
 
     // Comments Delete Comment

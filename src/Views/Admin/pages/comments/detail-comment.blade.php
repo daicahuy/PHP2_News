@@ -19,11 +19,7 @@
                         <h2 class="mb-4">
                             <span class="badge badge-default"> Detail Comment </span>
                         </h2>
-                        <div class="alert alert-success mb-4" role="alert">
-                            <strong>Success:</strong>
-                            and try submitting
-                            again.
-                        </div>
+                        @include('components.alert')
                         <div class="d-flex justify-content-between mb-4" style="width: 100%">
                             <div></div>
                             @include('components.table.search')
@@ -42,15 +38,15 @@
                                         <th style="width: 5%">Action</th>
                                     </tr>
                                 </thead>
-                                @foreach ($detail as $index => $details)
+                                @foreach ($detail as $index => $dt)
                                 <tbody class="table-group-divider">
                                     <tr>
                                         <th>{{$index + 1}}</th>
                                         <td>
-                                           {{-- {{$detail['name']}} --}}
+                                           {{$dt['name']}}
                                         </td>
                                         <td>
-                                            <img src="/assets/uploads/gir2.jpg" alt="" width="80" height="80"
+                                            <img src="/assets/{{$dt['avatar']}}" alt="" width="80" height="80"
                                                 style=" object-fit: cover;
                                                         border-radius: 4px;
                                                         box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.2);
@@ -65,16 +61,14 @@
                                                         padding: 8px 16px;
                                                         text-align: justify;
                                                         border-radius: 8px;">
-                                                Admin Admin Admin Admin Admin Admin Admin Admin \n Admin Admin Admin Admin
-                                                Admin Admin Admin Admin Admin Admin AdminAdmin Admin Admin Admin Admin Admin
-                                                Admin AdminAdmin Admin Admin Admin Admin Admin Admin Admin
+                                                {{$dt['content']}}
                                             </p>
                                         </td>
                                         <td style="text-align: center">
-                                            <label for="">huydeptrai2222</label>
+                                            <label for="">{{$dt['rpName']}}</label>
                                         </td>
                                         <td>
-                                            <label for="">2024-23-05 09:59:00 PM</label>
+                                            <label for="">{{$dt['date']}}</label>
                                         </td>
                                         <td>
                                             <a

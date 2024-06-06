@@ -24,16 +24,17 @@ class Comment extends Model{
 }
 public function getCommentsWithUsers(){
     return $this->queryBuilder
-    ->select('u.id', 'p.content', 'u.name', 'p.date','u.avatar' )
-    ->from('users', 'u')
-    ->innerJoin('u', 'comments', 'p', 'u.id = p.idUser')
+    ->select('B.id', 'C.name', 'C.avatar', 'B.content', 'B.date', '(SELECT COUNT(*) AS totalReply FROM replycomment A WHERE A.idComment = B.id) AS totalReply')
+    ->from('comments', 'B')
+    ->innerJoin('B', 'users', 'C', 'B.idUser = C.id')
     ->fetchAllAssociative();
 }
 public function getUsersWithReply(){
     return $this->queryBuilder
-    ->select('r.id', 'u.name', 'r.date','u.avatar')
+    ->select('r.id', 'u.name','r.content','r.date','u.avatar','u2.name rpName' )
     ->from('replycomment', 'r')
     ->innerJoin('r', 'users', 'u', 'u.id = r.idUser')
+    ->innerJoin('r', 'users', 'u2', 'u2.id = r.idReplyUser')
     ->fetchAllAssociative();
 }
 

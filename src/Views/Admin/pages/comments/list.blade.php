@@ -67,22 +67,15 @@
                                                 </p>
                                             </td>
                                             <td style="text-align: center">
-                                                <a href="#!" type="submit" data-toggle="tooltip" data-placement="top"
-                                                    title="" data-original-title="No Reply">
-                                                    <i class="mdi mdi-comment-remove-outline"
-                                                        style="font-size: 34px; color: red"></i>
-                                                </a>
-                                            
-                                                <a
-                                                    href="/admin/comments/detail-comment"
-                                                    type="submit"
-                                                    data-toggle="tooltip"
-                                                    data-placement="top"
-                                                    title=""
-                                                    data-original-title="Reply: 500"
-                                                >
-                                                    <i class="mdi mdi-comment-text-outline" style="font-size: 34px; color: green"></i>
-                                                </a>
+                                                @if ($comment['totalReply'])
+                                        <a href="/admin/comments/detail-comment/{{$comment['id']}}" type="submit" data-toggle="tooltip" data-placement="top" title="Reply: {{ $comment['totalReply'] }}">
+                                            <i class="mdi mdi-comment-text-outline" style="font-size: 34px; color: green"></i>
+                                        </a>
+                                    @else
+                                        <a href="#!" type="submit" data-toggle="tooltip" data-placement="top" title="No Reply">
+                                            <i class="mdi mdi-comment-remove-outline" style="font-size: 34px; color: red"></i>
+                                        </a>
+                                    @endif
                                             </td>
                                             <td>
                                                 <label for="">{{$comment['date']}}</label>
