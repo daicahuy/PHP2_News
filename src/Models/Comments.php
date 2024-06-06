@@ -31,4 +31,27 @@ class Comments extends Model
         return $stmt->executeQuery()->fetchOne();
 
     }
+    public function Commentsum()
+    {
+        return $this->queryBuilder
+        ->select('
+        (SELECT COUNT(*) FROM comments) + 
+        (SELECT COUNT(*) FROM replycomment) AS SoLuong
+    ')
+     ->fetchAssociative();
+    }
+    public function postHot(){
+        return $this->queryBuilder
+        ->select('COUNT(DISTINCT id) AS numberPostHot')
+       ->from('posts')
+       ->where('idType = 2')
+       ->fetchAssociative();
+    }
+
+    public function postSum(){
+        return $this->queryBuilder
+        ->select('COUNT(DISTINCT id) AS numberPost')
+       ->from('posts')
+       ->fetchAssociative();
+    }
 }

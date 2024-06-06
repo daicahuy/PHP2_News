@@ -89,4 +89,11 @@ class Categories extends Model
             ->setParameter(0, $categoriesId)
             ->executeQuery();
     }
+    public function categoryNumber(){
+        return $this->queryBuilder
+        ->select('COUNT(DISTINCT id) AS numbercategories')
+       ->from('categories')
+       ->fetchAssociative();
+       
+     } 
 }
