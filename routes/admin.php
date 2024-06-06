@@ -80,22 +80,23 @@ $router->mount('/admin', function () use ($router) {
     });
 
     // TAGS
+    // TAGS
     $router->mount('/tags'      , function () use ($router) {
 
         // Tags List
         $router->match  ('GET|POST',    '/'                 ,       TagsController::class           .   '@list');
 
         // Tags Edit
-        $router->match  ('GET|POST',    '/edit'             ,       TagsController::class           .   '@edit');
+        $router->match  ('GET|POST',    '/edit/{id}'             ,       TagsController::class           .   '@edit');
 
         // Tags Hide
-        $router->get    (               '/hide'             ,       TagsController::class           .   '@hide');
+        $router->get    (               '/hide/{id}'     ,       TagsController::class          .   '@hide');
 
         // Tags Show
-        $router->get    (               '/show'             ,       TagsController::class           .   '@show');
+        $router->get    (               '/show/{id}'      ,       TagsController::class          .   '@show');
 
         // Tags Delete
-        $router->get    (               '/delete'           ,       TagsController::class           .   '@delete');
+        $router->get    (               '/delete/{id}'           ,       TagsController::class           .   '@delete');
 
         // Tags List Hide
         $router->get    (               '/list-hide'        ,       TagsController::class           .   '@listHide');

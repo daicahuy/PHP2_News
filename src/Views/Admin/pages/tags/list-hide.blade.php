@@ -21,11 +21,14 @@
                                 <h2 class="mb-4">
                                     <span class="badge badge-default"> Tags Hide </span>
                                 </h2>
-                                <div class="alert alert-success mb-4" role="alert">
+
+                                @include('components.alert')
+
+                                {{-- <div class="alert alert-success mb-4" role="alert">
                                     <strong>Success:</strong>
                                     and try submitting
                                     again.
-                                </div>
+                                </div> --}}
                                 <div class="d-flex justify-content-between mb-4" style="width: 100%">
                                     <div>
                                         <a href="/admin/tags" class="btn btn-secondary mo-mb-2" data-toggle="tooltip"
@@ -48,9 +51,11 @@
                                             </tr>
                                         </thead>
                                         <tbody class="table-group-divider">
+                                            @foreach ($data as $item)
                                             <tr>
-                                                <th scope="row">1</th>
-                                                <td>Mark</td>
+                                                    
+                                                <td scope="row">{{$item['id']}}</td>
+                                                <td>{{$item['nameTag']}}</td>
                                                 {{-- <td>
                                                     <img src="/assets/uploads/gir2.jpg" alt="" width="80"
                                                         height="80"
@@ -60,7 +65,7 @@
                                                               ">
                                                 </td> --}}
                                                 <td>
-                                                    <a  href="/admin/tags/show"
+                                                    <a  href="/admin/tags/show/{{$item['id']}}"
                                                         class="btn btn-success waves-effect waves-light"
                                                         data-toggle="tooltip"
                                                         data-placement="top"
@@ -69,7 +74,7 @@
                                                     >
                                                         <i class="mdi mdi-eye"></i>
                                                     </a>
-                                                    <a  href='/admin/tags/delete'
+                                                    <a  href='/admin/tags/delete/{{$item['id']}}'
                                                         class='btn btn-danger waves-effect waves-light'
                                                         data-toggle='tooltip'
                                                         data-placement='top'
@@ -82,6 +87,7 @@
                                                 </td>
                                             </tr>
                                         </tbody>
+                                        @endforeach
                                     </table>
                                 </div>
                                 <div class="mt-4 d-flex justify-content-between">
