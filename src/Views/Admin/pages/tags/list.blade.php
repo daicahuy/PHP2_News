@@ -25,7 +25,7 @@
                                 {{-- <div class="alert alert-danger mb-2" role="alert">
                                     <strong>Error:</strong>
                                     and try submitting
-                                    again.
+                                    again. 2222
                                 </div> --}}
                                 <form action="" method="POST" enctype="multipart/form-data">
                                     <div class="form-group">

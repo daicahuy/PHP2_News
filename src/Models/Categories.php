@@ -13,6 +13,7 @@ class Categories extends Model
         return $this->queryBuilder
             ->select('*')
             ->from($this->tableName)
+            ->where("status = 1")
             ->fetchAllAssociative();
     }
     
