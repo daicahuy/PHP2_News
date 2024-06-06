@@ -25,6 +25,9 @@ class DetailPostController extends Controller
         // Lấy tin tức theo id
         $post = $this->posts->getByID($id);
 
+        // Update views tin tức
+        $this->posts->update($id, [ 'views' => ((int)$post['views'] + 1) ]);
+
         // Lấy ra tổng comments trong bài viết và gán thêm vào $post
         $post['totalCommentInPost'] = $this->comments->getAllCommentByIDPost($id);
 
