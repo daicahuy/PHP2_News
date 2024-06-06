@@ -126,6 +126,9 @@ class Posts extends Model
     public function getByID($id)
     {
         $queryBulder = clone($this->queryBuilder);
+    public function getByID($id)
+    {
+        $queryBulder = clone($this->queryBuilder);
 
         return $queryBulder
         ->select('A.*', 'B.id AS idCategory', 'B.nameCategory', 'C.name AS nameAuthor')
@@ -155,11 +158,6 @@ class Posts extends Model
        ->from('posts')
        ->fetchAssociative();
     }
-  
-    /**
-     * ////////////////////////////////////////////////////////////////////////////
-     * ////////////////////////////////////////////////////////////////////////////
-     */
 
     // get all
     public function getAll(int $status, string ...$colums)
@@ -206,4 +204,5 @@ class Posts extends Model
     {
         return $this->connect->delete($this->tableName, ["id" => $id]);
     }
+
 }
