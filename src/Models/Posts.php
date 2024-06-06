@@ -125,9 +125,7 @@ class Posts extends Model
     // Lấy tin tức theo ID
     public function getByID($id)
     {
-        $queryBulder = clone($this->queryBuilder);
-    public function getByID($id)
-    {
+    
         $queryBulder = clone($this->queryBuilder);
 
         return $queryBulder
