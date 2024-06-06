@@ -147,6 +147,21 @@ class Posts extends Model
      * ////////////////////////////////////////////////////////////////////////////
      */
 
+     public function postHot(){
+        return $this->queryBuilder
+        ->select('COUNT(DISTINCT id) AS numberPostHot')
+       ->from('posts')
+       ->where('idType = 2')
+       ->fetchAssociative();
+    }
+
+    public function postSum(){
+        return $this->queryBuilder
+        ->select('COUNT(DISTINCT id) AS numberPost')
+       ->from('posts')
+       ->fetchAssociative();
+    }
+
     // get all
     public function getAll(int $status, string ...$colums)
     {

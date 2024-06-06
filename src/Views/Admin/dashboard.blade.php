@@ -24,7 +24,7 @@
                 'components.statistic.mini-stat',
                 [
                     'title' => 'Total Categories',
-                    'quantity' => 10
+                    'quantity' => $cate['numbercategories']
                 ]
             )
             @include(
@@ -32,7 +32,7 @@
                 [
                     'title' => 'Total Breaking Posts',
                     'icon' => 'ion-flame ',
-                    'quantity' => 30
+                    'quantity' => $postHot['numberPostHot']
                 ]
             )
             @include(
@@ -40,7 +40,7 @@
                 [
                     'title' => 'Total Posts',
                     'icon' => 'mdi mdi-newspaper ',
-                    'quantity' => 10
+                    'quantity' => $post['numberPost']
                 ]
             )
             @include(
@@ -48,7 +48,7 @@
                 [
                     'title' => 'Total Comments',
                     'icon' => 'fa fa-user-circle-o ',
-                    'quantity' => 1456
+                    'quantity' => $comment['SoLuong']
                 ]
             )
         </div>
