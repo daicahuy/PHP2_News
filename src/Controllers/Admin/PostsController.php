@@ -3,57 +3,263 @@
 namespace Assignment\Php2News\Controllers\Admin;
 
 use Assignment\Php2News\Commons\Controller;
+use Assignment\Php2News\Commons\Helper;
+use Assignment\Php2News\Models\Category;
+use Assignment\Php2News\Models\Posts;
+use Assignment\Php2News\Models\Type;
+use Assignment\Php2News\Models\User;
+use Rakit\Validation\Validator;
 
 class PostsController extends Controller
 {
     private string $folder = 'pages.posts.';
-
-    // Posts List
-    public function list()
+    private Posts $post;
+    public function __construct()
     {
-        return $this->renderViewAdmin($this->folder . __FUNCTION__);
+        $this->post = new Posts();
+    }
+    // Posts List
+    public function list($status = 1)
+    {
+
+        $cates = new Category();
+        $cate = $cates->getAll('*');
+
+        $data = $this->post->getAll($status, 'p.id', 'p.title', 'image', 'p.content', 'u.name userName', 'c.nameCategory', 't.name typeName');
+        // debug($data);
+        return $this->renderViewAdmin($this->folder . __FUNCTION__, [
+            'cate' => $cate,
+            'data' => $data
+        ]);
     }
 
-    // Posts Add
+    // Posts Add  
     public function add()
     {
-        return $this->renderViewAdmin($this->folder . __FUNCTION__);
+        if (isset($_POST['btn-add'])) {
+            // Validato
+            $validator = new Validator();
+            $validation = $validator->make($_POST + $_FILES, [
+                'title'         => 'required|min:3', // Tối thiểu 3 kí tự
+                'description'   => 'required|min:5', // Tối thiểu 5 kí tự
+                'content'       => 'required|min:10', // Tối thiểu 10
+                'image'         => 'required|uploaded_file:0,2048K,png,jpeg,jpg', //tệp tải lên, max 2MB,....
+                'idAuthor'      => 'numeric', // phải là số
+                'idCategory'    => 'numeric',
+                'idType'        => 'numeric',
+            ]);
+            $validation->validate();
+            if ($validation->fails()) {
+                $_SESSION['notify']['danger'] = $validation->errors()->firstOfAll();
+                // Helper::debug(firstOfAll());
+            } else {
+                $data = [
+                    'title'        =>  $_POST['title'],
+                    'description'  => $_POST['description'],
+                    'content'      =>  $_POST['content'],
+                    'idAuthor'     =>  $_POST['idAuthor'],
+                    'idCategory'   =>  $_POST['idCategory'],
+                    'idType'       =>  $_POST['idType'],
+                    'status'       => 1,
+                    'dateChange' => date('Y-m-d H:i:s', time())
+                ];
+                if (!empty($_FILES['image']) && $_FILES['image']['size'] > 0) {
+
+                    $from = $_FILES['image']['tmp_name'];
+                    $to = 'uploads/users/' . uniqid() . time() . $_FILES['image']['name'];
+
+                    if (move_uploaded_file($from, PATH_ASSET . $to)) {
+                        $data['image'] = $to;
+                    }
+                }
+                $this->post->addPost($data);
+                $_SESSION['notify']['success'][] = 'Add successful';
+                header("Location: /admin/posts");
+                die;
+            }
+        }
+        // debug($_SESSION);
+        $users = new User();
+        $user = $users->getByStatus([2], ['id', 'name']);
+
+        // lấy dữ liệu category
+        $cates = new Category();
+        $cate  = $cates->getAll('*');
+
+        // lấy dữ liệu type
+        $types = new Type();
+        $type  = $types->getAll('*');
+        return $this->renderViewAdmin($this->folder . __FUNCTION__, [
+            'cate' => $cate,
+            'type' => $type,
+            'user' => $user,
+        ]);
     }
 
-    // Posts Detail
-    public function detail()
+    // Posts Detail luminate\Http\Request
+    public function detail($id)
     {
-        return $this->renderViewAdmin($this->folder . __FUNCTION__);
+        //User
+        $users = new User();
+        $user = $users->getByStatus([2], ['id', 'name']);
+
+        //Category
+        $cates = new Category();
+        $cate = $cates->getAll('*');
+
+        // $detailPost = new Post();
+        $data = $this->post->getById($id, 'p.id', 'p.title', 'description', 'image', 'idAuthor', 'p.content', 'u.name userName', 'c.nameCategory', 'c.id idCategory', 't.name typeName', 't.id idType');   // lưu ý thứ tự truyền vào tham số
+
+        $types = new Type();
+        $type = $types->getAll('*');
+        // echo __CLASS__ . '@' . __FUNCTION__ . ' - ID = ' . $id;
+        // Helper::debug($data);
+        return $this->renderViewAdmin($this->folder . __FUNCTION__, [
+            'user' => $user,
+            'data' => $data,
+            'cate' => $cate,
+            'type' => $type
+        ]);
     }
 
     // Posts Edit
-    public function edit()
+    public function edit($id)
     {
-        return $this->renderViewAdmin($this->folder . __FUNCTION__);
+        if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] ==  'POST') {
+
+            // Validato
+            $validator = new Validator();
+            $validation = $validator->make($_POST + $_FILES, [
+                'title'         => 'required|min:3', // Tối thiểu 3 kí tự
+                'description'   =>  'required|min:5',
+                'content'       => 'required|min:10', // Tối thiểu 10
+                'image'         => 'uploaded_file:0,2048K,png,jpeg,jpg', //tệp tải lên, max 2MB,....
+                'idAuthor'      => 'numeric', // phải là số
+                'idCategory'    => 'numeric',
+                'idType'        => 'numeric',
+            ]);
+            $validation->validate();
+            if ($validation->fails()) {
+                $_SESSION['notify']['danger'] = $validation->errors()->firstOfAll();
+                // header("Location: /admin/posts/edit/$id");
+                // exit;
+            } else {
+                $data = [
+                    'title'        =>  $_POST['title'],
+                    'description'  =>  $_POST['description'],
+                    'content'      =>  $_POST['content'],
+                    'idAuthor'     =>  $_POST['idAuthor'],
+                    'idCategory'   =>  $_POST['idCategory'],
+                    'idType'       =>  $_POST['idType'],
+                    'status'       => 1,
+                    'dateChange' => date('Y-m-d H:i:s', time())
+
+                ];
+                if (!empty($_FILES['image']) && $_FILES['image']['size'] > 0) {
+
+                    $from = $_FILES['image']['tmp_name'];
+                    $to = 'uploads/users/' . uniqid() . time() . $_FILES['image']['name'];
+
+                    if (move_uploaded_file($from, PATH_ASSET . $to)) {
+                        $data['image'] = $to;
+                    }
+                }
+                $this->post->update($id, $data);
+                $_SESSION['notify']['success'][] = 'Update successful';
+                header("Location: /admin/posts");
+                die;
+            }
+        }
+        //user
+        $users = new User();
+        $user = $users->getByStatus([2], ['id', 'name']);
+
+        // lấy dữ liệu category
+        $cates = new Category();
+        $cate = $cates->getAll('*');
+
+        // lấy dữ liệu chi tiết
+        $data = $this->post->getById($id, 'p.id', 'p.title', 'description', 'image', 'idAuthor', 'p.content', 'u.name userName', 'c.nameCategory', 'c.id idCategory', 't.name typeName', 't.id idType');   // lưu ý thứ tự truyền vào tham số
+
+        // lấy dữ liệu type
+        $types = new Type();
+        $type = $types->getAll('*');
+        // debug($data);
+
+        return $this->renderViewAdmin($this->folder . __FUNCTION__, [
+            'user' => $user,
+            'cate' => $cate,
+            'type' => $type,
+            'data' => $data
+        ]);
     }
 
     // Posts Hiden
-    public function hide()
+    public function hide($id)
     {
-        // HIDE code...
+        try {
+            $this->post->update(
+                $id,
+                [
+                    'status' => '0',
+                    'dateChange' => date('Y-m-d H:i:s', time())
+                ]
+            );
+            $_SESSION['notify']['success'][] = 'Successfully hidden';
+        } catch (\Throwable $e) {
+            $_SESSION['notify']['danger'][] = $e->getMessage();
+        }
+        header('Location: /admin/posts');
+        die;
     }
 
     // Posts Show
-    public function show()
+    public function show($id)
     {
-        // SHOW code...
+        try {
+            $this->post->update(
+                $id,
+                [
+                    'status' => '1',
+                    'dateChange' => date('Y-m-d H:i:s', time())
+                ]
+            );
+            $_SESSION['notify']['success'][] = 'Displayed successfully';
+        } catch (\Throwable $th) {
+            $_SESSION['notify']['danger'][] = $th->getMessage();
+        }
+
+
+        header('Location: /admin/posts/list-hide');
+        die;
     }
 
     // Posts Delete
-    public function delete()
+    public function delete($id)
     {
-        // DELETE code...
+        try {
+            $this->post->deletePost($id);
+            $_SESSION['notify']['success'][] = 'Deleted successfully';
+        } catch (\Throwable $th) {
+            $_SESSION['notify']['danger'][] = $th->getMessage();
+        }
+
+
+        header('Location: /admin/posts/list-hide');
+        die;
     }
 
     // Posts List Hiden
-    public function listHide()
+    public function listHide($status = 0)
     {
-        return $this->renderViewAdmin($this->folder . 'list-hide');
+
+        $cates = new Category();
+        $cate = $cates->getAll('*');
+
+        $data = $this->post->getAll($status, 'p.id', 'p.title', 'image', 'p.content', 'u.name userName', 'c.nameCategory', 't.name typeName');
+        return $this->renderViewAdmin($this->folder . 'list-hide', [
+            'cate' => $cate,
+            'data' => $data
+        ]);
     }
-    
 }

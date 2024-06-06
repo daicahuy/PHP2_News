@@ -10,6 +10,53 @@ class Posts extends Model
 
     private string $tableName = 'posts';
 
+    // get all
+    public function getAll(int $status, string ...$colums)
+    {
+        return $this->queryBuilder
+            ->select(...$colums)
+            ->from($this->tableName, 'p')
+            ->join('p', 'users', 'u', 'p.idAuthor = u.id')
+            ->join('p', 'categories', 'c', 'p.idCategory = c.id')
+            ->join('p', 'type', 't', 'p.idType = t.id')
+            ->where("p.status = ? ")
+            ->setParameter(0, $status)
+            ->orderBy("p.dateChange", "DESC")
+            ->fetchAllAssociative();
+    }
+    // get post by id     
+    public function getById(int $id, string ...$colums)
+    {
+        return $this->queryBuilder
+            ->select(...$colums)
+            ->from($this->tableName, 'p')
+            ->join('p', 'users', 'u', 'p.idAuthor = u.id')
+            ->join('p', 'categories', 'c', 'p.idCategory = c.id')
+            ->join('p', 'type', 't', 'p.idType = t.id')
+            ->where("p.status = 1 AND p.id=$id")
+            ->fetchAssociative();
+    }
+    //update post
+    public function update(int $id, $data = [])
+    {
+        return $this->connect->update($this->tableName, $data, ['id' => $id]);
+    }
+   
+    // delete post
+    public function deletePost(int $id)
+    {
+        return $this->connect->delete($this->tableName, ["id" => $id]);
+    }
+    // add 
+    public function addPost($data = [])
+    {
+        return $this->connect->insert($this->tableName, $data);
+    }
+
+    /**
+     * ////////////////////////////////////////////////////////////////////////////
+     * ////////////////////////////////////////////////////////////////////////////
+     */
 
     // Lấy top ... tin tức theo ngày mới nhất và kiểu ...
     // Mặc định là top 1, kiểu 1 (Normal)
