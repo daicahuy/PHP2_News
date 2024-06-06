@@ -29,7 +29,7 @@
 
                         <form action="/admin/posts/add" method="POST" enctype="multipart/form-data" class="mt-4">
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-8">
                                     <div class="form-group">
                                         <label class="d-block">Content</label>
                                         <div class="summernote">
@@ -38,7 +38,7 @@
                                         <textarea id="postContent" name="content" style="display:none;"></textarea>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label class="d-block">Title</label>
                                         <input class="form-control" type="text" placeholder="Title Post..."
@@ -73,17 +73,6 @@
                                                     @foreach ($type as $item)
                                                         <option value="{{ $item['id'] }}">{{ $item['name'] }}</option>
                                                     @endforeach
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label class="d-block" for="">Author</label>
-                                                <select class="form-control" name="idAuthor" type="nummber">
-                                                 
-                                                    <option value="{{ $_SESSION['user']['id'] }}">
-                                                        {{ $_SESSION['user']['name'] }}</option>
-                                                
                                                 </select>
                                             </div>
                                         </div>

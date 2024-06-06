@@ -35,15 +35,15 @@
                         <form action="/admin/posts/edit/{{ $data['id'] }}" method="POST" enctype="multipart/form-data"
                             class="mt-4">
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-8">
                                     <div class="form-group">
                                         <label class="d-block">Content</label>
-                                        <div class="summernote">{{ $data['content'] }}</div>
+                                        <div class="summernote">{!! $data['content'] !!}</div>
                                         <textarea id="postContent" name="content" style="display:none;"></textarea>
 
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label class="d-block">Title</label>
                                         <input class="form-control" type="text" placeholder="Title Post..."
@@ -57,9 +57,6 @@
                                     <div class="form-group">
                                         <label class="d-block">Image</label>
                                         <input type="file" name="image" accept="image/*" value="{{ $data['image'] }}">
-                                        <img src="{{ show_upload($data['image']) }}" width="40px" height="40"
-                                            style="object-fit: cover" alt="">
-
                                     </div>
                                     <div class="row">
                                         <div class="col-md-4">
@@ -85,15 +82,6 @@
                                                             {{ $tp['name'] }}
                                                         </option>
                                                     @endforeach
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label class="d-block" for="">Author</label>
-                                                <select class="form-control" name="idAuthor" type="nummber">
-                                                    <option value="{{ $_SESSION['user']['id'] }}">
-                                                        {{ $_SESSION['user']['name'] }}</option>                                                  
                                                 </select>
                                             </div>
                                         </div>
