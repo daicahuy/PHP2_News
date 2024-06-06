@@ -11,9 +11,6 @@ class Model
 
     public $queryBuilder;
 
-    // protected $queryBuilder;
-    // protected string $tableName;
-
     public function __construct()
     {
         try {
@@ -34,7 +31,6 @@ class Model
             debug($e);
         }
     }
-
 
     public function __destruct()
     {
