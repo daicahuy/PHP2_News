@@ -163,13 +163,13 @@ $router->mount('/admin', function () use ($router) {
         $router->match  ('GET|POST',    '/'                 ,       CommentsController::class       .   '@list');
 
         // Comments Detail Comment
-        $router->get    (               '/detail-comment'   ,       CommentsController::class       .   '@detailComment');
+        $router->get    (               '/detail-comment/{id}'   ,       CommentsController::class       .   '@detailComment');
 
         // Comments Delete Comment
-        $router->get    (               '/delete-comment'   ,       CommentsController::class       .   '@deleteComment');
+        $router->get    (               '/delete-comment/{id}'   ,       CommentsController::class       .   '@deleteComment');
 
         // Comments Delete Reply
-        $router->get    (               '/delete-reply'     ,       CommentsController::class       .   '@deleteReply');
+        $router->get    (               '/delete-reply/{id}'     ,       CommentsController::class       .   '@deleteReply');
    
     });
 

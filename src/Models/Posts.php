@@ -125,6 +125,7 @@ class Posts extends Model
     // Lấy tin tức theo ID
     public function getByID($id)
     {
+    
         $queryBulder = clone($this->queryBuilder);
 
         return $queryBulder
@@ -141,13 +142,7 @@ class Posts extends Model
         ->setParameter(0, $id)
         ->fetchAssociative();
     }
-
-    /**
-     * ////////////////////////////////////////////////////////////////////////////
-     * ////////////////////////////////////////////////////////////////////////////
-     */
-
-     public function postHot(){
+    public function postHot(){
         return $this->queryBuilder
         ->select('COUNT(DISTINCT id) AS numberPostHot')
        ->from('posts')
