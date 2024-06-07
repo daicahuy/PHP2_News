@@ -71,12 +71,14 @@
                             <div class="settings-header">
                                 <h2 class="mt-3">Settings</h2>
                             </div>
+                        @include('components.alert')
                             <form action="#" method="post" enctype="multipart/form-data" style="padding: 16px 0 0;">
+                               @foreach ($data as $key => $item)
                                 <div class="form-group d-flex justify-content-around ">
                                     <div class="settings-avatar">
                                         <label for="logo" style="margin-right: 24px">Logo</label>
                                         <div class="position-relative d-inline-block">
-                                            <img src="/assets/uploads/gir2.jpg" alt="Logo" class="avatar">
+                                            <img src="{{ show_upload($item['logo']) }}"  name = "logo" alt="Logo" class="avatar">
                                             <div class="upload-logo">
                                                 <i class="mdi mdi-camera" style="font-size: 2rem;"></i>
                                                 <input type="file" class="upload-input" id="logo" name="logo">
@@ -86,7 +88,7 @@
                                     <div class="settings-icon">
                                         <label for="icon" style="margin-right: 24px">Icon</label>
                                         <div class="position-relative d-inline-block settings-icon">
-                                            <img src="/assets/uploads/gir2.jpg" alt="Icon" class="avatar">
+                                            <img  src="{{ show_upload($item['icon']) }}" name = "icon" alt="Icon" class="avatar">
                                             <div class="upload-icon">
                                                 <i class="mdi mdi-camera" style="font-size: 2rem;"></i>
                                                 <input type="file" class="upload-input" id="icon" name="icon">
@@ -97,15 +99,16 @@
                                 <div class="form-group">
                                     <label for="name">Name</label>
                                     <input type="text" class="form-control" id="name" name="name"
-                                        value="Name">
+                                        value="{{ $item['name'] }}">
                                 </div>
                                 <div class="form-group">
                                     <label for="email">Email</label>
                                     <input type="email" class="form-control" id="email" name="email"
-                                        value="huymimimim@gmail.com">
+                                        value="{{ $item['email'] }}">
                                 </div>
                                 <button type="submit" class="btn btn-success float-right">Save Changes</button>
                             </form>
+                            @endforeach
                         </div>
                     </div>
                 </div>
