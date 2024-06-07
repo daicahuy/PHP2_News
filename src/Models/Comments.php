@@ -10,11 +10,17 @@ class Comments extends Model
 
 
     // Lấy tất cả comments bằng id post
-    public function getAll()
+    public function getAllByIdPost($id)
     {
-        return $this->queryBuilder
-            ->select('*')
-            ->from($this->tableName)
+        $queryBuilder = clone ($this->queryBuilder);
+
+        return $queryBuilder
+            ->select('cm.*', 'us.name', 'us.avatar')
+            ->from($this->tableName, 'cm')
+            ->Join('cm', 'users', 'us', 'cm.idUser = us.id')
+            ->Join('cm', 'posts', 'ps', 'cm.idPost = ps.id')
+            ->where('ps.id = ?')
+            ->setParameter(0, $id)
             ->fetchAllAssociative();
     }
     public function getByID($id)
@@ -96,4 +102,11 @@ class Comments extends Model
             ->setParameter(0, $id)
             ->executeQuery();
     }
+
+    public function addComment($data = [])
+    {
+        return $this->connect->insert($this->tableName, $data);
+    }
+
+    
 }

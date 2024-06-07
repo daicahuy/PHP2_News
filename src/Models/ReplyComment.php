@@ -23,6 +23,12 @@ class ReplyComment extends Model
             ->fetchAllAssociative();
     }
 
+    // add replycomment
+    public function addReply($data = [])
+    {
+        return $this->connect->insert($this->tableName, $data);
+    }
+
     public function deleteByIDComment($id)
     {
         return $this->queryBuilder
