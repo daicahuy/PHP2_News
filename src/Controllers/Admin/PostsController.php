@@ -23,7 +23,7 @@ class PostsController extends Controller
     {
 
         $cates = new Categories();
-        $cate = $cates->getAll('*');
+        $cate = $cates->getAll();
 
         $data = $this->post->getAll($status, 'p.id', 'p.title', 'image', 'p.content', 'u.name userName', 'c.nameCategory', 't.name typeName');
         // debug($data);
@@ -41,7 +41,7 @@ class PostsController extends Controller
             $validator = new Validator();
             $validation = $validator->make($_POST + $_FILES, [
                 'title'         => 'required|min:3', // Tối thiểu 3 kí tự
-                'description'   => 'required|min:5', // Tối thiểu 5 kí tự
+                'description'   => 'required|max:255', // Tối thiểu 5 kí tự
                 'content'       => 'required|min:10', // Tối thiểu 10
                 'image'         => 'required|uploaded_file:0,2048K,png,jpeg,jpg', //tệp tải lên, max 2MB,....
                 'idCategory'    => 'numeric',
@@ -83,7 +83,7 @@ class PostsController extends Controller
 
         // lấy dữ liệu category
         $cates = new Categories();
-        $cate  = $cates->getAll('*');
+        $cate  = $cates->getAll();
 
         // lấy dữ liệu type
         $types = new Type();
@@ -104,7 +104,7 @@ class PostsController extends Controller
 
         //Category
         $cates = new Categories();
-        $cate = $cates->getAll('*');
+        $cate = $cates->getAll();
 
         // $detailPost = new Post();
         $data = $this->post->getByIDDetail($id, 'p.id', 'p.title', 'description', 'image', 'idAuthor', 'p.content', 'u.name userName', 'c.nameCategory', 'c.id idCategory', 't.name typeName', 't.id idType');   // lưu ý thứ tự truyền vào tham số
@@ -130,7 +130,7 @@ class PostsController extends Controller
             $validator = new Validator();
             $validation = $validator->make($_POST + $_FILES, [
                 'title'         => 'required|min:3', // Tối thiểu 3 kí tự
-                'description'   =>  'required|min:5',
+                'description'   => 'required|max:255',
                 'content'       => 'required|min:10', // Tối thiểu 10
                 'image'         => 'uploaded_file:0,2048K,png,jpeg,jpg', //tệp tải lên, max 2MB,....
                 'idCategory'    => 'numeric',
@@ -174,7 +174,7 @@ class PostsController extends Controller
 
         // lấy dữ liệu category
         $cates = new Categories();
-        $cate = $cates->getAll('*');
+        $cate = $cates->getAll();
 
         // lấy dữ liệu chi tiết
         $data = $this->post->getByIDDetail($id, 'p.id', 'p.title', 'description', 'image', 'idAuthor', 'p.content', 'u.name userName', 'c.nameCategory', 'c.id idCategory', 't.name typeName', 't.id idType');   // lưu ý thứ tự truyền vào tham số
@@ -252,7 +252,7 @@ class PostsController extends Controller
     {
 
         $cates = new Categories();
-        $cate = $cates->getAll('*');
+        $cate = $cates->getAll();
 
         $data = $this->post->getAll($status, 'p.id', 'p.title', 'image', 'p.content', 'u.name userName', 'c.nameCategory', 't.name typeName');
         return $this->renderViewAdmin($this->folder . 'list-hide', [
