@@ -7,7 +7,8 @@
                 <div class="float-right page-breadcrumb">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="#!">Drixo</a></li>
-                        <li class="breadcrumb-item active">Comments</li>
+                        <li class="breadcrumb-item"><a href="/admin/comments">Comments</a></li>
+                        <li class="breadcrumb-item active">Detailt Post</li>
                     </ol>
                 </div>
                 <h5 class="page-title">Comments</h5>
@@ -21,7 +22,6 @@
                         @include('components.alert')
                         <div class="d-flex justify-content-between mb-4" style="width: 100%">
                             <div class="d-flex">
-                                @include('components.table.filter')
                             </div>
                             @include('components.table.search')
                         </div>
@@ -40,11 +40,16 @@
                                     </tr>
                                 </thead>
                                 <tbody class="table-group-divider">
+                                    @empty($comments)
+                                        <tr>
+                                            <td colspan="6" class="text-center">No Comments Here</td>
+                                        </tr>
+                                    @endempty
                                     @foreach ($comments as $index => $comment)
                                         <tr>
                                             <th>{{ $index + 1 }}</th>
                                             <td>
-                                                {{ $comment['name']}}
+                                                {{ $comment['name'] }}
                                             </td>
                                             <td>
                                                 <img src="/assets/{{ $comment['avatar'] }}" alt="" width="80"
@@ -68,34 +73,46 @@
                                             </td>
                                             <td style="text-align: center">
                                                 @if ($comment['totalReply'])
-                                        <a href="/admin/comments/detail-comment/{{$comment['id']}}" type="submit" data-toggle="tooltip" data-placement="top" title="Reply: {{ $comment['totalReply'] }}">
-                                            <i class="mdi mdi-comment-text-outline" style="font-size: 34px; color: green"></i>
-                                        </a>
-                                    @else
-                                        <a href="#!" type="submit" data-toggle="tooltip" data-placement="top" title="No Reply">
-                                            <i class="mdi mdi-comment-remove-outline" style="font-size: 34px; color: red"></i>
-                                        </a>
-                                    @endif
+                                                    <a
+                                                        href="/admin/comments/detail-comment/{{ $idPost }}/{{ $comment['id'] }}"
+                                                        type="submit" data-toggle="tooltip" data-placement="top"
+                                                        title="Reply: {{ $comment['totalReply'] }}"
+                                                    >
+                                                        <i
+                                                            class="mdi mdi-comment-text-outline"
+                                                            style="font-size: 34px; color: green"
+                                                        >
+                                                        </i>
+                                                    </a>
+                                                @else
+                                                    <a href="#!" type="submit" data-toggle="tooltip"
+                                                        data-placement="top" title="No Reply">
+                                                        <i class="mdi mdi-comment-remove-outline"
+                                                            style="font-size: 34px; color: red"></i>
+                                                    </a>
+                                                @endif
                                             </td>
                                             <td>
-                                                <label for="">{{$comment['date']}}</label>
+                                                <label for="">{{ $comment['date'] }}</label>
                                             </td>
                                             <td>
-                                                <a href="/admin/comments/delete-comment/{{$comment['id']}}"
-                                                    class="btn btn-danger waves-effect waves-light" data-toggle="tooltip"
-                                                    data-placement="top" title="" data-original-title="Delete"
-                                                    onclick="return confirm('Delete comment {{ $comment['name']}}??')">
-                                                    <i class="mdi mdi-delete"></i>
-                                                </a>
+                                                <form action="" method="POST">
+                                                    <button
+                                                        type="submit"
+                                                        class="btn btn-danger waves-effect waves-light" data-toggle="tooltip"
+                                                        data-placement="top" title="" data-original-title="Delete"
+                                                        onclick="return confirm('Delete comment {{ $index + 1 }}??')"
+                                                        name="btn-delete-comment"
+                                                        value="{{ $comment['id'] }}"
+                                                    >
+                                                        <i class="mdi mdi-delete"></i>
+                                                    </button>
+                                                </form>
                                             </td>
                                         </tr>
-                                        
                                     @endforeach
                                 </tbody>
                             </table>
-                        </div>
-                        <div class="mt-4 d-flex justify-content-between">
-                            @include('components.table.pagination')
                         </div>
                     </div>
                 </div>

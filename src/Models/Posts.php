@@ -178,23 +178,72 @@ class Posts extends Model
     }
 
     // get all
-    public function getAllByPaginate(int $status, $colums = ['*'], $page = 1, $perPage = 10)
+    public function getAllByPaginate(int $status, $colums, $page, $perPage, $idCategory = NULL, $search = NULL)
     {
 
         $queryBuilder = clone($this->queryBuilder);
 
         $offset = $perPage * ($page - 1);
         
-        $totalPage = ceil($this->postSum() / $perPage);
-
         $posts = $queryBuilder
             ->select(...$colums)
             ->from($this->tableName, 'p')
             ->join('p', 'users', 'u', 'p.idAuthor = u.id')
             ->join('p', 'categories', 'c', 'p.idCategory = c.id')
-            ->join('p', 'type', 't', 'p.idType = t.id')
-            ->where("p.status = ? ")
-            ->setParameter(0, $status)
+            ->join('p', 'type', 't', 'p.idType = t.id');
+
+
+        if($idCategory) {
+            if($search) {
+                $posts = $posts
+                ->where(
+                    "p.status = ? AND
+                    c.id = ? AND
+                    (p.title LIKE ? || p.title LIKE ? || p.title LIKE ?
+                    || c.nameCategory LIKE ? || c.nameCategory LIKE ? || c.nameCategory LIKE ? )"
+                )
+                ->setParameter(0, $status)
+                ->setParameter(1, $idCategory)
+                ->setParameter(2, '%'.$search)
+                ->setParameter(3, $search.'%')
+                ->setParameter(4, '%'.$search.'%')
+                ->setParameter(5, '%'.$search)
+                ->setParameter(6, $search.'%')
+                ->setParameter(7, '%'.$search.'%');
+            }
+            else {
+                $posts = $posts
+                ->where("p.status = ? AND c.id = ?")
+                ->setParameter(0, $status)
+                ->setParameter(1, $idCategory);
+            }
+        }
+        else {
+            if($search) {
+                $posts = $posts
+                ->where(
+                    "p.status = ? AND
+                    (p.title LIKE ? || p.title LIKE ? || p.title LIKE ?
+                    || c.nameCategory LIKE ? || c.nameCategory LIKE ? || c.nameCategory LIKE ? )"
+                )
+                ->setParameter(0, $status)
+                ->setParameter(1, '%'.$search)
+                ->setParameter(2, $search.'%')
+                ->setParameter(3, '%'.$search.'%')
+                ->setParameter(4, '%'.$search)
+                ->setParameter(5, $search.'%')
+                ->setParameter(6, '%'.$search.'%');
+            }
+            else {
+                $posts = $posts
+                ->where("p.status = ? ")
+                ->setParameter(0, $status);
+            }
+        }
+
+        $totalPage = ceil(count($posts->fetchAllAssociative()) / $perPage);
+            
+        $posts = $posts
             ->orderBy("p.dateChange", "DESC")
             ->setFirstResult($offset)
             ->setMaxResults($perPage)

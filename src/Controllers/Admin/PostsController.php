@@ -27,19 +27,28 @@ class PostsController extends Controller
         
         $page = $_GET['page'] ?? 1;
         $perPage = $_GET['per-page'] ?? 5;
+        $idCategorySelected = $_GET['id_category'] ?? NULL;
+        $search = $_GET['search'] ?? NULL;
+
+        $categories = $this->categories->getAll('*');
 
         [$posts, $totalPage] = $this->post->getAllByPaginate(
             $status,
             ['p.id', 'p.title', 'image', 'u.name userName', 'c.nameCategory', 't.name typeName'],
             $page,
-            $perPage
+            $perPage,
+            $idCategorySelected,
+            $search
         );
 
         return $this->renderViewAdmin($this->folder . __FUNCTION__, [
+            'categories' => $categories,
+            'idCategorySelected' => $idCategorySelected,
             'posts' => $posts,
             'totalPage' => $totalPage,
             'page' => $page,
-            'perPage' => $perPage
+            'perPage' => $perPage,
+            'search' => $search
         ]);
     }
 
