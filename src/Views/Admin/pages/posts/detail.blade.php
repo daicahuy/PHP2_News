@@ -54,13 +54,13 @@
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-md-6">
+                                        <div class="col-md-4">
                                             <div class="form-group">
                                                 <label class="d-block" for="">Name Category</label>
                                                 <input type="text" class="form-control" value="{{ $data['nameCategory'] }}" disabled>
                                             </div>
                                         </div>
-                                        <div class="col-md-6">
+                                        <div class="col-md-4">
                                             <div class="form-group">
                                                 <label class="d-block" for="">Type</label>
                                                 <input type="text" class="form-control" value="{{ $data['typeName'] }}" disabled>

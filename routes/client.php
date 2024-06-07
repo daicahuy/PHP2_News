@@ -33,7 +33,8 @@ $router->before('GET|POST', '/auth(?!/logout)(/*.*)', function() {
 
 $router->get  (              "/"                       ,       HomeController::class              .  "@index");
 $router->get  (              "/detail-category/{id}"   ,       DetailCategoryController::class    .  "@index");
-$router->get  (              "/detail-post/{id}"       ,       DetailPostController::class        .  "@index");
+$router->match('GET|POST',   "/detail-post/{id}"       ,       DetailPostController::class        .  "@index");
+// $router->get  (              "/detail-post/add{id}"    ,       DetailPostController::class        .  "@addComment");
 $router->get  (              "/profile"                ,       ProfileController::class           .  "@index");
 $router->match("GET|POST",   "/profile/edit"           ,       ProfileController::class           .  "@edit");
 

@@ -59,7 +59,7 @@
                                         <input type="file" name="image" accept="image/*" value="{{ $data['image'] }}">
                                     </div>
                                     <div class="row">
-                                        <div class="col-md-6">
+                                        <div class="col-md-4">
                                             <div class="form-group">
                                                 <label class="d-block" for="">Name Category</label>
                                                 <select class="form-control" name="idCategory">
@@ -72,7 +72,7 @@
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="col-md-6">
+                                        <div class="col-md-4">
                                             <div class="form-group">
                                                 <label class="d-block" for="">Type</label>
                                                 <select class="form-control" name="idType">

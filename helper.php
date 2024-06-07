@@ -1,5 +1,6 @@
 <?php
 
+
 const BASE_URL_ABSOLUTE = __DIR__;
 const PATH_ASSET = __DIR__ . '/assets/';
 
