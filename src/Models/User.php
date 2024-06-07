@@ -55,6 +55,60 @@ class User extends Model
 
     }
 
+    public function getByStatusPanigate(
+        $status,
+        $columnsName,
+        $orderBy,
+        $page,
+        $perPage,
+        $idManager = NULL
+    )
+    {
+        $queryBuilder = clone($this->queryBuilder);
+
+        $offset = $perPage * ($page - 1);
+
+        // điều kiện truy vấn trong WHERE
+        $condition = '';
+        
+        if (count($status) >= 2) {
+
+            // các thông số trong where
+            $params = [];
+        
+            foreach($status as $statu) {
+                $params[] = $this->queryBuilder->expr()->eq('status', $statu);
+            }
+
+            $condition = $this->queryBuilder->expr()->or(
+                ...$params
+            );
+            
+        } else {
+            $condition = "status = {$status[0]}";
+        }
+
+        if($idManager) {
+            $condition .= "AND id <> " . $idManager;
+        }
+
+        $users = $queryBuilder
+            ->select(...$columnsName)
+            ->from($this->tableName)
+            ->where($condition);
+
+        $totalPage = ceil(count($users->fetchAllAssociative()) / $perPage);
+        
+        $users = $users
+            ->orderBy(...$orderBy)
+            ->setFirstResult($offset)
+            ->setMaxResults($perPage)
+            ->fetchAllAssociative();
+
+
+        return [$users, $totalPage];
+    }
+
     // Hàm getByID: Lấy theo ID
     public function getByID($id, $columnsName = ['*'])
     {

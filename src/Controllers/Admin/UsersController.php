@@ -20,25 +20,28 @@ class UsersController extends Controller
     // USERS LIST
     public function list()
     {
-        
+        $page = $_GET['page'] ?? 1;
+        $perPage = $_GET['per-page'] ?? 5;
+
         // Lấy danh sách users theo trạng thái
-        $users = $this->user->getByStatus(
+        [$users, $totalPage] = $this->user->getByStatusPanigate(
             [1, 2],
-            ['id', 'email', 'role', 'avatar', 'status']
+            ['id', 'email', 'role', 'avatar', 'status'],
+            ['id', 'DESC'],
+            $page,
+            $perPage,
+            $_SESSION['user']['id']
         );
 
-        $usersExceptMe = array_filter(
-            $users,
-            fn($user) => $user['id'] !== $_SESSION['user']['id']
-        );
 
-        // Helper::debug($users);
-        // Helper::debug($usersExceptMe);
         return $this->renderViewAdmin (
 
             $this->folder . __FUNCTION__,
             [
-                'users' => $usersExceptMe
+                'users' => $users,
+                'totalPage' => $totalPage,
+                'page' => $page,
+                'perPage' => $perPage
             ]
 
         );
@@ -210,18 +213,25 @@ class UsersController extends Controller
     // USERS LISTLOCK
     public function listLock()
     {
+        $page = $_GET['page'] ?? 1;
+        $perPage = $_GET['per-page'] ?? 5;
 
         // Lấy users theo trạng thái
-        $usersLock = $this->user->getByStatus(
+        [$usersLock, $totalPage] = $this->user->getByStatusPanigate(
             [0],
             ['id', 'email', 'role', 'avatar', 'status'],
-            ['updated_at', 'DESC']
+            ['updated_at', 'DESC'],
+            $page,
+            $perPage
         );
 
         return $this->renderViewAdmin(
             $this->folder . 'list-lock',
             [
-                'usersLock' => $usersLock
+                'usersLock' => $usersLock,
+                'totalPage' => $totalPage,
+                'page' => $page,
+                'perPage' => $perPage
             ]
         );
 
