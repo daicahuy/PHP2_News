@@ -20,19 +20,20 @@ class CategoriesController extends Controller
     {
         // Categories Add
         if (isset($_POST['btn-add'])) {
-
-            try {
-                // Helper::debug($this->categories->add($_POST['nameCategory']));
-                $this->categories->add($_POST['nameCategory']);
-                $_SESSION['notify']['success'][] = "Đã thêm danh mục mới {$_POST['nameCategory']}!";
-            } catch (\Throwable $e) {
-                $_SESSION['notify']['danger'][] = $e->getMessage();
+            if (empty($_POST['nameCategory'])) {
+                $_SESSION['notify']['danger'][] = "Vui lòng nhập dữ liệu cho trường Name Category !";
+            } else {
+                try {
+                    $this->categories->add($_POST['nameCategory']);
+                    $_SESSION['notify']['success'][] = "Đã thêm danh mục mới {$_POST['nameCategory']}!";
+                } catch (\Throwable $e) {
+                    $_SESSION['notify']['danger'][] = $e->getMessage();
+                }
             }
         }
 
 
         // Categories List
-
         $category = $this->categories->getByStatus(1);
         // Helper::debug($cate);
         return $this->renderViewAdmin($this->folder . __FUNCTION__, ['categories' => $category]);
