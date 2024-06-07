@@ -51,10 +51,10 @@
                                             </tr>
                                         </thead>
                                         <tbody class="table-group-divider">
-                                            @foreach ($data as $item)
+                                            @foreach ($data as $index => $item)
                                             <tr>
                                                     
-                                                <td scope="row">{{$item['id']}}</td>
+                                                <td scope="row">{{$index + 1}}</td>
                                                 <td>{{$item['nameTag']}}</td>
                                                 {{-- <td>
                                                     <img src="/assets/uploads/gir2.jpg" alt="" width="80"
