@@ -151,26 +151,31 @@
                                                     {{ $A['content'] }}
                                                 </p>
                                             </div>
-{{--  --}}                                  
-                                            @include('components.alert')
+
+                                            {{-- @include('components.alert') --}}
                                             <div class="comments-form">
                                                 <form action="{{ $post['id'] }}" method="POST">
                                                     <div class="row">
                                                         <div class="col-md-12">
                                                             <div class="form-group">
 
-                                                                <input type="text" name="replyContent" id="" style="width: 100%">
+                                                                <input type="text" name="replyContent" id=""
+                                                                    style="width: 100%">
 
-                                                                <input type="hidden" name="idPost" value="{{ $post['id'] }}">{{--id bài post  --}}
-                                                                <input type="hidden" name="idReplyUser" value="{{$A['idUser']}}">{{-- id user bình luận cha --}}
-                                                                <input type="hidden" name="idComment"value="{{ $A['id'] }}">{{--id bình luận cha  --}}
-                                                                    
+                                                                <input type="hidden" name="idPost"
+                                                                    value="{{ $post['id'] }}">{{-- id bài post  --}}
+                                                                <input type="hidden" name="idReplyUser"
+                                                                    value="{{ $A['idUser'] }}">{{-- id user bình luận cha --}}
+                                                                <input type="hidden"
+                                                                    name="idComment"value="{{ $A['id'] }}">{{-- id bình luận cha  --}}
+
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="text-left">
-                                                        <button class="comment-reply" type="submit"><i class="fa fa-share"></i> Trả lời</button>
-                                                    </div>                                                   
+                                                        <button class="comment-reply" type="submit"><i
+                                                                class="fa fa-share"></i> Trả lời</button>
+                                                    </div>
                                                 </form>
                                             </div>
 
@@ -200,26 +205,31 @@
                                                             </p>
                                                         </div>
 
-{{-- x2 Reply --}}
-                                                        @include('components.alert')
+                                                        {{-- x2 Reply --}}
+                                                        {{-- @include('components.alert') --}}
                                                         <div class="comments-form">
                                                             <form action="{{ $post['id'] }}" method="POST">
                                                                 <div class="row">
                                                                     <div class="col-md-12">
                                                                         <div class="form-group">
 
-                                                                            <input type="text" name="replyContent" id="" style="width: 100%">
+                                                                            <input type="text" name="replyContent"
+                                                                                id="" style="width: 100%">
 
-                                                                            <input type="hidden" name="idPost" value="{{ $post['id'] }}">{{--id bài post  --}}
-                                                                            <input type="hidden" name="idReplyUser" value="{{$b['idReplyUser']}}">{{-- id user bình luận cha --}}
-                                                                            <input type="hidden" name="idComment"value="{{ $A['id'] }}">{{--id bình luận cha  --}}
-                                                                                
+                                                                            <input type="hidden" name="idPost"
+                                                                                value="{{ $post['id'] }}">{{-- id bài post  --}}
+                                                                            <input type="hidden" name="idReplyUser"
+                                                                                value="{{ $b['idReplyUser'] }}">{{-- id user bình luận cha --}}
+                                                                            <input type="hidden"
+                                                                                name="idComment"value="{{ $A['id'] }}">{{-- id bình luận cha  --}}
+
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                                 <div class="text-left">
-                                                                    <button class="comment-reply" type="submit"><i class="fa fa-share"></i> Trả lời</button>
-                                                                </div>                                                   
+                                                                    <button class="comment-reply" type="submit"><i
+                                                                            class="fa fa-share"></i> Trả lời</button>
+                                                                </div>
                                                             </form>
                                                         </div>
 
@@ -234,29 +244,7 @@
                             @endforeach
 
 
-                            {{-- <div class="comment last">
-                <img
-                  class="comment-avatar pull-left"
-                  alt=""
-                  src="{{$A['avatar']}}"
-                />
-                <div class="comment-body">
-                  <div class="meta-data">
-                    <span class="comment-author">{{$A['name']}}</span>
-                    <span class="comment-date pull-right">{{$A['date']}}</span>
-                  </div>
-                  <div class="comment-content">
-                    <p>
-                      {{$A['content']}}
-                    </p>
-                  </div>
-                  <div class="text-left">
-                    <a class="comment-reply" href="#"
-                      ><i class="fa fa-share"></i> Trả lời</a
-                    >
-                  </div>
-                </div>
-              </div> --}}
+
 
 
 
