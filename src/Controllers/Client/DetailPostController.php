@@ -31,65 +31,37 @@ class DetailPostController extends Controller
         if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] ==  'POST') {
 
             $id = $_POST['idPost'];
-            try {
-                if (!isset($_SESSION['user'])) {
-                    $_SESSION['notify']['danger'][] = 'You need to log in to comment';
-                } else {
-                    if (!empty($_POST['replyContent'])) {
+
+            if (!isset($_SESSION['user'])) {
+                $_SESSION['notify']['danger'][] = 'You need to log in to comment';
+            } else {
+                try {
+                    if (isset($_POST['replyContent']) && !empty($_POST['replyContent'])) {
                         // debug()
                         $this->replyComment->addReply([
                             'content'       =>   $_POST['replyContent'],
                             'idUser'        =>   $_SESSION['user']['id'],
                             'idReplyUser'   =>   $_POST['idReplyUser'],
                             'idComment'     =>   $_POST['idComment'],
-                        ]);                       
-                    }else {
-                        $_SESSION['notify']['danger'][] = 'Comments are empty';
-                    }
-                    if (isset($_POST['content'])) {
-                        // debug();
-
+                        ]);
+                        $_SESSION['notify']['success'][] = 'Comment successful';
+                    } elseif (isset($_POST['content']) && !empty($_POST['content'])) {
                         $this->comments->addComment([
                             'content'  =>   $_POST['content'],
                             'idUser'   =>   $_SESSION['user']['id'],
                             'idPost'   =>   $id,
                         ]);
                         $_SESSION['notify']['success'][] = 'Comment successful';
-                    }
+                    } else {
+                        $_SESSION['notify']['danger'][] = 'Comments are empty';
+                    }                    
+                } catch (\Throwable $e) {
+                    $_SESSION['notify']['danger'][] = 'Comments are empty';
+                    // $_SESSION['notify']['danger']  = $e->getMessage();
                 }
-            } catch (\Throwable $e) {
-                $_SESSION['notify']['danger']  = $e->getMessage();
             }
-            // debug($id);
-            // header("Location:detail-post/$id");
-            // die;
         }
-        //reply comment
-        // if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] ==  'POST') {
-        //     debug($_GET);
-        //     $id = $_POST['idPost'];
-        //     try {
-        //         if (!isset($_SESSION['user'])) {
-        //             $_SESSION['notify']['danger'][] = 'You need to log in to comment';
-        //         } else {
-        //             if (!empty($_POST['content'])) {
-        //                 // debug();
-
-        //                 $this->comments->addComment([
-        //                     'content'  =>   $_POST['content'],
-        //                     'idUser'   =>   $_SESSION['user']['id'],
-        //                     'idPost'   =>   $id,
-        //                 ]);
-        //                 $_SESSION['notify']['success'][] = 'Comment successful';
-        //             }
-        //         }
-        //     } catch (\Throwable $e) {
-        //         $_SESSION['notify']['danger']  = $e->getMessage();
-        //     }
-        //     // debug($id);
-        //     // header("Location:detail-post/$id");
-        //     // die;
-        // }
+       
         // Lấy tin tức theo id
         $post = $this->posts->getByID($id);
 
