@@ -19,26 +19,41 @@ class TagsController extends Controller
     // Tags List
     public function list()
     {
-        
+
         if (isset($_POST['btn-add'])) {
 
             try {
                 if (empty($_POST['nameTag'])) {
-                                $_SESSION['notify']['danger'][] = "Please enter name Tags";
-                            }else{
-                                $this->tags->insert($_POST['nameTag']);
-                            $_SESSION['notify']['success'][] = "Đã thêm danh mục mới {$_POST['nameTag']}!";
-                            }
+                    $_SESSION['notify']['danger'][] = "Please enter name Tags";
+                } else {
+                    $this->tags->insert($_POST['nameTag']);
+                    $_SESSION['notify']['success'][] = "Đã thêm danh mục mới {$_POST['nameTag']}!";
+                }
             } catch (\Throwable $e) {
                 $_SESSION['notify']['danger'][] = $e->getMessage();
             }
         }
 
+        //getByStatusPaginate
+        $page = $_GET['page'] ?? 1;
+        $perPage = $_GET['per-page'] ?? 5;
+        $search = $_GET['search'] ?? NULL;
 
         // tags List
+        [$tags, $totalPage] = $this->tags->getByStatusPaginate(1, $page, $perPage, $search);
 
-        $data = $this->tags->getByStatus(1);
-        return $this->renderViewAdmin($this->folder . 'list', ['data' => $data]);
+        // debug($tags);
+
+        return $this->renderViewAdmin(
+            $this->folder . 'list',
+            [
+                'tags' => $tags,
+                'totalPage' => $totalPage,
+                'page' => $page,
+                'perPage' => $perPage,
+                'search' => $search
+            ]
+        );
     }
 
     // Tags Edit
@@ -79,6 +94,7 @@ class TagsController extends Controller
 
         // HIDE code...
         try {
+            
             $this->tags->getShow($id, ['status' => '0']);
 
             $_SESSION['notify']['success'][] = "Hide nameTag !";
@@ -122,7 +138,27 @@ class TagsController extends Controller
     // Tags List Hiden
     public function listHide()
     {
-        $data = $this->tags->getAllHide('*');
-        return $this->renderViewAdmin($this->folder . 'list-hide', ['data' => $data]);
+        $page = $_GET['page'] ?? 1;
+        $perPage = $_GET['per-page'] ?? 5;
+        $search = $_GET['search'] ?? NULL;
+
+
+        [$tagsHide, $totalPage] = $this->tags->getByStatusPaginate(
+            0,
+            $page,
+            $perPage,
+            $search
+        );
+
+        return $this->renderViewAdmin(
+            $this->folder . 'list-hide',
+            [
+                'tagsHide' => $tagsHide,
+                'totalPage' => $totalPage,
+                'page' => $page,
+                'perPage' => $perPage,
+                'search' => $search
+            ]
+        );
     }
 }

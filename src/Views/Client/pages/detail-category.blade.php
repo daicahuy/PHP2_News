@@ -71,14 +71,15 @@
                         
                     </div>
 
-                    {{-- Phân trang  --}}   
+                    {{-- Phân trang  --}}
                     <div class="paging">
                         <ul class="pagination">
-                            <li class="active"><a href="#">1</a></li>
-                            <li><a href="#">2</a></li>
-                            <li><a href="#">3</a></li>
-                            <li><a href="#">4</a></li>
-                            <li><a href="#">»</a></li>
+                            @foreach (array_fill(1, $totalPagePosts, NULL) as $index => $item)
+                                <li class="{{ $page == $index ? 'active' : '' }}"><a href="?page={{ $index }}">{{ $index }}</a></li>
+                            @endforeach
+                            @if (!($totalPagePosts == $page))
+                                <li><a href="?page={{ $page + 1 }}">»</a></li>
+                            @endif
                         </ul>
                     </div>
 

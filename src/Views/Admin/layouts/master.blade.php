@@ -6,11 +6,11 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0,minimal-ui" />
-    <title>Drixo - Responsive Booststrap 4 Admin & Dashboard</title>
+    <title>{{ $_SESSION['settings']['name'] }} - Admin</title>
     <meta content="Admin Dashboard" name="description" />
     <meta content="ThemeDesign" name="author" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <link rel="shortcut icon" href="/assets/admin/assets/images/favicon.ico" />
+    <link rel="shortcut icon" href="/assets/{{ $_SESSION['settings']['icon'] }}" />
     @yield('css')
     <link href="/assets/admin/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <link href="/assets/admin/assets/css/icons.css" rel="stylesheet" type="text/css" />

@@ -35,7 +35,7 @@ class DetailPostController extends Controller
             if (!isset($_SESSION['user'])) {
                 $_SESSION['notify']['danger'][] = 'You need to log in to comment';
             } else {
-                try {
+                try {   
                     if (isset($_POST['replyContent']) && !empty($_POST['replyContent'])) {
                         // debug()
                         $this->replyComment->addReply([
@@ -77,7 +77,7 @@ class DetailPostController extends Controller
 
         foreach ($commentsA as $key => $commentA) {
 
-            $commentsA[$key]['totalReply'] = $this->replyComment->getReplyComment($commentA['id']);
+            $commentsA[$key]['totalReply'] = $this->replyComment->getReplyCommentByIDComment($commentA['id']);
         }
         // debug($commentsA);
 

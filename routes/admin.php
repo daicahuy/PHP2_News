@@ -159,17 +159,14 @@ $router->mount('/admin', function () use ($router) {
     // COMMENTS
     $router->mount('/comments'  , function () use ($router) {
         
+        // Preview Comments List
+        $router->match  ('GET|POST',    '/'                 ,       CommentsController::class       .   '@index');
+
         // Comments List
-        $router->match  ('GET|POST',    '/'                 ,       CommentsController::class       .   '@list');
+        $router->match  ('GET|POST',    '/list/{id}'                 ,       CommentsController::class       .   '@list');
 
         // Comments Detail Comment
-        $router->get    (               '/detail-comment/{id}'   ,       CommentsController::class       .   '@detailComment');
-
-        // Comments Delete Comment
-        $router->get    (               '/delete-comment/{id}'   ,       CommentsController::class       .   '@deleteComment');
-
-        // Comments Delete Reply
-        $router->get    (               '/delete-reply/{id}'     ,       CommentsController::class       .   '@deleteReply');
+        $router->match  ('GET|POST',    '/detail-comment/{idPost}/{idComment}'   ,       CommentsController::class       .   '@detailComment');
    
     });
 

@@ -17,14 +17,14 @@ class SettingsController extends Controller
     {
         $this->Setting = new Settings();
     }
+    
     // Settings
     public function index()
     {
 
-        $data = $this->Setting->getAll('*');
-        // debug($data);
-
-        return $this->renderViewAdmin($this->folder . __FUNCTION__, ['data' => $data]);
+        $settings = $this->Setting->get();
+        
+        return $this->renderViewAdmin($this->folder . __FUNCTION__, ['settings' => $settings]);
     }
 
     // Settings Edit
@@ -75,8 +75,8 @@ class SettingsController extends Controller
             }
         }
         
-        $data = $this->Setting->getAll('*');
-        // debug($data);
-        return $this->renderViewAdmin($this->folder . __FUNCTION__, ['data' => $data]);
+        $settings = $this->Setting->get();
+
+        return $this->renderViewAdmin($this->folder . __FUNCTION__, ['settings' => $settings]);
     }
 }

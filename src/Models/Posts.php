@@ -122,10 +122,58 @@ class Posts extends Model
         ->fetchAllAssociative();
     }
 
+    public function getAllByIDCategoryPaginate($id, $page, $perPage)
+    {
+        $queryBulder = clone($this->queryBuilder);
+
+        $offset = $perPage * ($page - 1);
+        
+        $postsInCategory = $queryBulder
+        ->select(
+            'A.id', 'A.title', 'A.description', 'A.image', 'A.date',
+            'B.id AS idCategory', 'B.nameCategory',
+            'C.name AS nameAuthor',
+            '
+                (
+                    SELECT
+                        SUM(totalReplyComment) + COUNT(comments.id)
+                    FROM
+                    ( 
+                        SELECT
+                            B.id,
+                            ( SELECT COUNT(*) FROM replycomment A WHERE A.idComment = B.id ) AS totalReplyComment
+                        FROM comments B
+                        WHERE idPost = A.id
+                    ) AS comments
+                ) AS sumCommentInPost
+            '
+        )
+        ->from($this->tableName, 'A')
+        ->innerJoin('A', 'categories', 'B', 'A.idCategory = B.id')
+        ->innerJoin('A', 'users', 'C', 'A.idAuthor = C.id')
+        ->where(
+            $queryBulder->expr()->and(
+                'B.id = ?',
+                'A.status = 1',
+                'B.status = 1'
+            )
+        )
+        ->setParameter(0, $id)
+        ->orderBy('A.date', 'DESC');
+
+        $totalPagePosts = ceil(count($postsInCategory->fetchAllAssociative()) / $perPage);
+
+        $postsInCategory = $postsInCategory
+        ->setFirstResult($offset)
+        ->setMaxResults($perPage)
+        ->fetchAllAssociative();
+
+        return [$postsInCategory, $totalPagePosts];
+    }
+
     // Lấy tin tức theo ID
     public function getByID($id)
     {
-    
         $queryBulder = clone($this->queryBuilder);
 
         return $queryBulder
@@ -142,23 +190,29 @@ class Posts extends Model
         ->setParameter(0, $id)
         ->fetchAssociative();
     }
-    public function postHot(){
+
+    /**
+     * ////////////////////////////////////////////////////////////////////////////
+     * ////////////////////////////////////////////////////////////////////////////
+     */
+
+     public function postHotSum(){
         return $this->queryBuilder
         ->select('COUNT(DISTINCT id) AS numberPostHot')
-       ->from('posts')
-       ->where('idType = 2')
-       ->fetchAssociative();
+        ->from('posts')
+        ->where('idType = 2')
+        ->fetchOne();
     }
 
     public function postSum(){
         return $this->queryBuilder
         ->select('COUNT(DISTINCT id) AS numberPost')
-       ->from('posts')
-       ->fetchAssociative();
+        ->from('posts')
+        ->fetchOne();
     }
 
     // get all
-    public function getAll(int $status, string ...$colums)
+    public function getAll(int $status, $colums = ['*'])
     {
         return $this->queryBuilder
             ->select(...$colums)
@@ -170,6 +224,81 @@ class Posts extends Model
             ->setParameter(0, $status)
             ->orderBy("p.dateChange", "DESC")
             ->fetchAllAssociative();
+    }
+
+    // get all
+    public function getAllByPaginate(int $status, $colums, $page, $perPage, $idCategory = NULL, $search = NULL)
+    {
+
+        $queryBuilder = clone($this->queryBuilder);
+
+        $offset = $perPage * ($page - 1);
+        
+        $posts = $queryBuilder
+            ->select(...$colums)
+            ->from($this->tableName, 'p')
+            ->join('p', 'users', 'u', 'p.idAuthor = u.id')
+            ->join('p', 'categories', 'c', 'p.idCategory = c.id')
+            ->join('p', 'type', 't', 'p.idType = t.id');
+
+
+        if($idCategory) {
+            if($search) {
+                $posts = $posts
+                ->where(
+                    "p.status = ? AND
+                    c.id = ? AND
+                    (p.title LIKE ? || p.title LIKE ? || p.title LIKE ?
+                    || c.nameCategory LIKE ? || c.nameCategory LIKE ? || c.nameCategory LIKE ? )"
+                )
+                ->setParameter(0, $status)
+                ->setParameter(1, $idCategory)
+                ->setParameter(2, '%'.$search)
+                ->setParameter(3, $search.'%')
+                ->setParameter(4, '%'.$search.'%')
+                ->setParameter(5, '%'.$search)
+                ->setParameter(6, $search.'%')
+                ->setParameter(7, '%'.$search.'%');
+            }
+            else {
+                $posts = $posts
+                ->where("p.status = ? AND c.id = ?")
+                ->setParameter(0, $status)
+                ->setParameter(1, $idCategory);
+            }
+        }
+        else {
+            if($search) {
+                $posts = $posts
+                ->where(
+                    "p.status = ? AND
+                    (p.title LIKE ? || p.title LIKE ? || p.title LIKE ?
+                    || c.nameCategory LIKE ? || c.nameCategory LIKE ? || c.nameCategory LIKE ? )"
+                )
+                ->setParameter(0, $status)
+                ->setParameter(1, '%'.$search)
+                ->setParameter(2, $search.'%')
+                ->setParameter(3, '%'.$search.'%')
+                ->setParameter(4, '%'.$search)
+                ->setParameter(5, $search.'%')
+                ->setParameter(6, '%'.$search.'%');
+            }
+            else {
+                $posts = $posts
+                ->where("p.status = ? ")
+                ->setParameter(0, $status);
+            }
+        }
+
+        $totalPage = ceil(count($posts->fetchAllAssociative()) / $perPage);
+            
+        $posts = $posts
+            ->orderBy("p.dateChange", "DESC")
+            ->setFirstResult($offset)
+            ->setMaxResults($perPage)
+            ->fetchAllAssociative();
+
+        return [$posts, $totalPage];
     }
 
     // get detail post by id

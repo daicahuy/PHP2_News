@@ -29,11 +29,8 @@
                                             <i class="dripicons-view-list"></i>
                                         </a>
                                     </div>
-                                    @include('components.table.search')
+                                    <div></div>
                                 </div>
-                                {{-- @if (isset($message))
-                                    <p>{{ $message }}</p>
-                                @else --}}
                                 <div class="table-responsive">
                                     <table class="table table-bordered mb-0">
                                         <thead class="thead-dark">
@@ -75,11 +72,6 @@
                                     </table>
 
                                 </div>
-                                <div class="mt-4 d-flex justify-content-between">
-                                    @include('components.table.show-row')
-                                    @include('components.table.pagination')
-                                </div>
-
                             </div>
                         </div>
                     </div>

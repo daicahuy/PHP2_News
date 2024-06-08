@@ -49,7 +49,7 @@
                                             <i class="mdi mdi-playlist-remove"></i>
                                         </a>
                                     </div>
-                                    @include('components.table.search')
+                                    <div></div>
                                 </div>
 
                                 <div class="table-responsive">
@@ -86,10 +86,6 @@
                                             @endforeach
                                         </tbody>
                                     </table>
-                                </div>
-                                <div class="mt-4 d-flex justify-content-between">
-                                    @include('components.table.show-row')
-                                    @include('components.table.pagination')
                                 </div>
                             </div>
                         </div>

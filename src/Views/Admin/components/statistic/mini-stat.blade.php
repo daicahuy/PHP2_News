@@ -1,4 +1,4 @@
-<div class="col-xl-3 col-md-6">
+<div class="col-md-3">
     <div class="card mini-stat m-b-30">
         <div class="p-3 bg-primary text-white">
             <div class="mini-stat-icon">

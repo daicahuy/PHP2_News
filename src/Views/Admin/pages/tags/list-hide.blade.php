@@ -17,84 +17,90 @@
                 <div class="row">
                     <div class="col-lg-7">
                         <div class="card m-b-30">
-                            <div class="card-body">
-                                <h2 class="mb-4">
-                                    <span class="badge badge-default"> Tags Hide </span>
-                                </h2>
+                            <form action="" method="GET" class="mt-4 d-flex justify-content-between">
+                                <div class="card-body">
+                                    <h2 class="mb-4">
+                                        <span class="badge badge-default"> Tags Hide </span>
+                                    </h2>
 
-                                @include('components.alert')
+                                    @include('components.alert')
 
-                                {{-- <div class="alert alert-success mb-4" role="alert">
-                                    <strong>Success:</strong>
-                                    and try submitting
-                                    again.
-                                </div> --}}
-                                <div class="d-flex justify-content-between mb-4" style="width: 100%">
-                                    <div>
-                                        <a href="/admin/tags" class="btn btn-secondary mo-mb-2" data-toggle="tooltip"
-                                            data-placement="left" title=""
-                                            data-original-title="List Tags">
-                                            <i class="dripicons-view-list"></i>
-                                        </a>
+                                    <div class="d-flex justify-content-between mb-4" style="width: 100%">
+                                        <div>
+                                            <a href="/admin/tags" class="btn btn-secondary mo-mb-2" data-toggle="tooltip"
+                                                data-placement="left" title=""
+                                                data-original-title="List Tags">
+                                                <i class="dripicons-view-list"></i>
+                                            </a>
+                                        </div>
+                                        <div class="d-flex">
+                                            <div class="w-100 mr-2">
+                                                <input
+                                                    class="form-control"
+                                                    type="search"
+                                                    placeholder="Search..."
+                                                    name="search"
+                                                    value="{{ $search }}"
+                                                >
+                                            </div>
+                                            <button type="submit"
+                                                class="btn btn-success waves-effect waves-light d-flex align-items-center btn-search">
+                                                <i class="ti-search"></i>
+                                            </button>
+                                        </div>
                                     </div>
-                                    @include('components.table.search')
-                                </div>
 
-                                <div class="table-responsive">
-                                    <table class="table table-bordered mb-0">
-                                        <thead class="thead-dark">
-                                            <tr>
-                                                <th>#</th>
-                                                <th>Name</th>
-                                                {{-- <th>Image</th> --}}
-                                                <th>Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody class="table-group-divider">
-                                            @foreach ($data as $index => $item)
-                                            <tr>
-                                                    
-                                                <td scope="row">{{$index + 1}}</td>
-                                                <td>{{$item['nameTag']}}</td>
-                                                {{-- <td>
-                                                    <img src="/assets/uploads/gir2.jpg" alt="" width="80"
-                                                        height="80"
-                                                        style=" object-fit: cover;
-                                                                border-radius: 4px;
-                                                                box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.2);
-                                                              ">
-                                                </td> --}}
-                                                <td>
-                                                    <a  href="/admin/tags/show/{{$item['id']}}"
-                                                        class="btn btn-success waves-effect waves-light"
-                                                        data-toggle="tooltip"
-                                                        data-placement="top"
-                                                        title=""
-                                                        data-original-title="Show"
-                                                    >
-                                                        <i class="mdi mdi-eye"></i>
-                                                    </a>
-                                                    <a  href='/admin/tags/delete/{{$item['id']}}'
-                                                        class='btn btn-danger waves-effect waves-light'
-                                                        data-toggle='tooltip'
-                                                        data-placement='top'
-                                                        title=''
-                                                        data-original-title='Delete'
-                                                        onclick="return confirm('Delete ??')"
-                                                    >
-                                                        <i class="mdi mdi-delete"></i>
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                        @endforeach
-                                    </table>
-                                </div>
-                                <div class="mt-4 d-flex justify-content-between">
-                                    @include('components.table.show-row')
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered mb-0">
+                                            <thead class="thead-dark">
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>Name</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="table-group-divider">
+                                                @php $key = ($page * $perPage) - $perPage + 1; @endphp
+                                                @empty($tagsHide)
+                                                    <tr>
+                                                        <td colspan="3" class="text-center">No Tag Here</td>
+                                                    </tr>
+                                                @endempty
+                                                @foreach ($tagsHide as $item)
+                                                    <tr>
+                                                            
+                                                        <td scope="row">{{ $key }}</td>
+                                                        <td>{{$item['nameTag']}}</td>
+                                                        <td>
+                                                            <a  href="/admin/tags/show/{{$item['id']}}"
+                                                                class="btn btn-success waves-effect waves-light"
+                                                                data-toggle="tooltip"
+                                                                data-placement="top"
+                                                                title=""
+                                                                data-original-title="Show"
+                                                            >
+                                                                <i class="mdi mdi-eye"></i>
+                                                            </a>
+                                                            <a  href='/admin/tags/delete/{{$item['id']}}'
+                                                                class='btn btn-danger waves-effect waves-light'
+                                                                data-toggle='tooltip'
+                                                                data-placement='top'
+                                                                title=''
+                                                                data-original-title='Delete'
+                                                                onclick="return confirm('Delete ??')"
+                                                            >
+                                                                <i class="mdi mdi-delete"></i>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                    @php $key++; @endphp
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
                                     @include('components.table.pagination')
                                 </div>
-                            </div>
+                            </form>
                         </div>
                     </div>
                 </div>

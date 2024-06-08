@@ -15,11 +15,11 @@
                              <i class="fa fa-home"></i> 15 Nguyen Si Sach, Tan Binh, Ho Chi Minh
                          </li>
                          <li>
-                             <i class="fa fa-phone"></i> <a href="!#">+84 999 868 686</a>
+                             <i class="fa fa-phone"></i> <a href="#!">+84 999 868 686</a>
                          </li>
                          <li>
                              <i class="fa fa-envelope-o"></i>
-                             <a href="!#">php2news@gmail.com</a>
+                             <a href="#!">{{ $_SESSION['settings']['email'] }}</a>
                          </li>
                      </ul>
                      <ul class="unstyled utf_footer_social">
@@ -110,7 +110,7 @@
          <div class="row">
              <div class="col-sm-12 col-md-12 text-center">
                  <div class="utf_copyright_info">
-                     <span>Copyright © 2022 All Rights Reserved.</span>
+                     <span>Copyright © 2024 By Group Thich-An-Rau.</span>
                  </div>
              </div>
          </div>

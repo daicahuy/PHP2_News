@@ -22,21 +22,12 @@
                                     <span class="badge badge-default"> Add Tag </span>
                                 </h2>
                                 @include('components.alert')
-                                {{-- <div class="alert alert-danger mb-2" role="alert">
-                                    <strong>Error:</strong>
-                                    and try submitting
-                                    again. 2222
-                                </div> --}}
                                 <form action="" method="POST" enctype="multipart/form-data">
                                     <div class="form-group">
                                         <label class="d-block">Name</label>
                                         <input class="form-control" type="text"  placeholder="Name Tag..."
                                             name="nameTag">
-                                    </div> 
-                                    {{-- <div class="form-group">
-                                        <label class="d-block">Image</label>
-                                        <input type="file" name="image" accept="image/*">
-                                    </div> --}}
+                                    </div>
                                     <button name="btn-add" type="submit" class="btn btn-success waves-effect waves-light float-right">
                                         Add
                                     </button>
@@ -46,84 +37,88 @@
                     </div>
                     <div class="col-lg-7">
                         <div class="card m-b-30">
-                            <div class="card-body">
-                                <h2 class="mb-4">
-                                    <span class="badge badge-default"> Tags </span>
-                                </h2>
-
-                                {{-- <div class="alert alert-success mb-4" role="alert">
-                                    <strong>Success:</strong>
-                                    and try submitting
-                                    again.
-                                </div> --}}
-                                <div class="d-flex justify-content-between mb-4" style="width: 100%">
-                                    <div>
-                                        <a href="/admin/tags/list-hide" class="btn btn-danger mo-mb-2" data-toggle="tooltip"
-                                            data-placement="left" title=""
-                                            data-original-title="List Tags Hiden">
-                                            <i class="mdi mdi-playlist-remove"></i>
-                                        </a>
+                            <form action="" method="GET" class="mt-4 d-flex justify-content-between">
+                                <div class="card-body">
+                                    <h2 class="mb-4">
+                                        <span class="badge badge-default"> Tags </span>
+                                    </h2>
+                                    <div class="d-flex justify-content-between mb-4" style="width: 100%">
+                                        <div>
+                                            <a href="/admin/tags/list-hide" class="btn btn-danger mo-mb-2" data-toggle="tooltip"
+                                                data-placement="left" title=""
+                                                data-original-title="List Tags Hiden">
+                                                <i class="mdi mdi-playlist-remove"></i>
+                                            </a>
+                                        </div>
+                                        <div class="d-flex">
+                                            <div class="w-100 mr-2">
+                                                <input
+                                                    class="form-control"
+                                                    type="search"
+                                                    placeholder="Search..."
+                                                    name="search"
+                                                    value="{{ $search }}"
+                                                >
+                                            </div>
+                                            <button type="submit"
+                                                class="btn btn-success waves-effect waves-light d-flex align-items-center btn-search">
+                                                <i class="ti-search"></i>
+                                            </button>
+                                        </div>
                                     </div>
-                                    @include('components.table.search')
-                                </div>
 
-                                <div class="table-responsive">
-                                    <table class="table table-bordered mb-0">
-                                        <thead class="thead-dark">
-                                            <tr>
-                                                <th>#</th>
-                                                <th>Name</th>
-                                                {{-- <th>Image</th> --}}
-                                                <th>Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody class="table-group-divider">
-                                            @foreach ($data as $index => $item)
-                                            <tr>
-                                                    
-                                                <td scope="row">{{ $index + 1 }}</td>
-                                                <td>{{$item['nameTag']}}</td>
-                                                {{-- <td>
-                                                    <img src="/assets/uploads/gir2.jpg" alt="" width="80"
-                                                        height="80"
-                                                        style=" object-fit: cover;
-                                                                border-radius: 4px;
-                                                                box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.2);
-                                                              ">
-                                                </td> --}}
-                                                <td>
-                                                    <a 
-                                                        href="/admin/tags/edit/{{$item['id']}}"
-                                                        class="btn btn-warning waves-effect waves-light"
-                                                        data-toggle="tooltip"
-                                                        data-placement="top"
-                                                        title=""
-                                                        data-original-title="Edit"
-                                                    >
-                                                        <i class="ion-edit"></i>
-                                                    </a>
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered mb-0">
+                                            <thead class="thead-dark">
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>Name</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="table-group-divider">
+                                                @php $key = ($page * $perPage) - $perPage + 1; @endphp
+                                                @empty($tags)
+                                                    <tr>
+                                                        <td colspan="3" class="text-center">No Tag Here</td>
+                                                    </tr>
+                                                @endempty
+                                                @foreach ($tags as $item)
+                                                    <tr>
+                                                        <td scope="row">{{ $key }}</td>
+                                                        <td>{{$item['nameTag']}}</td>
+                                                        <td>
+                                                            <a 
+                                                                href="/admin/tags/edit/{{$item['id']}}"
+                                                                class="btn btn-warning waves-effect waves-light"
+                                                                data-toggle="tooltip"
+                                                                data-placement="top"
+                                                                title=""
+                                                                data-original-title="Edit"
+                                                            >
+                                                                <i class="ion-edit"></i>
+                                                            </a>
 
-                                                    <a  href='/admin/tags/hide/{{$item['id']}}'
-                                                        class='btn btn-danger waves-effect waves-light'
-                                                        data-toggle='tooltip'
-                                                        data-placement='top'
-                                                        title=''
-                                                        data-original-title='Hide'
-                                                        onclick="return confirm('Hide ??')"
-                                                    >
-                                                        <i class="mdi mdi-eye-off"></i>
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                        @endforeach
-                                    </table>
-                                </div>
-                                <div class="mt-4 d-flex justify-content-between">
-                                    @include('components.table.show-row')
+                                                            <a  href='/admin/tags/hide/{{$item['id']}}'
+                                                                class='btn btn-danger waves-effect waves-light'
+                                                                data-toggle='tooltip'
+                                                                data-placement='top'
+                                                                title=''
+                                                                data-original-title='Hide'
+                                                                onclick="return confirm('Hide ??')"
+                                                            >
+                                                                <i class="mdi mdi-eye-off"></i>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                    @php $key++; @endphp
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
                                     @include('components.table.pagination')
                                 </div>
-                            </div>
+                            </form>
                         </div>
                     </div>
                 </div>

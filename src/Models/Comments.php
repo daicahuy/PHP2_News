@@ -23,24 +23,31 @@ class Comments extends Model
             ->setParameter(0, $id)
             ->fetchAllAssociative();
     }
-
-    public function getCommentsWithUsers()
+    public function getByID($id)
     {
         return $this->queryBuilder
-            ->select('B.id', 'C.name', 'C.avatar', 'B.content', 'B.date', '(SELECT COUNT(*) AS totalReply FROM replycomment A WHERE A.idComment = B.id) AS totalReply')
-            ->from('comments', 'B')
+            ->select('*')
+            ->from($this->tableName)
+            ->where('id = :id')
+            ->setParameter('id', $id)
+            ->fetchAllAssociative();
+    }
+    public function getCommentsByIDPost($idPost)
+    {
+        return $this->queryBuilder
+            ->select(
+                'B.id', 'B.content', 'B.date',
+                'C.name', 'C.avatar',
+                '(SELECT COUNT(*) AS totalReply FROM replycomment A WHERE A.idComment = B.id) AS totalReply'
+            )
+            ->from($this->tableName, 'B')
+            ->innerJoin('B', 'posts', 'P', 'B.idPost = P.id')
             ->innerJoin('B', 'users', 'C', 'B.idUser = C.id')
+            ->where('P.id = ?')
+            ->setParameter(0, $idPost)
             ->fetchAllAssociative();
     }
-    public function getUsersWithReply()
-    {
-        return $this->queryBuilder
-            ->select('r.id', 'u.name', 'r.content', 'r.date', 'u.avatar', 'u2.name rpName')
-            ->from('replycomment', 'r')
-            ->innerJoin('r', 'users', 'u', 'u.id = r.idUser')
-            ->innerJoin('r', 'users', 'u2', 'u2.id = r.idReplyUser')
-            ->fetchAllAssociative();
-    }
+
     public function getAllCommentByIDPost($id)
     {
 
@@ -65,10 +72,10 @@ class Comments extends Model
     {
         return $this->queryBuilder
             ->select('
-        (SELECT COUNT(*) FROM comments) + 
-        (SELECT COUNT(*) FROM replycomment) AS SoLuong
-    ')
-            ->fetchAssociative();
+            (SELECT COUNT(*) FROM comments) + 
+            (SELECT COUNT(*) FROM replycomment) AS SoLuong
+        ')
+            ->fetchOne();
     }
     public function postHot()
     {
@@ -86,24 +93,20 @@ class Comments extends Model
             ->from('posts')
             ->fetchAssociative();
     }
-    public function delete($idCmt)
+
+    public function deleteByID($id)
     {
         return $this->queryBuilder
             ->delete($this->tableName)
             ->where('id = ?')
-            ->setParameter(0, $idCmt)
+            ->setParameter(0, $id)
             ->executeQuery();
     }
-    public function deleteReply($idRepCmt)
-    {
-        return $this->queryBuilder
-            ->delete('replycomment')
-            ->where('id = ?')
-            ->setParameter(0, $idRepCmt)
-            ->executeQuery();
-    }
+
     public function addComment($data = [])
     {
         return $this->connect->insert($this->tableName, $data);
     }
+
+    
 }
