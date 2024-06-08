@@ -193,8 +193,10 @@
                                                         <div class="meta-data">
                                                             <span class="comment-author">
                                                                 {{ $b['name'] }}
-                                                                <i class="fa fa-caret-right mx-1"></i>
-                                                                {{ $b['rpName'] }}
+                                                                @if (!($b['idReplyUser'] == $b['idUser']))
+                                                                    <i class="fa fa-caret-right mx-1"></i>
+                                                                    {{ $b['rpName'] }}
+                                                                @endif
                                                             </span>
                                                             <span class="comment-date pull-right">
                                                                 {{ $b['date'] }}</span>
@@ -219,7 +221,7 @@
                                                                             <input type="hidden" name="idPost"
                                                                                 value="{{ $post['id'] }}">{{-- id bài post  --}}
                                                                             <input type="hidden" name="idReplyUser"
-                                                                                value="{{ $b['idReplyUser'] }}">{{-- id user bình luận cha --}}
+                                                                                value="{{ $b['idUser'] }}">{{-- id user bình luận cha --}}
                                                                             <input type="hidden"
                                                                                 name="idComment"value="{{ $A['id'] }}">{{-- id bình luận cha  --}}
 

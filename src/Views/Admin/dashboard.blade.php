@@ -48,7 +48,7 @@
                         <div class="card m-b-30">
                             <div class="card-body">
                                 <div class="d-flex justify-content-between" style="margin-bottom: 50px">
-                                    <h4 class="mt-0 header-title">Statistic Views Of All Post In Category</h4>
+                                    <h4 class="mt-0 header-title">Statistic All Post In Category</h4>
                                     <form class="statisticViewOfPost" method="GET">
                                         <select name="statisticBy" class="form-control">
                                             <option value="7day"   {{ $statisticBy === "7day"   ? 'selected' : '' }} >7 Day Lastest</option>
@@ -159,7 +159,7 @@
                             },
                             y: {
                                 label: {
-                                    text: 'Views',
+                                    text: 'Total Post',
                                     position: 'outer-top'
                                 }
                             }

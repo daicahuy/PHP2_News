@@ -12,8 +12,10 @@ class ReplyComment extends Model
 
     public function getReplyCommentByIDComment($id)
     {
-        return $this->queryBuilder
-            ->select('r.id', 'u.name', 'r.content', 'r.date', 'u.avatar', 'u2.name rpName')
+        $queryBuilder = clone($this->queryBuilder);
+
+        return $queryBuilder
+            ->select('r.id', 'u.name', 'r.content', 'r.date', 'u.avatar', 'u2.name rpName', 'r.idUser', 'r.idReplyUser')
             ->from($this->tableName, 'r')
             ->innerJoin('r', 'users', 'u', 'u.id = r.idUser')
             ->innerJoin('r', 'comments', 'c', 'r.idComment = c.id')

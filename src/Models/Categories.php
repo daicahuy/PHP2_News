@@ -73,7 +73,7 @@ class Categories extends Model
         for($i = 0; $i < 7; $i++) {
             $sql = "
                 SELECT A.nameCategory,
-                            (SELECT SUM(TotalViewInPost.views)
+                            (SELECT COUNT(*)
                             FROM
                                     (SELECT A.id, A.nameCategory, B.views, B.date
                                     FROM categories A
@@ -81,7 +81,7 @@ class Categories extends Model
                                     WHERE A.status = 1 AND B.status = 1 AND B.date LIKE CONCAT(DATE_SUB(CURDATE(), INTERVAL :day DAY), '%'))
                             AS TotalViewInPost
                             WHERE TotalViewInPost.id = A.id)
-                        AS totalViewInCategory,
+                        AS totalPost,
                         DATE_SUB(CURDATE(), INTERVAL :day DAY) AS date
                 FROM categories A";
             
@@ -102,7 +102,7 @@ class Categories extends Model
         for($i = 0; $i < 28; $i += 6) {
             $sql = "
                 SELECT A.nameCategory,
-                        (SELECT SUM(TotalViewInPost.views)
+                        (SELECT COUNT(*)
                         FROM
                                 (SELECT A.id, A.nameCategory, B.views, B.date
                                 FROM categories A
@@ -111,7 +111,7 @@ class Categories extends Model
                                         AND B.date >= DATE_SUB(CURDATE(), INTERVAL :from DAY))
                         AS TotalViewInPost
                         WHERE TotalViewInPost.id = A.id)
-                    AS totalViewInCategory,
+                    AS totalPost,
                     CONCAT(DATE_SUB(CURDATE(), INTERVAL :from DAY), ' - ', DATE_SUB(CURDATE(), INTERVAL :to DAY)) AS date
                 FROM categories A";
             
@@ -135,7 +135,7 @@ class Categories extends Model
         for($i = 0; $i < 180; $i += 29) {
             $sql = "
                 SELECT A.nameCategory,
-                        (SELECT SUM(TotalViewInPost.views)
+                        (SELECT COUNT(*)
                         FROM
                                 (SELECT A.id, A.nameCategory, B.views, B.date
                                 FROM categories A
@@ -144,7 +144,7 @@ class Categories extends Model
                                         AND B.date >= DATE_SUB(CURDATE(), INTERVAL :from DAY))
                         AS TotalViewInPost
                         WHERE TotalViewInPost.id = A.id)
-                    AS totalViewInCategory,
+                    AS totalPost,
                     CONCAT(DATE_SUB(CURDATE(), INTERVAL :from DAY), ' - ', DATE_SUB(CURDATE(), INTERVAL :to DAY)) AS date
                 FROM categories A";
             

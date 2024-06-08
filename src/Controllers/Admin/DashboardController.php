@@ -61,7 +61,7 @@ class DashboardController extends Controller
                 if($i === 0) {
                     $dataStatisticRedo['date'][] = $element[$i]['date'];
                 }
-                $dataStatisticRedo['data'][$i][] = (int)$element[$i]['totalViewInCategory'] ?? 0;
+                $dataStatisticRedo['data'][$i][] = (int)$element[$i]['totalPost'] ?? 0;
             }
 
             if($i === 0) {
