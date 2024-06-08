@@ -86,7 +86,7 @@
                 <div class="col-md-12 col-sm-12 text-center">
                     <div class="logo">
                         <a href="/">
-                            <img src="/assets/client/assets/images/logo.png" alt="" />
+                            <img src="/assets/{{ $_SESSION['settings']['logo'] }}" alt="" />
                         </a>
                     </div>
                 </div>

@@ -8,12 +8,12 @@ class Settings extends Model
 {
     private string $tableName = 'setting';
 
-    public function getAll()
+    public function get()
     {
         return $this->queryBuilder
             ->select('*')
             ->from($this->tableName)
-            ->fetchAllAssociative();
+            ->fetchAssociative();
     }
     public function update( $data = [])
     {

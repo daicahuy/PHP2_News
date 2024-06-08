@@ -1,7 +1,7 @@
 <div class="topbar">
-    <div class="topbar-left d-none d-lg-block">
+    <div class="topbar-left d-none d-lg-block" style="background-color: #78a5f2;">
         <div class="text-center">
-            <a href="/admin" class="logo"><img src="/assets/admin/assets/images/logo.png" height="20"
+            <a href="/admin" class="logo"><img src="/assets/{{ $_SESSION['settings']['logo'] }}" height="36"
                     alt="logo" /></a>
         </div>
     </div>

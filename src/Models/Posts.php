@@ -122,6 +122,55 @@ class Posts extends Model
         ->fetchAllAssociative();
     }
 
+    public function getAllByIDCategoryPaginate($id, $page, $perPage)
+    {
+        $queryBulder = clone($this->queryBuilder);
+
+        $offset = $perPage * ($page - 1);
+        
+        $postsInCategory = $queryBulder
+        ->select(
+            'A.id', 'A.title', 'A.description', 'A.image', 'A.date',
+            'B.id AS idCategory', 'B.nameCategory',
+            'C.name AS nameAuthor',
+            '
+                (
+                    SELECT
+                        SUM(totalReplyComment) + COUNT(comments.id)
+                    FROM
+                    ( 
+                        SELECT
+                            B.id,
+                            ( SELECT COUNT(*) FROM replycomment A WHERE A.idComment = B.id ) AS totalReplyComment
+                        FROM comments B
+                        WHERE idPost = A.id
+                    ) AS comments
+                ) AS sumCommentInPost
+            '
+        )
+        ->from($this->tableName, 'A')
+        ->innerJoin('A', 'categories', 'B', 'A.idCategory = B.id')
+        ->innerJoin('A', 'users', 'C', 'A.idAuthor = C.id')
+        ->where(
+            $queryBulder->expr()->and(
+                'B.id = ?',
+                'A.status = 1',
+                'B.status = 1'
+            )
+        )
+        ->setParameter(0, $id)
+        ->orderBy('A.date', 'DESC');
+
+        $totalPagePosts = ceil(count($postsInCategory->fetchAllAssociative()) / $perPage);
+
+        $postsInCategory = $postsInCategory
+        ->setFirstResult($offset)
+        ->setMaxResults($perPage)
+        ->fetchAllAssociative();
+
+        return [$postsInCategory, $totalPagePosts];
+    }
+
     // Lấy tin tức theo ID
     public function getByID($id)
     {

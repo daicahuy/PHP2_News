@@ -18,6 +18,7 @@ class Tags extends Model
             ->fetchAllAssociative();
             
     }
+
     //Đổ toàn bộ dữ liệu có trạng thái ẩn là 0
     public function getAllHide()
     {
@@ -27,6 +28,7 @@ class Tags extends Model
             ->where('status = 0')
             ->fetchAllAssociative();
     }
+    
     // Mở trạng thái về hiện cho tags
     public function getShow(int $id, $data = [])
     {
@@ -42,9 +44,6 @@ class Tags extends Model
     public function getByStatus($status)
     {
 
-        // điều kiện truy vấn trong WHERE
-
-
         return $this->queryBuilder
             ->select('*')
             ->from($this->tableName)
@@ -52,11 +51,50 @@ class Tags extends Model
             ->setParameter(0, $status)
             ->fetchAllAssociative();
     }
+
+    public function getByStatusPaginate($status, $page, $perPage, $search = NULL)
+    {
+
+        $queryBuilder = clone($this->queryBuilder);
+
+        $offset = $perPage * ($page - 1);
+
+        $tags = $queryBuilder
+            ->select('*')
+            ->from($this->tableName);
+
+
+        if($search) {
+            $tags = $tags
+            ->where('status = ? AND (nameTag LIKE ? || nameTag LIKE ? || nameTag LIKE ?)')
+            ->setParameter(0, $status)
+            ->setParameter(1, '%'.$search)
+            ->setParameter(2, $search.'%')
+            ->setParameter(3, '%'.$search.'%');
+        }
+        else {
+            $tags = $tags
+            ->where('status = ?')
+            ->setParameter(0, $status);
+        }
+        
+        $totalPage = ceil(count($tags->fetchAllAssociative()) / $perPage);
+
+            $tags = $tags
+            ->setFirstResult($offset)
+            ->setMaxResults($perPage)
+            ->fetchAllAssociative();
+
+        return [$tags, $totalPage];
+    }
+
+
     //Xóa tags trong trạng thái ẩn theo id
     public function delete($id)
     {
         return $this->connect->delete($this->tableName, ['id' => $id]);
     }
+
     public function insert($name)
     {
         return $this->queryBuilder
@@ -66,6 +104,7 @@ class Tags extends Model
         ->setParameter(0, $name)
         ->executeQuery();
     }
+
     public function updateName($id, $data = [])
     {
         return $this->connect->update(
@@ -74,6 +113,7 @@ class Tags extends Model
              ['id'=> $id]
         );
     }
+
     public function getByID($id, $columnsName = ['*'])
     {
         return $this->queryBuilder

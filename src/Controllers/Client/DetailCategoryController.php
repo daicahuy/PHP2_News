@@ -21,11 +21,14 @@ class DetailCategoryController extends Controller
 
     public function index($id)
     {
+        $page = $_GET['page'] ?? 1;
+        $perPage = $_GET['per-page'] ?? 5;
+
         // Lấy danh mục theo ID
         $category = $this->categories->getByID($id, ['id', 'nameCategory']);
         
         // Lấy các tin tức trong 1 danh mục
-        $postsInCategory = $this->posts->getAllByIDCategory($id);
+        [$postsInCategory, $totalPagePosts] = $this->posts->getAllByIDCategoryPaginate($id, $page, $perPage);
 
         // Lấy top 5 tin tức phổ biến
         $topPostPopular = $this->posts->getTopNewPopuler(5);
@@ -35,6 +38,8 @@ class DetailCategoryController extends Controller
             [
                 'category' => $category,
                 'postsInCategory' => $postsInCategory,
+                'totalPagePosts' => $totalPagePosts,
+                'page' => $page,
                 'topPostPopular' => $topPostPopular
             ]
         );

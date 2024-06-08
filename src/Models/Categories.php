@@ -54,6 +54,115 @@ class Categories extends Model
             ->fetchAllAssociative();
     }
 
+    // Lay tat ca va lay tong post trong 1 danh muc
+    public function getAllAndTotalPost()
+    {
+        $queryBuilder = clone($this->queryBuilder);
+
+        $sql = 'SELECT A.nameCategory, (SELECT COUNT(*) FROM posts B WHERE B.idCategory = A.id) AS totalPost FROM categories A WHERE status = 1';
+        
+        $stmt = $this->connect->prepare($sql);
+
+        return $stmt->executeQuery()->fetchAllAssociative();
+
+    }
+
+    public function get7DayLastestByView()
+    {
+        $data = [];
+        for($i = 0; $i < 7; $i++) {
+            $sql = "
+                SELECT A.nameCategory,
+                            (SELECT SUM(TotalViewInPost.views)
+                            FROM
+                                    (SELECT A.id, A.nameCategory, B.views, B.date
+                                    FROM categories A
+                                    JOIN posts B ON A.id = B.idCategory
+                                    WHERE A.status = 1 AND B.status = 1 AND B.date LIKE CONCAT(DATE_SUB(CURDATE(), INTERVAL :day DAY), '%'))
+                            AS TotalViewInPost
+                            WHERE TotalViewInPost.id = A.id)
+                        AS totalViewInCategory,
+                        DATE_SUB(CURDATE(), INTERVAL :day DAY) AS date
+                FROM categories A";
+            
+            $stmt = $this->connect->prepare($sql);
+
+            $stmt->bindValue('day', $i);
+
+            $data[] = $stmt->executeQuery()->fetchAllAssociative();
+        }
+
+        return $data;
+    }
+
+    public function get1MonthLastestByView()
+    {
+        $data = [];
+
+        for($i = 0; $i < 28; $i += 6) {
+            $sql = "
+                SELECT A.nameCategory,
+                        (SELECT SUM(TotalViewInPost.views)
+                        FROM
+                                (SELECT A.id, A.nameCategory, B.views, B.date
+                                FROM categories A
+                                JOIN posts B ON A.id = B.idCategory
+                                WHERE A.status = 1 AND B.status = 1 AND B.date <= DATE_SUB(CURDATE(), INTERVAL :to DAY)
+                                        AND B.date >= DATE_SUB(CURDATE(), INTERVAL :from DAY))
+                        AS TotalViewInPost
+                        WHERE TotalViewInPost.id = A.id)
+                    AS totalViewInCategory,
+                    CONCAT(DATE_SUB(CURDATE(), INTERVAL :from DAY), ' - ', DATE_SUB(CURDATE(), INTERVAL :to DAY)) AS date
+                FROM categories A";
+            
+            $stmt = $this->connect->prepare($sql);
+
+            $stmt->bindValue('from', $i + 6);
+            $stmt->bindValue('to', $i);
+
+            $data[] = $stmt->executeQuery()->fetchAllAssociative();
+
+            $i++;
+        }
+
+        return $data;
+    }
+
+    public function get6MonthLastestByView()
+    {
+        $data = [];
+
+        for($i = 0; $i < 180; $i += 29) {
+            $sql = "
+                SELECT A.nameCategory,
+                        (SELECT SUM(TotalViewInPost.views)
+                        FROM
+                                (SELECT A.id, A.nameCategory, B.views, B.date
+                                FROM categories A
+                                JOIN posts B ON A.id = B.idCategory
+                                WHERE A.status = 1 AND B.status = 1 AND B.date <= DATE_SUB(CURDATE(), INTERVAL :to DAY)
+                                        AND B.date >= DATE_SUB(CURDATE(), INTERVAL :from DAY))
+                        AS TotalViewInPost
+                        WHERE TotalViewInPost.id = A.id)
+                    AS totalViewInCategory,
+                    CONCAT(DATE_SUB(CURDATE(), INTERVAL :from DAY), ' - ', DATE_SUB(CURDATE(), INTERVAL :to DAY)) AS date
+                FROM categories A";
+            
+            $stmt = $this->connect->prepare($sql);
+
+            $stmt->bindValue('from', $i + 29);
+            $stmt->bindValue('to', $i);
+
+            $data[] = $stmt->executeQuery()->fetchAllAssociative();
+
+            $i++;
+        }
+
+        return $data;
+    }
+
+    
+
     public function add($name)
     {
         return $this->queryBuilder

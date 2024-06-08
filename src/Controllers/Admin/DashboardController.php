@@ -22,6 +22,57 @@ class DashboardController extends Controller
     }
     public function dashboard()
     {
+
+        $statisticBy = $_GET['statisticBy'] ?? '7day';
+
+        $dataStatistic = [];
+
+        switch($statisticBy)
+        {
+
+            case '7day':
+            {
+                $dataStatistic = $this->categories->get7DayLastestByView();
+
+                break;
+            }
+
+            case '1month':
+            {
+                $dataStatistic = $this->categories->get1MonthLastestByView();
+
+                break;
+            }
+
+            case '6month':
+            {
+                $dataStatistic = $this->categories->get6MonthLastestByView();
+
+                break;
+            }
+
+        }
+
+
+        $dataStatisticRedo = [];
+
+        for($i = 0; $i < count($dataStatistic[0]); $i++) {
+            foreach ($dataStatistic as $element) {
+                if($i === 0) {
+                    $dataStatisticRedo['date'][] = $element[$i]['date'];
+                }
+                $dataStatisticRedo['data'][$i][] = (int)$element[$i]['totalViewInCategory'] ?? 0;
+            }
+
+            if($i === 0) {
+                $dataStatisticRedo['date'] = array_reverse($dataStatisticRedo['date']);
+            }
+
+            array_push($dataStatisticRedo['data'][$i], $dataStatistic[0][$i]['nameCategory']);
+            $dataStatisticRedo['data'][$i] = array_reverse($dataStatisticRedo['data'][$i]);
+        }
+
+
         $cateSum = $this->categories->categoryNumber();
 
         $postSum = $this->posts->postSum();
@@ -30,11 +81,16 @@ class DashboardController extends Controller
 
         $commentSum = $this->comment->Commentsum();
 
+        $categoriesAndTotalPost = $this->categories->getAllAndTotalPost();
+
         $this->renderViewAdmin(__FUNCTION__, [
             "cateSum" => $cateSum,
             "postSum" => $postSum,
             "postHotSum" => $postHotSum,
-            "commentSum" => $commentSum
+            "commentSum" => $commentSum,
+            'categoriesAndTotalPost' => $categoriesAndTotalPost,
+            'dataStatistic' => $dataStatisticRedo,
+            'statisticBy' => $statisticBy
         ]);
     }
    

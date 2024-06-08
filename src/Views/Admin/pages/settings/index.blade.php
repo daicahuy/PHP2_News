@@ -40,7 +40,6 @@
                         <div class="col-md-6 offset-md-3">
                             <div class="settings-header">
                                 <h2 class="mt-3">Settings</h2>
-                               @foreach ($data as $key => $item)
                                 <a
                                     href="/admin/settings/edit"
                                     class="btn btn-warning"
@@ -56,29 +55,28 @@
                                     <div>
                                         <label for="logo" style="margin-right: 24px">Logo</label>
                                         <div class="position-relative d-inline-block">
-                                            <img src="{{ show_upload($item['logo']) }}" alt="Logo" class="settings-avatar">
+                                            <img src="{{ show_upload($settings['logo']) }}" alt="Logo" class="settings-avatar">
                                             
                                         </div>
                                     </div>
                                     <div>
                                         <label for="icon" style="margin-right: 24px">Icon</label>
                                         <div class="position-relative d-inline-block">
-                                            <img src="{{ show_upload($item['icon']) }}" alt="Icon" class="settings-avatar">
+                                            <img src="{{ show_upload($settings['icon']) }}" alt="Icon" class="settings-avatar">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="name">Name</label>
                                     <input type="text" class="form-control" id="name" name="name"
-                                        value="{{ $item['name'] }}" readonly>
+                                        value="{{ $settings['name'] }}" readonly>
                                 </div>
                                 <div class="form-group">
                                     <label for="email">Email</label>
                                     <input type="email" class="form-control" id="email" name="email"
-                                        value="{{ $item['email'] }}" readonly>
+                                        value="{{ $settings['email'] }}" readonly>
                                 </div>
                             </form>
-                            @endforeach
                         </div>
                     </div>
                 </div>

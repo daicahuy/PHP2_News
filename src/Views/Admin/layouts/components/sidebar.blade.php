@@ -4,7 +4,7 @@
     </button>
     <div class="left-side-logo d-block d-lg-none">
         <div class="text-center">
-            <a href="#" class="logo"><img src="/assets/admin/assets/images/logo-dark.png" height="20"
+            <a href="#" class="logo"><img src="/assets/{{ $_SESSION['settings']['logo'] }}" height="20"
                     alt="logo" /></a>
         </div>
     </div>

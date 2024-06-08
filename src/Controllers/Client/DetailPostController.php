@@ -105,7 +105,7 @@ class DetailPostController extends Controller
 
         foreach ($commentsA as $key => $commentA) {
 
-            $commentsA[$key]['totalReply'] = $this->replyComment->getReplyComment($commentA['id']);
+            $commentsA[$key]['totalReply'] = $this->replyComment->getReplyCommentByIDComment($commentA['id']);
         }
         // debug($commentsA);
 
