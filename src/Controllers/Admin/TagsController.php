@@ -101,8 +101,11 @@ class TagsController extends Controller
         } catch (\Throwable $e) {
             $_SESSION['notify']['danger'][] = $e->getMessage();
         }
+
         $data = $this->tags->getAll('*');
-        return $this->renderViewAdmin($this->folder . 'list', ['data' => $data]);
+
+        header("Location: /admin/tags");
+        die;
     }
 
     // Tags Show
@@ -116,7 +119,9 @@ class TagsController extends Controller
             $_SESSION['notify']['danger'][] = $e->getMessage();
         }
         $data = $this->tags->getAllHide('*');
-        return $this->renderViewAdmin($this->folder . 'list-hide', ['data' => $data]);
+
+        header("Location: /admin/tags/list-hide");
+        die;
     }
 
     // Tags Delete
